@@ -29,12 +29,16 @@
             </label>
         </div>
 
+        <input type="hidden" name="_target_path" value="{{ path(app.request.get('_route')) }}" />
+
         <button class="btn btn-lg btn-primary" type="submit">
             Sign in
         </button>
 
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#authRegisterModal" data-bs-dismiss="modal" aria-label="Close">
-            Créer un compte
-        </button>
+        <a href="{{ path('app_register') }}">Créer un compte</a>
+        {# TO REMOVE if confirmed too complicated  #}
+{#        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#authRegisterModal" data-bs-dismiss="modal" aria-label="Close">#}
+{#            Créer un compte#}
+{#        </button>#}
     </form>
 {% endblock %}
