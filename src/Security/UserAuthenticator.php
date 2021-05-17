@@ -102,7 +102,7 @@ class UserAuthenticator extends AbstractFormLoginAuthenticator implements Passwo
             return new RedirectResponse($targetPath);
         }
 
-        $referer = $request->headers->get('referer');
+        $referer = filter_var($request->headers->get('referer'), FILTER_SANITIZE_URL);
 
          return new RedirectResponse($referer ? $referer : $this->urlGenerator->generate('home'));
     }

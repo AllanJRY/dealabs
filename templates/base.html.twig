@@ -16,13 +16,12 @@
 {% endblock %}
 
 {% block body %}{% endblock %}
-        {# MODAL INCLUDES #}
-        {% if app.user %}
-            {% include 'partials/modal/login_modal.html.twig' %}
-        {% endif %}
 
 {# MODAL INCLUDES #}
-{% include 'partials/modal/login_modal.html.twig' %}
+{% if not app.user %}
+    {% include 'partials/modal/authentication/login_modal.html.twig' %}
+    {% include 'partials/modal/authentication/register_modal.html.twig' %}
+{% endif %}
 
 {% block footer %}
     {% include 'partials/base/footer.html.twig' %}
