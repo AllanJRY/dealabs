@@ -86,6 +86,11 @@ abstract class Deal
      */
     private $updatedAt;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=File::class)
+     */
+    private $picture;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -298,6 +303,18 @@ abstract class Deal
     public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getPicture(): ?File
+    {
+        return $this->picture;
+    }
+
+    public function setPicture(?File $picture): self
+    {
+        $this->picture = $picture;
 
         return $this;
     }
