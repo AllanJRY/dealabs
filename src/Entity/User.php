@@ -56,6 +56,11 @@ class User implements UserInterface
      */
     private $deals;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=File::class)
+     */
+    private $avatar;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -237,6 +242,18 @@ class User implements UserInterface
                 $deal->setAuthor(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getAvatar(): ?File
+    {
+        return $this->avatar;
+    }
+
+    public function setAvatar(?File $avatar): self
+    {
+        $this->avatar = $avatar;
 
         return $this;
     }
