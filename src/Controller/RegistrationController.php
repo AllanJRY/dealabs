@@ -33,7 +33,8 @@ class RegistrationController extends AbstractController
     public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, UserAuthenticator $authenticator): Response
     {
         if ($this->getUser()) {
-            throw new NotFoundHttpException();
+//            throw new NotFoundHttpException();
+            $this->redirectToRoute('home');
         }
 
         $user = new User();
@@ -111,6 +112,6 @@ class RegistrationController extends AbstractController
 
         $referer = filter_var($request->headers->get('referer'), FILTER_SANITIZE_URL);
         // TODO: redirect to profil or elsewhere once implmentation of those are made.
-        return $this->redirectToRoute('app_register');
+        return $this->redirectToRoute('home');
     }
 }
