@@ -6,6 +6,7 @@ use App\Repository\PromoTypeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=PromoTypeRepository::class)
@@ -21,6 +22,8 @@ class PromoType
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Choice({"%", "€", "free-shipping"})
+     * @Assert\NotNull
      */
     private $type;
 
