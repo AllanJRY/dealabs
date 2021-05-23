@@ -8,18 +8,7 @@
             <div class="row">
                 <div id="carouselExampleControls" class="carousel slide col-12" data-bs-ride="carousel">
                     <div class="carousel-inner d-flex justify-content-center">
-                        <div class="carousel-item active">
-                            <button class="btn btn-danger">Ok</button>
-                            <button class="btn btn-danger">Salut</button>
-                        </div>
-                        <div class="carousel-item">
-                            <button class="btn btn-danger">rouge</button>
-                            <button class="btn btn-danger">vert</button>
-                        </div>
-                        <div class="carousel-item">
-                            <button class="btn btn-danger">1</button>
-                            <button class="btn btn-danger">2</button>
-                        </div>
+
                     </div>
                     <button class="carousel-control-prev btn-secondary" type="button"
                             data-bs-target="#carouselExampleControls"
@@ -37,16 +26,29 @@
             </div>
         </div>
     </div>
+    {% for i in 0..categories|length-1 %}
+        {% for y in 0..2 %}
+            {{ dump(i) }}
+{#            {{ dump(i+y) }}#}
+            <div class="">
+{#                {% if categories[i+y] is defined %}#}
+{#                    <button class="btn btn-danger">{{ categories[i+y].title }}</button>#}
+{#                {% endif %}#}
+            </div>
+        {% endfor %}
+        {{ dump(loop) }}
+{#        {% set loop.index = loop.index + 3 %}#}
+    {% endfor %}
     <div class="container">
         <div class="row align-items-center">
             <nav class="navbar navbar-expand-lg navbar-light col-10">
                 <div class="container-fluid">
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#navbarTogglerDemo01"
-                            aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+                            data-bs-target="#navbarType"
+                            aria-controls="navbarType" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
-                    <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+                    <div class="collapse navbar-collapse" id="navbarType">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                             <li class="nav-item">
                                 <a class="nav-link active" aria-current="page" href="#">Home</a>
@@ -58,7 +60,6 @@
                                 <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
                             </li>
                         </ul>
-
                     </div>
                 </div>
             </nav>
@@ -67,22 +68,65 @@
             </div>
         </div>
     </div>
-    <div class="container mt-auto mb-auto">
-        <div class="row">
-            <div class="col-12">
-                <p>This gitlab repository allows you to start with an example of a complete site containing a member
-                    management (login,
-                    profile, forgotten password ...), image and avatar management, options for your site and a page
-                    creator .</p>
-
-                <p>This pack also allows you to use features such as PDF generation, email sending, pagination and
-                    filter ...</p>
-
-                <p>This project follows the standards of PSR-4</p>
-
-                <p>BY <a href="https://drosalys.fr/" TARGET="_blank">https://drosalys.fr/</a></p>
+    <div class="container-fluid">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-9 col-12">
+                    <div class="card">
+                        <div class="card-horizontal">
+                            <div class="col-4 m-3">
+                                <img src="http://via.placeholder.com/300x180" alt="">
+                            </div>
+                            <div class="card-body col-8">
+                                <div class="row justify-content-between">
+                                    <div class="col-6">
+                                        <div class="btn-group" role="group" aria-label="Basic example">
+                                            <button type="button" class="btn text-primary">
+                                                <i class="fa fa-minus"></i>
+                                            </button>
+                                            <button type="button" class="btn text-danger fw-bold">
+                                                0°
+                                            </button>
+                                            <button type="button" class="btn text-danger">
+                                                <i class="fas fa-plus"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <p class="col-6 text-muted">
+                                        <span><i class="fas fa-hourglass-start"></i>Expire le ... à ...</span>
+                                        <span>il y a ...</span>
+                                    </p>
+                                </div>
+                                <h4 class="card-title fw-bold">Card title</h4>
+                                <p>
+                                    <span class="text-danger">0,0€</span>
+                                    <span class="text-muted">| Bon plans</span>
+                                    <span class="text-primary">Amazon</span>
+                                </p>
+                                <p class="card-text">Some quick example text to build on the card title and make up the
+                                    bulk of the card's content... <a class="text-decoration-none text-dark fw-bold"
+                                                                     href="#">Afficher plus</a></p>
+                                <div class="row justify-content-between align-items-center">
+                                    <div class="col-lg-6 col-3">
+                                        <p>author</p>
+                                    </div>
+                                    <div class="col-lg-6 col-9 row">
+                                        <a class="btn text-dark text-decoration-none col-3 border-dark border-1 m-3"
+                                           type="button"><i class="fas fa-comment"></i> 0</a>
+                                        <a class="btn btn-primary col-6 m-3" type="button">Voir le deal <i
+                                                    class="fas fa-external-link-square-alt"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-12">
+                <p>En construction</p>
             </div>
         </div>
+    </div>
     </div>
 {% endblock %}
 
