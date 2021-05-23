@@ -56,7 +56,7 @@ class GoodPlanController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="good_plan_show", methods={"GET"})
+     * @Route("/{slug}", name="good_plan_show", methods={"GET"})
      */
     public function show(GoodPlan $goodPlan): Response
     {

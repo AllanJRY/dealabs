@@ -40,7 +40,7 @@
                     <td>{{ good_plan.initialPrice }}</td>
                     <td>{{ good_plan.shippingCost }}</td>
                     <td>
-                        <a href="{{ path('good_plan_show', {'id': good_plan.id}) }}">show</a>
+                        <a href="{{ path('good_plan_show', {'slug': good_plan.slug}) }}">show</a>
                         <a href="{{ path('good_plan_edit', {'id': good_plan.id}) }}">edit</a>
                     </td>
                 </tr>
