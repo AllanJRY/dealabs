@@ -1,0 +1,8 @@
+App\Entity\Comment:
+    comment_{1..100}:
+        author: '@user*'
+        content: <paragraph()>
+        likers: ['@user*']
+        createdAt: <dateTime()>
+        updatedAt: <dateTime()>
+        deal: '@deal*'
