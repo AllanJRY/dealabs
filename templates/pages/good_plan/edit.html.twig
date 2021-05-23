@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit GoodPlan{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Edit GoodPlan</h1>
+
+        {{ include('pages/good_plan/_form.html.twig', {'button_label': 'Update'}) }}
+
+        <a href="{{ path('good_plan_index') }}">back to list</a>
+
+        {{ include('pages/good_plan/_delete_form.html.twig') }}
+    </div>
+{% endblock %}

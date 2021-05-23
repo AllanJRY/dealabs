@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New GoodPlan{% endblock %}
+
+{% block body %}
+    <div class="container" id="previewed">
+        <h1>Create new GoodPlan</h1>
+
+        {# Preview handled by VueJS #}
+        {% verbatim %}
+            <div class="preview">
+                {{ title }}
+            </div>
+        {% endverbatim %}
+        {# End preview #}
+
+        {{ include('pages/good_plan/_form.html.twig') }}
+
+        <a href="{{ path('good_plan_index') }}">back to list</a>
+    </div>
+{% endblock %}

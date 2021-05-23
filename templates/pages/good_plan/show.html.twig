@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}GoodPlan{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>GoodPlan</h1>
+
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th>Id</th>
+                    <td>{{ good_plan.id }}</td>
+                </tr>
+                <tr>
+                    <th>Title</th>
+                    <td>{{ good_plan.title }}</td>
+                </tr>
+                <tr>
+                    <th>Description</th>
+                    <td>{{ good_plan.description }}</td>
+                </tr>
+                <tr>
+                    <th>Link</th>
+                    <td>{{ good_plan.link }}</td>
+                </tr>
+                <tr>
+                    <th>Slug</th>
+                    <td>{{ good_plan.slug }}</td>
+                </tr>
+                <tr>
+                    <th>PromoCode</th>
+                    <td>{{ good_plan.promoCode }}</td>
+                </tr>
+                <tr>
+                    <th>Expired</th>
+                    <td>{{ good_plan.expired ? 'Yes' : 'No' }}</td>
+                </tr>
+                <tr>
+                    <th>CreatedAt</th>
+                    <td>{{ good_plan.createdAt ? good_plan.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                </tr>
+                <tr>
+                    <th>UpdatedAt</th>
+                    <td>{{ good_plan.updatedAt ? good_plan.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                </tr>
+                <tr>
+                    <th>Price</th>
+                    <td>{{ good_plan.price }}</td>
+                </tr>
+                <tr>
+                    <th>InitialPrice</th>
+                    <td>{{ good_plan.initialPrice }}</td>
+                </tr>
+                <tr>
+                    <th>ShippingCost</th>
+                    <td>{{ good_plan.shippingCost }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <a href="{{ path('good_plan_index') }}">back to list</a>
+
+        <a href="{{ path('good_plan_edit', {'id': good_plan.id}) }}">edit</a>
+
+        {{ include('pages/good_plan/_delete_form.html.twig') }}
+    </div>
+{% endblock %}

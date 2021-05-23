@@ -11,21 +11,9 @@ use Doctrine\ORM\Mapping as ORM;
 class Promo extends Deal
 {
     /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private $id;
-
-    /**
      * @ORM\ManyToOne(targetEntity=PromoType::class, inversedBy="promos")
      */
     private $promoType;
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
 
     public function getPromoType(): ?PromoType
     {
