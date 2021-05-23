@@ -18,7 +18,12 @@
 {% block body %}{% endblock %}
 
 {# MODAL INCLUDES #}
-{% include 'partials/modal/login_modal.html.twig' %}
+{% if not app.user %}
+    {% include 'partials/modal/authentication/login_modal.html.twig' %}
+
+    {# TO REMOVE if confirmed too complicated  #}
+{#    {% include 'partials/modal/authentication/register_modal.html.twig' %}#}
+{% endif %}
 
 {% block footer %}
     {% include 'partials/base/footer.html.twig' %}

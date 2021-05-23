@@ -28,7 +28,7 @@
     </div>
     {% for i in 0..categories|length-1 %}
         {% for y in 0..2 %}
-            {{ dump(i) }}
+{#            {{ dump(i) }}#}
 {#            {{ dump(i+y) }}#}
             <div class="">
 {#                {% if categories[i+y] is defined %}#}
@@ -36,7 +36,7 @@
 {#                {% endif %}#}
             </div>
         {% endfor %}
-        {{ dump(loop) }}
+{#        {{ dump(loop) }}#}
 {#        {% set loop.index = loop.index + 3 %}#}
     {% endfor %}
     <div class="container">
