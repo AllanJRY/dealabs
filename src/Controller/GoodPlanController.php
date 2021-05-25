@@ -5,10 +5,14 @@ namespace App\Controller;
 use App\Entity\GoodPlan;
 use App\Form\GoodPlanType;
 use App\Repository\GoodPlanRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * @Route({
@@ -30,6 +34,7 @@ class GoodPlanController extends AbstractController
 
     /**
      * @Route({"en": "/new", "fr": "/ajouter"}, name="good_plan_new", methods={"GET","POST"})
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      */
     public function new(Request $request): Response
     {
@@ -67,9 +72,14 @@ class GoodPlanController extends AbstractController
 
     /**
      * @Route({"en": "/{id}/edit", "fr": "/{id}/edition"}, name="good_plan_edit", methods={"GET","POST"})
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      */
     public function edit(Request $request, GoodPlan $goodPlan): Response
     {
+        if ($this->getUser()->getId() != $goodPlan->getAuthor()->getId() || in_array('ROLE_ADMIN', $this->getUser()->getRoles())) {
+            throw new AccessDeniedHttpException();
+        }
+
         $form = $this->createForm(GoodPlanType::class, $goodPlan);
         $form->handleRequest($request);
 
@@ -87,9 +97,14 @@ class GoodPlanController extends AbstractController
 
     /**
      * @Route("/{id}", name="good_plan_delete", methods={"POST"})
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      */
     public function delete(Request $request, GoodPlan $goodPlan): Response
     {
+        if ($this->getUser()->getId() != $goodPlan->getAuthor()->getId() || in_array('ROLE_ADMIN', $this->getUser()->getRoles())) {
+            throw new AccessDeniedHttpException();
+        }
+
         if ($this->isCsrfTokenValid('delete'.$goodPlan->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($goodPlan);

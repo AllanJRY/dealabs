@@ -23,6 +23,7 @@ security:
             logout:
                 path: app_logout
             form_login:
+                login_path: home
                 use_referer: true
             remember_me:
                 secret:   '%env(APP_SECRET)%'
