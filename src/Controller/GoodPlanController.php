@@ -2,12 +2,16 @@
 
 namespace App\Controller;
 
+use App\Entity\Comment;
 use App\Entity\GoodPlan;
+use App\Form\CommentType;
 use App\Form\GoodPlanType;
 use App\Repository\GoodPlanRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -30,6 +34,7 @@ class GoodPlanController extends AbstractController
 
     /**
      * @Route({"en": "/new", "fr": "/ajouter"}, name="good_plan_new", methods={"GET","POST"})
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      */
     public function new(Request $request): Response
     {
@@ -56,20 +61,39 @@ class GoodPlanController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="good_plan_show", methods={"GET"})
+     * @Route("/{slug}", name="good_plan_show", methods={"GET", "POST"})
      */
-    public function show(GoodPlan $goodPlan): Response
+    public function show(Request $request, GoodPlan $goodPlan): Response
     {
+        $newComment = new Comment();
+        $newComment->setDeal($goodPlan);
+        $commentForm = $this->createForm(CommentType::class, $newComment);
+        $commentForm->handleRequest($request);
+
+        if ($commentForm->isSubmitted() && $commentForm->isValid()) {
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $newComment->setAuthor($this->getUser());
+            $entityManager->persist($newComment);
+            $entityManager->flush();
+        }
+
         return $this->render('pages/good_plan/show.html.twig', [
             'good_plan' => $goodPlan,
+            'commentForm' => $commentForm->createView(),
         ]);
     }
 
     /**
      * @Route({"en": "/{id}/edit", "fr": "/{id}/edition"}, name="good_plan_edit", methods={"GET","POST"})
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      */
     public function edit(Request $request, GoodPlan $goodPlan): Response
     {
+        if ($this->getUser()->getId() != $goodPlan->getAuthor()->getId() || in_array('ROLE_ADMIN', $this->getUser()->getRoles())) {
+            throw new AccessDeniedHttpException();
+        }
+
         $form = $this->createForm(GoodPlanType::class, $goodPlan);
         $form->handleRequest($request);
 
@@ -86,10 +110,15 @@ class GoodPlanController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="good_plan_delete", methods={"POST"})
+     * @Route("/{id}/delete", name="good_plan_delete", methods={"POST"})
+     * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      */
     public function delete(Request $request, GoodPlan $goodPlan): Response
     {
+        if ($this->getUser()->getId() != $goodPlan->getAuthor()->getId() || in_array('ROLE_ADMIN', $this->getUser()->getRoles())) {
+            throw new AccessDeniedHttpException();
+        }
+
         if ($this->isCsrfTokenValid('delete'.$goodPlan->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($goodPlan);

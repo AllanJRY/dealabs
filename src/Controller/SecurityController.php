@@ -17,8 +17,31 @@ class SecurityController extends AbstractController
     public function login(Request $request, AuthenticationUtils $authenticationUtils): Response
     {
          if ($this->getUser()) {
-             throw new NotFoundHttpException();
+             $this->redirectToRoute('home');
+//             throw new NotFoundHttpException();
          }
+
+        // get the login error if there is one
+        $error = $authenticationUtils->getLastAuthenticationError();
+        // last username entered by the user
+        $lastUsername = $authenticationUtils->getLastUsername();
+
+        return $this->render('pages/authentication/login.html.twig', [
+            'last_username' => $lastUsername,
+            'error' => $error,
+            'referer' => $request->headers->get('Referer', null),
+        ]);
+    }
+
+    /**
+     * NOTE: Currently not use
+     * @Route("/login-modal", name="app_login_modal")
+     */
+    public function loginModal(Request $request, AuthenticationUtils $authenticationUtils): Response
+    {
+        if ($this->getUser()) {
+            throw new NotFoundHttpException();
+        }
 
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
