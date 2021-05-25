@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\GoodPlanRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=GoodPlanRepository::class)
@@ -11,31 +12,22 @@ use Doctrine\ORM\Mapping as ORM;
 class GoodPlan extends Deal
 {
     /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private $id;
-
-    /**
      * @ORM\Column(type="float", nullable=true)
+     * @Assert\PositiveOrZero()
      */
     private $price;
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * @Assert\PositiveOrZero()
      */
     private $initialPrice;
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * @Assert\PositiveOrZero()
      */
     private $shippingCost;
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
 
     public function getPrice(): ?float
     {

@@ -6,10 +6,13 @@ use App\Repository\DealRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=DealRepository::class)
  * @ORM\InheritanceType("JOINED")
+ * @ORM\HasLifecycleCallbacks()
  */
 abstract class Deal
 {
@@ -22,26 +25,44 @@ abstract class Deal
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotNull
+     * @Assert\NotBlank
+     * @Assert\Length(
+     *     min = 3,
+     *     max = 255,
+     *     allowEmptyString = false
+     * )
      */
     private $title;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotNull
+     * @Assert\NotBlank
+     * @Assert\Length(
+     *     min = 10,
+     *     allowEmptyString = false
+     * )
      */
     private $description;
 
     /**
      * @ORM\Column(type="string", length=2048, nullable=true)
+     * @Assert\Url
      */
     private $link;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Gedmo\Slug(fields={"title"})
      */
     private $slug;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Length(
+     *     max = 255
+     * )
      */
     private $promoCode;
 
@@ -74,15 +95,17 @@ abstract class Deal
     /**
      * @ORM\Column(type="boolean", options={"default": 0})
      */
-    private $expired = 0;
+    private $expired = false;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Gedmo\Timestampable(on="create")
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @Gedmo\Timestampable(on="update")
      */
     private $updatedAt;
 
@@ -139,16 +162,17 @@ abstract class Deal
         return $this;
     }
 
+
     public function getSlug(): ?string
     {
         return $this->slug;
     }
 
-    public function setSlug(string $slug): self
+    public function setSlug(?string $slug): ?string
     {
         $this->slug = $slug;
 
-        return $this;
+        return $this->slug;
     }
 
     public function getPromoCode(): ?string

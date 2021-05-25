@@ -15,11 +15,23 @@
     {% include 'partials/base/header.html.twig' %}
 {% endblock %}
 
+{% if app.user and not app.user.verified %}
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="alert alert-danger" role="alert">
+                    Please verify your email ! <a href="{{ path("send_verify_email", {'id': app.user.id}) }}">Re-send email</a>.
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
 {% block body %}{% endblock %}
 
 {# MODAL INCLUDES #}
 {% if not app.user %}
-    {% include 'partials/modal/authentication/login_modal.html.twig' %}
+{#    {% include 'partials/modal/authentication/login_modal.html.twig' %}#}
 
     {# TO REMOVE if confirmed too complicated  #}
 {#    {% include 'partials/modal/authentication/register_modal.html.twig' %}#}
