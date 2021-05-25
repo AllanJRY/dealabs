@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Comment;
 use App\Entity\GoodPlan;
+use App\Form\CommentType;
 use App\Form\GoodPlanType;
 use App\Repository\GoodPlanRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -61,12 +63,26 @@ class GoodPlanController extends AbstractController
     }
 
     /**
-     * @Route("/{slug}", name="good_plan_show", methods={"GET"})
+     * @Route("/{slug}", name="good_plan_show", methods={"GET", "POST"})
      */
-    public function show(GoodPlan $goodPlan): Response
+    public function show(Request $request, GoodPlan $goodPlan): Response
     {
+        $newComment = new Comment();
+        $newComment->setDeal($goodPlan);
+        $commentForm = $this->createForm(CommentType::class, $newComment);
+        $commentForm->handleRequest($request);
+
+        if ($commentForm->isSubmitted() && $commentForm->isValid()) {
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $newComment->setAuthor($this->getUser());
+            $entityManager->persist($newComment);
+            $entityManager->flush();
+        }
+
         return $this->render('pages/good_plan/show.html.twig', [
             'good_plan' => $goodPlan,
+            'commentForm' => $commentForm->createView(),
         ]);
     }
 
@@ -96,7 +112,7 @@ class GoodPlanController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="good_plan_delete", methods={"POST"})
+     * @Route("/{id}/delete", name="good_plan_delete", methods={"POST"})
      * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
      */
     public function delete(Request $request, GoodPlan $goodPlan): Response
