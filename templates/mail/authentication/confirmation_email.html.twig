@@ -1,11 +1,23 @@
-<h1>Hi! Please confirm your email!</h1>
+{% extends 'mail/email_base.html.twig' %}
 
-<p>
-    Please confirm your email address by clicking the following link: <br><br>
-    <a href="{{ signedUrl|raw }}">Confirm my Email</a>.
-    This link will expire in {{ expiresAtMessageKey|trans(expiresAtMessageData, 'VerifyEmailBundle') }}.
-</p>
+{% block subject -%}
+    {#    {{ 'security.reset_password.pages.email.subject'|trans({}, 'security') }}#}
+    Dealabs - Confirm your email
+{%- endblock subject %}
 
-<p>
-    Cheers!
-</p>
+{% block html %}
+    <h1>Hi! Please confirm your email!</h1>
+
+    <p>
+        Please confirm your email address by clicking the following link: <br><br>
+        <a href="{{ signedUrl|raw }}">Confirm my Email</a>.
+        This link will expire in {{ expiresAtMessageKey|trans(expiresAtMessageData, 'VerifyEmailBundle') }}.
+    </p>
+
+    <p>
+        Cheers!
+    </p>
+{% endblock html %}
+
+{% block text %}{% endblock text %}
+

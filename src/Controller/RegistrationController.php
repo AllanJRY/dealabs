@@ -58,14 +58,7 @@ class RegistrationController extends AbstractController
             $entityManager->flush();
 
             // generate a signed url and email it to the user
-            $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
-                (new TemplatedEmail())
-                    // TODO replace address data with .env values
-                    ->from(new Address('mailer@lb-dealabs.com', 'Dealabs Mailer'))
-                    ->to($user->getEmail())
-                    ->subject('Please Confirm your Email')
-                    ->htmlTemplate('mail/authentication/confirmation_email.html.twig')
-            );
+            $this->emailVerifier->sendEmailConfirmation('verify_email', $user);
             // do anything else you need here, like send an email
 
             return $guardHandler->authenticateUserAndHandleSuccess(
@@ -114,4 +107,32 @@ class RegistrationController extends AbstractController
         // TODO: redirect to profil or elsewhere once implmentation of those are made.
         return $this->redirectToRoute('home');
     }
+
+    /**
+     * @Route({"en": "send/verify-email/{id}", "fr": "envoi/confirmation-email/{id}"}, name="send_verify_email")
+     * @param Request $request
+     * @param User $user
+     * @return Response
+     */
+    public function sendVerificationEmail(Request $request, User $user): Response
+    {
+        $hasBeenSent = false;
+        if ($this->getUser()->getId() !== $user->getId()) {
+            throw new NotFoundHttpException();
+        }
+
+        if ($request->headers->get('referer') === $request->getUri()) {
+            return $this->redirectToRoute('home');
+        }
+
+        if (!$user->isVerified()) {
+            $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user);
+            $hasBeenSent = true;
+        }
+
+        return $this->render('pages/authentication/confirmation_email_sent.html.twig', [
+            'email_sent' => $hasBeenSent,
+        ]);
+    }
+
 }
