@@ -4,17 +4,18 @@
 
 {% block body %}
     <div class="container" id="previewed">
-        {% block left_side %}
-        {% endblock left_side %}
-
-        {% block right_side %}
-            {# Preview handled by VueJS #}
-            {% verbatim %}
-            <div class="preview">
-                {{ title }}
+        <div class="row">
+            <div class="col-xs-12 col-sm-6">
+                {% block left_side %}
+                {% endblock left_side %}
             </div>
-        {% endverbatim %}
-            {# End preview #}
-        {% endblock right_side %}
+
+            <div class="col-xs-12 col-sm-6">
+                {% block right_side %}
+                    {# Preview handled by VueJS #}
+                    {# End preview #}
+                {% endblock right_side %}
+            </div>
+        </div>
     </div>
 {% endblock %}
