@@ -32,7 +32,7 @@ class HomeController extends AbstractController
     public function index(): Response
     {
         $categories = $this->categoryRepository->findAll();
-        $deals = $this->dealRepository->findAll();
+        $deals = $this->dealRepository->findBy([], ['createdAt' => 'DESC']);
 
         return $this->render('pages/home/index.html.twig', [
             'categories' => $categories,
