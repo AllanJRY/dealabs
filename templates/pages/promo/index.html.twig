@@ -3,7 +3,15 @@
 {% block title %}Promo index{% endblock %}
 
 {% block body %}
-    {% include('partials/component/navbar/filter-navbar.html.twig') with {'title': 'Codes promo'} %}
+    {% include('partials/component/navbar/filter-navbar.html.twig') with
+        {
+            'title': 'Codes promo',
+            'links': {
+                'default': path('promo_index'),
+                'hot': path('hot_promo_index')
+            }
+        }
+    %}
     <div class="container-fluid bg-secondary">
         <div class="container">
             <div class="row">
