@@ -1,8 +1,0 @@
-App\Entity\GoodPlan:
-    deal_{1..50}:
-        title: <word()>
-        description: <text()>
-        slug: <slug()>
-        author: '@user*'
-        createdAt: <dateTime()>
-        updatedAt: <dateTime()>
