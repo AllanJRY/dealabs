@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Deal;
 use App\Entity\Promo;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -24,6 +25,29 @@ class PromoRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('p')
             ->addSelect('sum(r.value) as HIDDEN hot_value')
             ->leftJoin('p.ratings', 'r')
+            ->orderBy('hot_value',  'DESC')
+            ->groupBy('p.id')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    public function findAllOrderByCreatedAtDesc(): ?array
+    {
+        return $this->createQueryBuilder('p')
+            ->orderBy('p.createdAt',  'DESC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    public function findAllHotOrderByRatingDesc(): ?array
+    {
+        return $this->createQueryBuilder('p')
+            ->addSelect('sum(r.value) as HIDDEN hot_value')
+            ->leftJoin('p.ratings', 'r')
+            ->having('hot_value > = :min_hot_value')
+            ->setParameter('min_hot_value', Deal::MIN_HOT_VALUE)
             ->orderBy('hot_value',  'DESC')
             ->groupBy('p.id')
             ->getQuery()

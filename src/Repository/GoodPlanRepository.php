@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Deal;
 use App\Entity\GoodPlan;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -29,6 +30,29 @@ class GoodPlanRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult()
         ;
+    }
+
+    public function findAllOrderByCreatedAtDesc(): ?array
+    {
+        return $this->createQueryBuilder('gp')
+            ->orderBy('gp.createdAt',  'DESC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    public function findAllHotOrderByRatingDesc(): ?array
+    {
+        return $this->createQueryBuilder('gp')
+            ->addSelect('sum(r.value) as HIDDEN hot_value')
+            ->leftJoin('gp.ratings', 'r')
+            ->having('hot_value > = :min_hot_value')
+            ->setParameter('min_hot_value', Deal::MIN_HOT_VALUE)
+            ->orderBy('hot_value',  'DESC')
+            ->groupBy('gp.id')
+            ->getQuery()
+            ->getResult()
+            ;
     }
 
     // /**
