@@ -7,6 +7,7 @@ use App\Entity\GoodPlan;
 use App\Form\CommentType;
 use App\Form\GoodPlanType;
 use App\Repository\GoodPlanRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,11 +26,17 @@ class GoodPlanController extends AbstractController
     /**
      * @Route("/", name="good_plan_index", methods={"GET"})
      */
-    public function index(GoodPlanRepository $goodPlanRepository): Response
+    public function index(GoodPlanRepository $goodPlanRepository, Request $request, PaginatorInterface $paginator): Response
     {
+        $data = $goodPlanRepository->findAllOrderByRatingDesc();
+        $good_plans = $paginator->paginate(
+            $data,
+            $request->query->getInt('page', 1),
+            10
+        );
+
         return $this->render('pages/good_plan/index.html.twig', [
-//            'good_plans' => $goodPlanRepository->findAll(),
-            'good_plans' => $goodPlanRepository->findAllOrderByRatingDesc(),
+            'good_plans' => $good_plans,
         ]);
     }
 

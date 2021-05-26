@@ -7,6 +7,7 @@ use App\Entity\Promo;
 use App\Form\CommentType;
 use App\Form\PromoType;
 use App\Repository\PromoRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,10 +26,17 @@ class PromoController extends AbstractController
     /**
      * @Route("/", name="promo_index", methods={"GET"})
      */
-    public function index(PromoRepository $promoRepository): Response
+    public function index(PromoRepository $promoRepository, Request $request, PaginatorInterface $paginator): Response
     {
+        $data = $promoRepository->findAll();
+        $promos = $paginator->paginate(
+            $data,
+            $request->query->getInt('page', 1),
+            10
+        );
+
         return $this->render('pages/promo/index.html.twig', [
-            'promos' => $promoRepository->findAll(),
+            'promos' => $promos,
         ]);
     }
 
@@ -76,7 +84,7 @@ class PromoController extends AbstractController
         }
 
         return $this->render('pages/promo/show.html.twig', [
-            'promo' => $promo,
+            'deal' => $promo,
             'commentForm' => $commentForm->createView(),
         ]);
     }

@@ -31,6 +31,7 @@
                                 <p>
                                 <span class="text-danger">
                                     {{ deal.price }}€
+
                                 </span>
                                     {% if deal.initialPrice and deal.shippingCost %}
                                         <span class="text-decoration-line-through text-muted">
@@ -38,22 +39,44 @@
                                 </span>
                                         -{{ deal.shippingCost }}%
                                     {% endif %}
+                                    {% if deal.partner %}
+                                        <span class="text-muted">| Bons plans </span>
+                                        <a class="text-primary text-decoration-none"
+                                           href="#">{{ deal.partner.name }}</a>
+                                    {% endif %}
                                 </p>
+                                {% if deal.promoCode %}
+                                    <div class="row">
+                                        <a class="btn btn-primary col-6" type="button" target="_blank"
+                                           href="{{ deal.link }}">
+                                            <span>Voir le deal</span>
+                                            <i class="fas fa-external-link-square-alt"></i>
+                                        </a>
+                                        <a class="btn btn-outline-secondary col-4" type="button">
+                                            <span>{{ deal.promoCode }}</span>
+                                        </a>
+                                        <button class="btn btn-primary col-2">
+                                            <i class="fas btn fa-cut"></i>
+                                        </button>
+                                    </div>
+                                {% endif %}
                                 <div class="row justify-content-between align-items-center">
                                     <div class="col-lg-6 col-3">
                                         <p>{{ deal.author.username }}</p>
                                     </div>
-                                    <div class="col-lg-6 col-9 row">
+                                    <div class="col-lg-6 col-9 row justify-content-end">
                                         <a class="btn text-dark text-decoration-none col-3 border-dark border-1 m-3"
                                            href="{{ path('good_plan_show',{slug : deal.slug}) }}" type="button">
                                             <i class="fas fa-comment"></i>
                                             <span>{{ deal.comments|length }}</span>
                                         </a>
-                                        <a class="btn btn-primary col-6 m-3" type="button" target="_blank"
-                                           href="{{ deal.link }}">
-                                            <span>Voir le deal</span>
-                                            <i class="fas fa-external-link-square-alt"></i>
-                                        </a>
+                                        {% if not deal.promoCode %}
+                                            <a class="btn btn-primary col-6 m-3" type="button" target="_blank"
+                                               href="{{ deal.link }}">
+                                                <span>Voir le deal</span>
+                                                <i class="fas fa-external-link-square-alt"></i>
+                                            </a>
+                                        {% endif %}
                                     </div>
                                 </div>
                             </div>
