@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Promo{% endblock %}
+
+{% block body %}
+    <div class="container" id="previewed">
+        <h1>Create new Promo</h1>
+
+        {# Preview handled by VueJS #}
+        {% verbatim %}
+            <div class="preview">
+                {{ title }}
+            </div>
+        {% endverbatim %}
+        {# End preview #}
+
+        {{ include('pages/promo/_form.html.twig') }}
+
+        <a href="{{ path('promo_index') }}">back to list</a>
+    </div>
+{% endblock %}
