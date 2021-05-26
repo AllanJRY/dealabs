@@ -32,7 +32,21 @@ class HomeController extends AbstractController
     public function index(): Response
     {
         $categories = $this->categoryRepository->findAll();
-        $deals = $this->dealRepository->findBy([], ['createdAt' => 'DESC']);
+        $deals = $this->dealRepository->findAllOrderByCreatedAtDesc();
+
+        return $this->render('pages/home/index.html.twig', [
+            'categories' => $categories,
+            'deals' => $deals,
+        ]);
+    }
+
+    /**
+     * @Route("/hot", name="hot_home")
+     */
+    public function hot(): Response
+    {
+        $categories = $this->categoryRepository->findAll();
+        $deals = $this->dealRepository->findAllHotOrderByRatingDesc();
 
         return $this->render('pages/home/index.html.twig', [
             'categories' => $categories,

@@ -31,6 +31,29 @@ class DealRepository extends ServiceEntityRepository
             ;
     }
 
+    public function findAllOrderByCreatedAtDesc(): ?array
+    {
+        return $this->createQueryBuilder('d')
+            ->orderBy('d.createdAt',  'DESC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    public function findAllHotOrderByRatingDesc(): ?array
+    {
+        return $this->createQueryBuilder('d')
+            ->addSelect('sum(r.value) as HIDDEN hot_value')
+            ->leftJoin('d.ratings', 'r')
+            ->having('hot_value > = :min_hot_value')
+            ->setParameter('min_hot_value', Deal::MIN_HOT_VALUE)
+            ->orderBy('hot_value',  'DESC')
+            ->groupBy('d.id')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
     // /**
     //  * @return Deal[] Returns an array of Deal objects
     //  */

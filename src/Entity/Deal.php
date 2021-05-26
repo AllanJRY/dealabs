@@ -16,6 +16,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 abstract class Deal
 {
+
+    public const MIN_HOT_VALUE = 100;
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue

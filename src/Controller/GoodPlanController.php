@@ -25,11 +25,20 @@ class GoodPlanController extends AbstractController
     /**
      * @Route("/", name="good_plan_index", methods={"GET"})
      */
-    public function index(GoodPlanRepository $goodPlanRepository): Response
+    public function index(Request $request, GoodPlanRepository $goodPlanRepository): Response
     {
         return $this->render('pages/good_plan/index.html.twig', [
-//            'good_plans' => $goodPlanRepository->findAll(),
-            'good_plans' => $goodPlanRepository->findAllOrderByRatingDesc(),
+            'good_plans' => $goodPlanRepository->findAllOrderByCreatedAtDesc(),
+        ]);
+    }
+
+    /**
+     * @Route("/hot", name="hot_good_plan_index", methods={"GET"})
+     */
+    public function indexHot(GoodPlanRepository $goodPlanRepository): Response
+    {
+        return $this->render('pages/good_plan/index.html.twig', [
+            'good_plans' => $goodPlanRepository->findAllHotOrderByRatingDesc(),
         ]);
     }
 

@@ -28,7 +28,17 @@ class PromoController extends AbstractController
     public function index(PromoRepository $promoRepository): Response
     {
         return $this->render('pages/promo/index.html.twig', [
-            'promos' => $promoRepository->findAll(),
+            'promos' => $promoRepository->findAllOrderByCreatedAtDesc(),
+        ]);
+    }
+
+    /**
+     * @Route("/hot", name="hot_promo_index", methods={"GET"})
+     */
+    public function indexHot(PromoRepository $promoRepository): Response
+    {
+        return $this->render('pages/promo/index.html.twig', [
+            'promos' => $promoRepository->findAllHotOrderByRatingDesc(),
         ]);
     }
 
