@@ -1,0 +1,6 @@
+App\Entity\Rating:
+    rating_{1..50}:
+        rater: '@user*'
+        deal: '@goodplan*'
+        value: 1
+        createdAt: <dateTime()>

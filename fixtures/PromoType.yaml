@@ -1,0 +1,3 @@
+App\Entity\PromoType:
+    promotype_{1..50}:
+        type: '€'

@@ -1,0 +1,14 @@
+App\Entity\Promo:
+    promo_{1..50}:
+        author: '@user*'
+        partner: '@partner*'
+        #        picture: '@file*'
+        title: <word()>
+        description: <text()>
+        link: <url()>
+        slug: <slug()>
+        promoCode: <postcode()>
+        createdAt: <dateTime()>
+        updatedAt: <dateTime()>
+
+        promoType: '@promotype*'
