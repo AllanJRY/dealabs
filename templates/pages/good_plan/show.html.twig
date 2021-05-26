@@ -1,0 +1,222 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}GoodPlan{% endblock %}
+
+{% block body %}
+    {% include('partials/component/navbar/category-route-navbar.html.twig') with {'good_plan_categories': deal.categories} %}
+    <div class="container-fluid bg-secondary h-100">
+        <div class="container mt-3">
+            <div class="row">
+                <div class="col-lg-9 col-12">
+                    <div class="bg-white rounded">
+                        <div class="row p-3">
+                            <div class="col-4">
+                                <a class="text-decoration-none text-dark" href="{{ deal.link }}" target="_blank">
+                                    <img src="http://via.placeholder.com/300x180" alt="">
+                                </a>
+                            </div>
+                            <div class="col-8">
+                                <div class="btn-group" role="group">
+                                    <button type="button" class="btn text-primary">
+                                        <i class="fa fa-minus"></i>
+                                    </button>
+                                    <button type="button" class="btn text-danger fw-bold">
+                                        {{ deal | display_hot_value }}°
+                                    </button>
+                                    <button type="button" class="btn text-danger">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </div>
+                                <h4 class="card-title fw-bold">{{ deal.title|capitalize }}</h4>
+                                <p>
+                                <span class="text-danger">
+                                    {{ deal.price }}€
+
+                                </span>
+                                    {% if deal.initialPrice and deal.shippingCost %}
+                                        <span class="text-decoration-line-through text-muted">
+                                    {{ deal.initialPrice }}€
+                                </span>
+                                        -{{ deal.shippingCost }}%
+                                    {% endif %}
+                                    {% if deal.partner %}
+                                        <span class="text-muted">| Bons plans </span>
+                                        <a class="text-primary text-decoration-none"
+                                           href="#">{{ deal.partner.name }}</a>
+                                    {% endif %}
+                                </p>
+                                {% if deal.promoCode %}
+                                    <div class="row">
+                                        <a class="btn btn-primary col-6" type="button" target="_blank"
+                                           href="{{ deal.link }}">
+                                            <span>Voir le deal</span>
+                                            <i class="fas fa-external-link-square-alt"></i>
+                                        </a>
+                                        <a class="btn btn-outline-secondary col-4" type="button">
+                                            <span>{{ deal.promoCode }}</span>
+                                        </a>
+                                        <button class="btn btn-primary col-2">
+                                            <i class="fas btn fa-cut"></i>
+                                        </button>
+                                    </div>
+                                {% endif %}
+                                <div class="row justify-content-between align-items-center">
+                                    <div class="col-lg-6 col-3">
+                                        <p>{{ deal.author.username }}</p>
+                                    </div>
+                                    <div class="col-lg-6 col-9 row justify-content-end">
+                                        <a class="btn text-dark text-decoration-none col-3 border-dark border-1 m-3"
+                                           href="{{ path('good_plan_show',{slug : deal.slug}) }}" type="button">
+                                            <i class="fas fa-comment"></i>
+                                            <span>{{ deal.comments|length }}</span>
+                                        </a>
+                                        {% if not deal.promoCode %}
+                                            <a class="btn btn-primary col-6 m-3" type="button" target="_blank"
+                                               href="{{ deal.link }}">
+                                                <span>Voir le deal</span>
+                                                <i class="fas fa-external-link-square-alt"></i>
+                                            </a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row m-3 border rounded">
+                            {% set time = date(deal.createdAt).diff(date('now')) %}
+                            <p class="text-muted align-items-center m-3">
+                                <i class="far fa-clock"></i>
+                                <span>{{ deal.createdAt|date('d M Y') }}</span>
+                                {% if time.h > 0 and time.d == 0 and time.m == 0 %}
+                                    <span>( il y a {{ time.h }} h et {{ time.i }} )</span>
+                                {% elseif time.s > 0 and time.h == 0 and time.d == 0 and time.m == 0 %}
+                                    <span>( il y a {{ time.i }} )</span>
+                                {% endif %}
+                            </p>
+                        </div>
+                        <p class="p-3">
+                            {{ deal.description }}
+                        </p>
+                    </div>
+
+
+                    <div class="bg-white rounded p-3">
+                        {% for comment in deal.comments | sort((commentA, commentB) => commentA.createdAt < commentB.createdAt) %}
+                            <div class="row">
+                                <div class="col-2">
+                                    <img src="http://via.placeholder.com/300x180" class="img-fluid rounded-circle"
+                                         alt="">
+                                </div>
+                                <div class="col-10">
+                                    <div class="row">
+                                        <p>
+                                            <span>
+                                                {{ comment.author.username }}
+                                            </span>
+                                            <span>
+                                                - {{ comment.createdAt | date('d/m/Y H:i', "Europe/Paris") }}
+                                            </span>
+                                        </p>
+                                        <p>{{ comment.content }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="bg-white rounded p-3">
+                        {% if app.user %}
+                            {{ form_start(commentForm) }}
+                            {{ form_widget(commentForm.content) }}
+                            <input type="submit" value="Envoyer">
+                            {{ form_end(commentForm) }}
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="col-lg-3 col-12">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    {# <div class="container"> #}
+    {# <h1>GoodPlan</h1> #}
+
+    {# <table class="table"> #}
+    {# <tbody> #}
+    {# <tr> #}
+    {# <th>Id</th> #}
+    {# <td>{{ good_plan.id }}</td> #}
+    {# </tr> #}
+    {# <tr> #}
+    {# <th>Title</th> #}
+    {# <td>{{ good_plan.title }}</td> #}
+    {# </tr> #}
+    {# <tr> #}
+    {# <th>Description</th> #}
+    {# <td>{{ good_plan.description }}</td> #}
+    {# </tr> #}
+    {# <tr> #}
+    {# <th>Link</th> #}
+    {# <td>{{ good_plan.link }}</td> #}
+    {# </tr> #}
+    {# <tr> #}
+    {# <th>Slug</th> #}
+    {# <td>{{ good_plan.slug }}</td> #}
+    {# </tr> #}
+    {# <tr> #}
+    {# <th>PromoCode</th> #}
+    {# <td>{{ good_plan.promoCode }}</td> #}
+    {# </tr> #}
+    {# <tr> #}
+    {# <th>Expired</th> #}
+    {# <td>{{ good_plan.expired ? 'Yes' : 'No' }}</td> #}
+    {# </tr> #}
+    {# <tr> #}
+    {# <th>CreatedAt</th> #}
+    {# <td>{{ good_plan.createdAt ? good_plan.createdAt|date('Y-m-d H:i:s') : '' }}</td> #}
+    {# </tr> #}
+    {# <tr> #}
+    {# <th>UpdatedAt</th> #}
+    {# <td>{{ good_plan.updatedAt ? good_plan.updatedAt|date('Y-m-d H:i:s') : '' }}</td> #}
+    {# </tr> #}
+    {# <tr> #}
+    {# <th>Price</th> #}
+    {# <td>{{ good_plan.price }}</td> #}
+    {# </tr> #}
+    {# <tr> #}
+    {# <th>InitialPrice</th> #}
+    {# <td>{{ good_plan.initialPrice }}</td> #}
+    {# </tr> #}
+    {# <tr> #}
+    {# <th>ShippingCost</th> #}
+    {# <td>{{ good_plan.shippingCost }}</td> #}
+    {# </tr> #}
+    {# </tbody> #}
+    {# </table> #}
+
+    {# <a href="{{ path('good_plan_index') }}">back to list</a> #}
+
+    {# <a href="{{ path('good_plan_edit', {'id': good_plan.id}) }}">edit</a> #}
+
+    {# {{ include('pages/good_plan/_delete_form.html.twig') }} #}
+
+    {# <hr> #}
+
+    {# {% for comment in good_plan.comments | sort((commentA, commentB) => commentA.createdAt < commentB.createdAt) %} #}
+    {# <p>{{ comment.author.username }} - {{ comment.createdAt | date('d/m/Y H:i', "Europe/Paris") }}</p> #}
+    {# <p>{{ comment.content }}</p> #}
+    {# {% endfor %} #}
+
+    {# <hr> #}
+
+    {# {% if app.user %} #}
+    {# #}{# TODO: attention le formulaire doit être visible si non connecté, mais le click sur textarea ouvre le modal de login (voir site dealabs) #}
+    {# {{ form_start(commentForm) }} #}
+    {# {{ form_widget(commentForm.content) }} #}
+    {# <input type="submit" value="Envoyer"> #}
+    {# {{ form_end(commentForm) }} #}
+    {# {% endif %} #}
+    {# </div> #}
+{% endblock %}

@@ -1,0 +1,6 @@
+App\Entity\Rating:
+    rating_{1..50}:
+        rater: '@user*'
+        deal: '@goodplan*'
+        value: <randomElement([1,0])>
+        createdAt: <dateTime()>

@@ -1,8 +1,10 @@
 <header class="bg-secondary">
     <div class="container">
         <div class="row align-items-center">
-            <a class="navbar-brand col-md-1 col-2 m-0 text-white" href="#">Dealabs</a>
-            <nav class="navbar navbar-expand-lg navbar-dark bg-secondary col-7 col-md-6">
+            <a class="navbar-brand col-md-2 col-3 m-0 text-white" href="{{ path('home')}}">
+                <img class="img-fluid" src="https://upload.wikimedia.org/wikipedia/fr/thumb/5/57/Dealabs_Logo.svg/1024px-Dealabs_Logo.svg.png" alt="Dealabs">
+            </a>
+            <nav class="navbar navbar-expand-lg bg-secondary col-6 col-md-5">
                 <div class="container-fluid">
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                             data-bs-target="#navbarTogglerDemo01"
@@ -11,14 +13,23 @@
                     </button>
                     <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                            <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="#">Home</a>
+                            <li class="nav-item {% if app.request.attributes.get('_route') == 'good_plan_index' %} active{% endif %}">
+                                <a class="nav-link" href="{{ path('good_plan_index') }}">Bons plans</a>
+                            </li>
+                            <li class="nav-item {% if app.request.attributes.get('_route') == 'promo_index' %} active{% endif %}">
+                                <a class="nav-link" href="{{ path('promo_index') }}">Codes promo</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Link</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                                <div class="dropdown">
+                                    <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Menu
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton">
+                                        <li><a class="dropdown-item active" href="#"></a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a class="dropdown-item" href="#"></a></li>
+                                    </ul>
+                                </div>
                             </li>
                         </ul>
                         <form class="d-md-none d-flex">
@@ -34,15 +45,39 @@
                 <button class="btn btn-success" type="submit"><i class="fas fa-search"></i></button>
             </form>
             <div class="col-2 col-md-1 d-flex flex-nowrap">
-                <button type="button" class="btn btn-dark m-2" data-bs-toggle="modal"
-                        data-bs-target="#authLoginModal">
-                    <i class="fas fa-user"></i>
-                    <span class="d-none d-lg-flex">Connexion</span>
-                </button>
-                <button type="button" class="btn btn-primary m-2">
-                    <i class="fas fa-plus"></i>
-                    <span class="d-none d-lg-flex">Poster</span>
-                </button>
+                {% if not app.user %}
+                    <a class="btn btn-dark m-2" href="{{ path('app_login') }}">
+                        <i class="fas fa-user"></i>
+                        <span class="d-none d-lg-flex">Connexion</span>
+                    </a>
+                {% else %}
+{#                    <button type="button" class="btn btn-primary m-2">#}
+{#                        <i class="fas fa-plus"></i>#}
+{#                        <span class="d-none d-lg-flex">Poster</span>#}
+{#                    </button>#}
+
+                    {# TODO change ids and classes  #}
+                    <div class="dropdown">
+                        <button class="btn btn-primary m-2" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-plus"></i>
+                            <span class="d-none d-lg-flex">Poster</span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                            <li><a class="dropdown-item" href="{{ path('good_plan_new') }}">Nouveau bon plan</a></li>
+                            <li><a class="dropdown-item" href="{{ path('promo_new') }}">Nouveau code promo</a></li>
+                        </ul>
+                    </div>
+
+                    <a class="btn btn-dark m-2" href="{{ path('app_logout') }}">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span class="d-none d-lg-flex">Déconnexion</span>
+                    </a>
+                {% endif %}
+{#                <button type="button" class="btn btn-dark m-2" data-bs-toggle="modal"#}
+{#                        data-bs-target="#authLoginModal">#}
+{#                    <i class="fas fa-user"></i>#}
+{#                    <span class="d-none d-lg-flex">Connexion</span>#}
+{#                </button>#}
             </div>
         </div>
     </div>

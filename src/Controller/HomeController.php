@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Repository\CategoryRepository;
 use App\Repository\DealRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -29,10 +31,36 @@ class HomeController extends AbstractController
     /**
      * @Route("/", name="home")
      */
-    public function index(): Response
+    public function index(Request $request, PaginatorInterface $paginator): Response
     {
         $categories = $this->categoryRepository->findAll();
-        $deals = $this->dealRepository->findAll();
+        $data = $this->dealRepository->findAllOrderByCreatedAtDesc();
+
+        $deals = $paginator->paginate(
+            $data,
+            $request->query->getInt('page', 1),
+            10
+        );
+
+        return $this->render('pages/home/index.html.twig', [
+            'deals' => $deals,
+            'categories' => $categories,
+        ]);
+    }
+
+    /**
+     * @Route("/hot", name="hot_home")
+     */
+    public function hot(Request $request, PaginatorInterface $paginator): Response
+    {
+        $categories = $this->categoryRepository->findAll();
+        $data = $this->dealRepository->findAllHotOrderByRatingDesc();
+
+        $deals = $paginator->paginate(
+            $data,
+            $request->query->getInt('page', 1),
+            10
+        );
 
         return $this->render('pages/home/index.html.twig', [
             'categories' => $categories,

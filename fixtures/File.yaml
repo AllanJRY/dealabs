@@ -1,0 +1,11 @@
+#App\Entity\File:
+#    file_{1..50}:
+#        name:
+#            extension: <fileExtension()>
+#                title:
+#                    description:
+#                        createdAt:
+#                            updatedAt:
+#                                alt:
+#                                    file:
+#                                        tempFileName:

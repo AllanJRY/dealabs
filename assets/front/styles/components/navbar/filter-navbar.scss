@@ -1,0 +1,19 @@
+.filter-navbar {
+    .navbar {
+        .nav-item {
+            .nav-link {
+                color: #63686d;
+                border-bottom: transparent solid 5px;
+                font-weight: bold;
+
+                &:hover{
+                    color: #0a53be;
+                }
+
+                &:active {
+                    border-bottom: #0a53be solid 5px;
+                }
+            }
+        }
+    }
+}

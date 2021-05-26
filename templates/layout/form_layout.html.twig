@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Entity{% endblock %}
+
+{% block body %}
+    <div class="container" id="previewed">
+        <div class="row">
+            <div class="col-xs-12 col-sm-6">
+                {% block left_side %}
+                {% endblock left_side %}
+            </div>
+
+            <div class="col-xs-12 col-sm-6">
+                {% block right_side %}
+                    {# Preview handled by VueJS #}
+                    {# End preview #}
+                {% endblock right_side %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

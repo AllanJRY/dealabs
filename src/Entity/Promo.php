@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\PromoRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=PromoRepository::class)
@@ -11,21 +12,10 @@ use Doctrine\ORM\Mapping as ORM;
 class Promo extends Deal
 {
     /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private $id;
-
-    /**
      * @ORM\ManyToOne(targetEntity=PromoType::class, inversedBy="promos")
+     * @Assert\NotNull
      */
     private $promoType;
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
 
     public function getPromoType(): ?PromoType
     {

@@ -1,0 +1,15 @@
+header {
+    .navbar-nav > .active > a {
+        color: rgb(3, 165, 193);
+    }
+
+    .nav-link {
+        font-size: 1rem;
+        color: rgb(191, 195, 200);
+        font-weight: bold;
+
+        &:hover {
+            color: white;
+        }
+    }
+}

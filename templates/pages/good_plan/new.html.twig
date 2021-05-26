@@ -1,0 +1,15 @@
+{% extends 'layout/form_layout.html.twig' %}
+
+{% block title %}New GoodPlan{% endblock %}
+
+{% block left_side %}
+    {{ include('pages/good_plan/_form.html.twig') }}
+
+    <a href="{{ path('promo_index') }}">back to list</a>
+{% endblock left_side %}
+
+{% block right_side %}
+    {# Preview handled by VueJS #}
+    {% include 'partials/component/cards/as_preview/card-promo-horizontal-preview.html.twig' %}
+    {# End preview #}
+{% endblock right_side %}
