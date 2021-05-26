@@ -19,6 +19,18 @@ class PromoRepository extends ServiceEntityRepository
         parent::__construct($registry, Promo::class);
     }
 
+    public function findAllOrderByRatingDesc(): ?array
+    {
+        return $this->createQueryBuilder('p')
+            ->addSelect('sum(r.value) as HIDDEN hot_value')
+            ->leftJoin('p.ratings', 'r')
+            ->orderBy('hot_value',  'DESC')
+            ->groupBy('p.id')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
     // /**
     //  * @return Promo[] Returns an array of Promo objects
     //  */

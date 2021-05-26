@@ -19,6 +19,18 @@ class GoodPlanRepository extends ServiceEntityRepository
         parent::__construct($registry, GoodPlan::class);
     }
 
+    public function findAllOrderByRatingDesc(): ?array
+    {
+        return $this->createQueryBuilder('gp')
+            ->addSelect('sum(r.value) as HIDDEN hot_value')
+            ->leftJoin('gp.ratings', 'r')
+            ->orderBy('hot_value',  'DESC')
+            ->groupBy('gp.id')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     // /**
     //  * @return GoodPlan[] Returns an array of GoodPlan objects
     //  */
@@ -32,18 +44,6 @@ class GoodPlanRepository extends ServiceEntityRepository
             ->setMaxResults(10)
             ->getQuery()
             ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?GoodPlan
-    {
-        return $this->createQueryBuilder('g')
-            ->andWhere('g.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
         ;
     }
     */
