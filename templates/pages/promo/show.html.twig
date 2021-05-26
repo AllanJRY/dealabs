@@ -52,5 +52,22 @@
         <a href="{{ path('promo_edit', {'id': promo.id}) }}">edit</a>
 
         {{ include('pages/promo/_delete_form.html.twig') }}
+
+        <hr>
+
+        {% for comment in promo.comments | sort((commentA, commentB) => commentA.createdAt < commentB.createdAt) %}
+            <p>{{ comment.author.username }} - {{ comment.createdAt | date('d/m/Y H:i', "Europe/Paris") }}</p>
+            <p>{{ comment.content }}</p>
+        {% endfor %}
+
+        <hr>
+
+        {% if app.user %}
+            {# TODO: attention le formulaire doit être visible si non connecté, mais le click sur textarea ouvre le modal de login (voir site dealabs) #}
+            {{ form_start(commentForm) }}
+            {{ form_widget(commentForm.content) }}
+            <input type="submit" value="Envoyer">
+            {{ form_end(commentForm) }}
+        {% endif %}
     </div>
 {% endblock %}

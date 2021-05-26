@@ -156,18 +156,6 @@ class ResetPasswordController extends AbstractController
             return $this->redirectToRoute('app_check_email');
         }
 
-//        $email = (new TemplatedEmail())
-//            ->from(new Address('mailer@lb-dealabs.com', 'Dealabs Mailer'))
-//            ->to($user->getEmail())
-//            ->subject('Your password reset request')
-//            ->htmlTemplate('mail/authentication/reset_password.html.twig')
-//            ->context([
-//                'resetToken' => $resetToken,
-//            ])
-//        ;
-//
-//        $mailer->send($email);
-
         $this->mailer->send('mail/authentication/reset_password.html.twig', [
             'resetToken' => $resetToken,
             'tokenLifetime' => $this->resetPasswordHelper->getTokenLifetime(),

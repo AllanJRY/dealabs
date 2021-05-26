@@ -67,8 +67,8 @@
 
         <hr>
 
-        {% for comment in good_plan.comments %}
-            <p>{{ comment.author.username }}</p>
+        {% for comment in good_plan.comments | sort((commentA, commentB) => commentA.createdAt < commentB.createdAt) %}
+            <p>{{ comment.author.username }} - {{ comment.createdAt | date('d/m/Y H:i', "Europe/Paris") }}</p>
             <p>{{ comment.content }}</p>
         {% endfor %}
 

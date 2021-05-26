@@ -13,6 +13,10 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class PromoType
 {
+    public const PERCENT_TYPE = '%';
+    public const MONEY_VALUE_TYPE = '€';
+    public const FREE_SHIPPING_TYPE = "free-shipping";
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue

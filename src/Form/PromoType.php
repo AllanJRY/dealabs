@@ -67,9 +67,9 @@ class PromoType extends AbstractType
             ->add('picture', FileType::class, [
                 'label' => 'Picture',
                 'required' => false,
-                'attr' => [
-                    'v-model' => 'picture'
-                ],
+//                'attr' => [
+//                    'v-model' => 'picture'
+//                ],
             ])
             ->add('promoType', EntityType::class, [
                 'label' => 'Promo Type',
