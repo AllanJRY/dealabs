@@ -7,10 +7,10 @@ App\Entity\GoodPlan:
         description: <text()>
         link: <url()>
         slug: <slug()>
-        promoCode: <postcode()>
+        promoCode: <randomElement([<postcode()>,0])>
         createdAt: <dateTime()>
         updatedAt: <dateTime()>
 
         price: <randomFloat()>
         initialPrice: <randomFloat()>
-        shippingCost: <randomFloat()>
+        shippingCost: <randomDigit()>

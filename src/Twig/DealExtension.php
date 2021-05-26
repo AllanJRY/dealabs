@@ -4,10 +4,11 @@ namespace App\Twig;
 use App\Entity\Deal;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
+use Twig\TwigTest;
 
 class DealExtension extends AbstractExtension
 {
-    public function getFilters()
+    public function getFilters(): array
     {
         return [
             new TwigFilter('display_hot_value', [$this, 'calcHotValue']),
@@ -28,5 +29,25 @@ class DealExtension extends AbstractExtension
         }
 
         return $hotValue;
+    }
+
+    /**
+     * @return TwigTest[]
+     */
+    public function getTests(): array
+    {
+        return [
+            new TwigTest('instanceof', [$this, 'isInstanceof'])
+        ];
+    }
+
+    /**
+     * @param $var
+     * @param $instance
+     * @return bool
+     */
+    public function isInstanceof($var, $instance): bool
+    {
+        return  $var instanceof $instance;
     }
 }

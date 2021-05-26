@@ -1,0 +1,19 @@
+<div class="container-fluid border-bottom border-dark bg-dark">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="row p-2">
+                    <a class="text-white" href="{{ path('home') }}">Accueil</a>
+                    {% for category in good_plan_categories %}
+                        <span class="text-muted">
+                            >
+                        </span>
+                        <a href="#">
+                            {{ category.title }}
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

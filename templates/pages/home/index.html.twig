@@ -1,21 +1,29 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
+{% block title %}Dealabs !{% endblock %}
 
 {% block body %}
     {# {% include('partials/component/carousel/carousel-category.html.twig') %} #}
-    {% include('partials/component/filter-navbar.html.twig') %}
+    {% include('partials/component/navbar/filter-navbar.html.twig') %}
     <div class="container-fluid bg-secondary">
         <div class="container">
             <div class="row">
                 <div class="col-lg-9 col-12">
                     {% for deal in deals %}
-                        {% include('partials/component/cards/card-deal-horizontal.html.twig') %}
+                        {% if deal is instanceof('App\\Entity\\GoodPlan') %}
+                            {% if deal.promoCode %}
+                                {% include('partials/component/cards/card-goodplan-horizontal_promo.html.twig') %}
+                            {% else %}
+                                {% include('partials/component/cards/card-goodplan-horizontal.html.twig') %}
+                            {% endif %}
+                        {% elseif deal is instanceof('App\\Entity\\Promo') %}
+                            {% include('partials/component/cards/card-promo-horizontal.html.twig') %}
+                        {% endif %}
                     {% endfor %}
                 </div>
-            </div>
-            <div class="col-lg-3 col-12">
-                <p>En construction</p>
+                <div class="col-lg-3 col-12">
+
+                </div>
             </div>
         </div>
     </div>

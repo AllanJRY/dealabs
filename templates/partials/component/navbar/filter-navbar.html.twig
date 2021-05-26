@@ -1,7 +1,7 @@
-<div class="container-fluid border-bottom border-dark">
+<div class="container-fluid border-bottom border-dark filter-navbar">
     <div class="container">
         <div class="row align-items-center">
-            <nav class="navbar navbar-expand-md navbar-light col-12">
+            <nav class="navbar navbar-expand-md col-12 p-0">
                 <div class="container-fluid">
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                             data-bs-target="#navbarType"
@@ -10,9 +10,17 @@
                     </button>
                     <div class="collapse navbar-collapse" id="navbarType">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                            <li class="nav-item">
-                                <a class="nav-link active" href="#">A la une</a>
-                            </li>
+                            {% if title is defined %}
+                                <li class="nav-item">
+                                    <span class="nav-link">
+                                        {{ title }}
+                                    </span>
+                                </li>
+                            {% else %}
+                                <li class="nav-item">
+                                    <a class="nav-link active" href="#">A la une</a>
+                                </li>
+                            {% endif %}
                             <li class="nav-item">
                                 <a class="nav-link" href="#">Hot</a>
                             </li>
