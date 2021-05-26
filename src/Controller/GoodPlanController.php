@@ -28,7 +28,8 @@ class GoodPlanController extends AbstractController
     public function index(GoodPlanRepository $goodPlanRepository): Response
     {
         return $this->render('pages/good_plan/index.html.twig', [
-            'good_plans' => $goodPlanRepository->findAll(),
+//            'good_plans' => $goodPlanRepository->findAll(),
+            'good_plans' => $goodPlanRepository->findAllOrderByRatingDesc(),
         ]);
     }
 

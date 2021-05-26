@@ -19,6 +19,18 @@ class DealRepository extends ServiceEntityRepository
         parent::__construct($registry, Deal::class);
     }
 
+    public function findAllOrderByRatingDesc(): ?array
+    {
+        return $this->createQueryBuilder('d')
+            ->addSelect('sum(r.value) as HIDDEN hot_value')
+            ->leftJoin('d.ratings', 'r')
+            ->orderBy('hot_value',  'DESC')
+            ->groupBy('d.id')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
     // /**
     //  * @return Deal[] Returns an array of Deal objects
     //  */
