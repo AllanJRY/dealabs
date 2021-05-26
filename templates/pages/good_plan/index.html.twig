@@ -3,57 +3,78 @@
 {% block title %}GoodPlan index{% endblock %}
 
 {% block body %}
-    <div class="container">
-        <h1>GoodPlan index</h1>
+    {% include('partials/component/navbar/filter-navbar.html.twig') with {'title': 'Tous les deals'} %}
+    <div class="container-fluid bg-secondary">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-9 col-12">
+                    {% for deal in good_plans %}
+                        {% if deal.promoCode %}
+                            {% include('partials/component/cards/card-goodplan-horizontal_promo.html.twig') %}
+                        {% else %}
+                            {% include('partials/component/cards/card-goodplan-horizontal.html.twig') %}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <div class="col-lg-3 col-12">
 
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Title</th>
-                    <th>Description</th>
-                    <th>Link</th>
-                    <th>Slug</th>
-                    <th>PromoCode</th>
-                    <th>Expired</th>
-                    <th>CreatedAt</th>
-                    <th>UpdatedAt</th>
-                    <th>Price</th>
-                    <th>InitialPrice</th>
-                    <th>ShippingCost</th>
-                    <th>Hot value</th>
-                    <th>actions</th>
-                </tr>
-            </thead>
-            <tbody>
-            {% for good_plan in good_plans %}
-                <tr>
-                    <td>{{ good_plan.id }}</td>
-                    <td>{{ good_plan.title }}</td>
-                    <td>{{ good_plan.description }}</td>
-                    <td>{{ good_plan.link }}</td>
-                    <td>{{ good_plan.slug }}</td>
-                    <td>{{ good_plan.promoCode }}</td>
-                    <td>{{ good_plan.expired ? 'Yes' : 'No' }}</td>
-                    <td>{{ good_plan.createdAt ? good_plan.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                    <td>{{ good_plan.updatedAt ? good_plan.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-                    <td>{{ good_plan.price }}</td>
-                    <td>{{ good_plan.initialPrice }}</td>
-                    <td>{{ good_plan.shippingCost }}</td>
-                    <td>{{ good_plan | display_hot_value }}</td>
-                    <td>
-                        <a href="{{ path('good_plan_show', {'slug': good_plan.slug}) }}">show</a>
-                        <a href="{{ path('good_plan_edit', {'id': good_plan.id}) }}">edit</a>
-                    </td>
-                </tr>
-            {% else %}
-                <tr>
-                    <td colspan="13">no records found</td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-
-        <a href="{{ path('good_plan_new') }}">Create new</a>
+                </div>
+            </div>
+        </div>
     </div>
+
+    {# <div class="container"> #}
+
+    {# <h1>GoodPlan index</h1> #}
+
+    {# <table class="table"> #}
+    {# <thead> #}
+    {# <tr> #}
+    {# <th>Id</th> #}
+    {# <th>Title</th> #}
+    {# <th>Description</th> #}
+    {# <th>Link</th> #}
+    {# <th>Slug</th> #}
+    {# <th>PromoCode</th> #}
+    {# <th>Expired</th> #}
+    {# <th>CreatedAt</th> #}
+    {# <th>UpdatedAt</th> #}
+    {# <th>Price</th> #}
+    {# <th>InitialPrice</th> #}
+    {# <th>ShippingCost</th> #}
+    {# <th>Hot value</th> #}
+    {# <th>actions</th> #}
+    {# </tr> #}
+    {# </thead> #}
+    {# <tbody> #}
+    {# {% for good_plan in good_plans %} #}
+    {# <tr> #}
+    {# <td>{{ good_plan.id }}</td> #}
+    {# <td>{{ good_plan.title }}</td> #}
+    {# <td>{{ good_plan.description }}</td> #}
+    {# <td>{{ good_plan.link }}</td> #}
+    {# <td>{{ good_plan.slug }}</td> #}
+    {# <td>{{ good_plan.promoCode }}</td> #}
+    {# <td>{{ good_plan.expired ? 'Yes' : 'No' }}</td> #}
+    {# <td>{{ good_plan.createdAt ? good_plan.createdAt|date('Y-m-d H:i:s') : '' }}</td> #}
+    {# <td>{{ good_plan.updatedAt ? good_plan.updatedAt|date('Y-m-d H:i:s') : '' }}</td> #}
+    {# <td>{{ good_plan.price }}</td> #}
+    {# <td>{{ good_plan.initialPrice }}</td> #}
+    {# <td>{{ good_plan.shippingCost }}</td> #}
+    {# <td>{{ good_plan | display_hot_value }}</td> #}
+    {# <td> #}
+    {# <a href="{{ path('good_plan_show', {'slug': good_plan.slug}) }}">show</a> #}
+    {# <a href="{{ path('good_plan_edit', {'id': good_plan.id}) }}">edit</a> #}
+    {# </td> #}
+    {# </tr> #}
+    {# {% else %} #}
+    {# <tr> #}
+    {# <td colspan="13">no records found</td> #}
+    {# </tr> #}
+    {# {% endfor %} #}
+    {# </tbody> #}
+    {# </table> #}
+
+    {# <a href="{{ path('good_plan_new') }}">Create new</a> #}
+    {# </div> #}
 {% endblock %}

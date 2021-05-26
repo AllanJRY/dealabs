@@ -89,7 +89,7 @@ class GoodPlanController extends AbstractController
         }
 
         return $this->render('pages/good_plan/show.html.twig', [
-            'good_plan' => $goodPlan,
+            'deal' => $goodPlan,
             'commentForm' => $commentForm->createView(),
         ]);
     }

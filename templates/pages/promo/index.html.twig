@@ -3,49 +3,64 @@
 {% block title %}Promo index{% endblock %}
 
 {% block body %}
-    <div class="container">
-        <h1>Promo index</h1>
+    {% include('partials/component/navbar/filter-navbar.html.twig') with {'title': 'Codes promo'} %}
+    <div class="container-fluid bg-secondary">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-9 col-12">
+                    {% for deal in promos %}
+                        {% include('partials/component/cards/card-promo-horizontal.html.twig') %}
+                    {% endfor %}
+                </div>
+                <div class="col-lg-3 col-12">
 
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Title</th>
-                    <th>Description</th>
-                    <th>Link</th>
-                    <th>Slug</th>
-                    <th>PromoCode</th>
-                    <th>Expired</th>
-                    <th>CreatedAt</th>
-                    <th>UpdatedAt</th>
-                    <th>actions</th>
-                </tr>
-            </thead>
-            <tbody>
-            {% for promo in promos %}
-                <tr>
-                    <td>{{ promo.id }}</td>
-                    <td>{{ promo.title }}</td>
-                    <td>{{ promo.description }}</td>
-                    <td>{{ promo.link }}</td>
-                    <td>{{ promo.slug }}</td>
-                    <td>{{ promo.promoCode }}</td>
-                    <td>{{ promo.expired ? 'Yes' : 'No' }}</td>
-                    <td>{{ promo.createdAt ? promo.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                    <td>{{ promo.updatedAt ? promo.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-                    <td>
-                        <a href="{{ path('promo_show', {'slug': promo.slug}) }}">show</a>
-                        <a href="{{ path('promo_edit', {'id': promo.id}) }}">edit</a>
-                    </td>
-                </tr>
-            {% else %}
-                <tr>
-                    <td colspan="10">no records found</td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-
-        <a href="{{ path('promo_new') }}">Create new</a>
+                </div>
+            </div>
+        </div>
     </div>
+    {# <div class="container"> #}
+    {# <h1>Promo index</h1> #}
+
+    {# <table class="table"> #}
+    {# <thead> #}
+    {# <tr> #}
+    {# <th>Id</th> #}
+    {# <th>Title</th> #}
+    {# <th>Description</th> #}
+    {# <th>Link</th> #}
+    {# <th>Slug</th> #}
+    {# <th>PromoCode</th> #}
+    {# <th>Expired</th> #}
+    {# <th>CreatedAt</th> #}
+    {# <th>UpdatedAt</th> #}
+    {# <th>actions</th> #}
+    {# </tr> #}
+    {# </thead> #}
+    {# <tbody> #}
+    {# {% for promo in promos %} #}
+    {# <tr> #}
+    {# <td>{{ promo.id }}</td> #}
+    {# <td>{{ promo.title }}</td> #}
+    {# <td>{{ promo.description }}</td> #}
+    {# <td>{{ promo.link }}</td> #}
+    {# <td>{{ promo.slug }}</td> #}
+    {# <td>{{ promo.promoCode }}</td> #}
+    {# <td>{{ promo.expired ? 'Yes' : 'No' }}</td> #}
+    {# <td>{{ promo.createdAt ? promo.createdAt|date('Y-m-d H:i:s') : '' }}</td> #}
+    {# <td>{{ promo.updatedAt ? promo.updatedAt|date('Y-m-d H:i:s') : '' }}</td> #}
+    {# <td> #}
+    {# <a href="{{ path('promo_show', {'slug': promo.slug}) }}">show</a> #}
+    {# <a href="{{ path('promo_edit', {'id': promo.id}) }}">edit</a> #}
+    {# </td> #}
+    {# </tr> #}
+    {# {% else %} #}
+    {# <tr> #}
+    {# <td colspan="10">no records found</td> #}
+    {# </tr> #}
+    {# {% endfor %} #}
+    {# </tbody> #}
+    {# </table> #}
+
+    {# <a href="{{ path('promo_new') }}">Create new</a> #}
+    {# </div> #}
 {% endblock %}

@@ -13,10 +13,10 @@
                     </button>
                     <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                            <li class="nav-item">
+                            <li class="nav-item {% if app.request.attributes.get('_route') == 'good_plan_index' %} active{% endif %}">
                                 <a class="nav-link" href="{{ path('good_plan_index') }}">Bons plans</a>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item {% if app.request.attributes.get('_route') == 'promo_index' %} active{% endif %}">
                                 <a class="nav-link" href="{{ path('promo_index') }}">Codes promo</a>
                             </li>
                             <li class="nav-item">
