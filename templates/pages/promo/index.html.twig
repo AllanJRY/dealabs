@@ -19,6 +19,7 @@
                     {% for deal in promos %}
                         {% include('partials/component/cards/card-promo-horizontal.html.twig') %}
                     {% endfor %}
+                    {{ knp_pagination_render(promos) }}
                 </div>
                 <div class="col-lg-3 col-12">
 
