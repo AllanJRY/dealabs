@@ -43,10 +43,17 @@ class GoodPlanController extends AbstractController
     /**
      * @Route("/hot", name="hot_good_plan_index", methods={"GET"})
      */
-    public function indexHot(GoodPlanRepository $goodPlanRepository): Response
+    public function indexHot(GoodPlanRepository $goodPlanRepository, Request $request, PaginatorInterface $paginator): Response
     {
+        $data = $goodPlanRepository->findAllHotOrderByRatingDesc();
+        $good_plans = $paginator->paginate(
+            $data,
+            $request->query->getInt('page', 1),
+            10
+        );
+
         return $this->render('pages/good_plan/index.html.twig', [
-            'good_plans' => $goodPlanRepository->findAllHotOrderByRatingDesc(),
+            'good_plans' => $good_plans,
         ]);
     }
 

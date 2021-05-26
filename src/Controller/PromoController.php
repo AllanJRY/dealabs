@@ -28,7 +28,7 @@ class PromoController extends AbstractController
      */
     public function index(PromoRepository $promoRepository, Request $request, PaginatorInterface $paginator): Response
     {
-        $data = $promoRepository->findAll();
+        $data = $promoRepository->findAllOrderByCreatedAtDesc();
         $promos = $paginator->paginate(
             $data,
             $request->query->getInt('page', 1),
@@ -43,10 +43,17 @@ class PromoController extends AbstractController
     /**
      * @Route("/hot", name="hot_promo_index", methods={"GET"})
      */
-    public function indexHot(PromoRepository $promoRepository): Response
+    public function indexHot(PromoRepository $promoRepository, Request $request, PaginatorInterface $paginator): Response
     {
+        $data = $promoRepository->findAllHotOrderByRatingDesc();
+        $promos = $paginator->paginate(
+            $data,
+            $request->query->getInt('page', 1),
+            10
+        );
+
         return $this->render('pages/promo/index.html.twig', [
-            'promos' => $promoRepository->findAllHotOrderByRatingDesc(),
+            'promos' => $promos,
         ]);
     }
 
