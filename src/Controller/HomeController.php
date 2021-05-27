@@ -33,7 +33,6 @@ class HomeController extends AbstractController
      */
     public function index(Request $request, PaginatorInterface $paginator): Response
     {
-        $categories = $this->categoryRepository->findAll();
         $data = $this->dealRepository->findAllOrderByCreatedAtDesc();
 
         $deals = $paginator->paginate(
@@ -44,7 +43,6 @@ class HomeController extends AbstractController
 
         return $this->render('pages/home/index.html.twig', [
             'deals' => $deals,
-            'categories' => $categories,
         ]);
     }
 

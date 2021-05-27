@@ -3,7 +3,7 @@
         <div class="row">
             <div id="carouselExampleControls" class="carousel slide col-12" data-bs-ride="carousel">
                 <div class="carousel-inner d-flex">
-                    {% for i in range(0, categories|length-1, 5) %}
+                    {% for i in range(0, get_all_category()|length-1, 5) %}
                         <div class="carousel-item justify-content-center d-flex">
                             {% for y in 0..4 %}
                                 {% if categories[i+y] is defined %}
