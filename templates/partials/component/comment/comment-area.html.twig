@@ -1,4 +1,7 @@
-<div class="bg-white rounded p-3">
+<div class="bg-dark row text-white rounded">
+    <p class="m-2"><i class="fas fa-comment-alt"></i>   {{ deal.comments|length }} commentaires</p>
+</div>
+<div class="bg-white rounded p-3" id="comment">
     {% for comment in deal.comments | sort((commentA, commentB) => commentA.createdAt < commentB.createdAt) %}
         <div class="row">
             <div class="col-2">
@@ -11,22 +14,42 @@
                         <span>
                             {{ comment.author.username }}
                         </span>
+                        {% set time = date(deal.createdAt).diff(date('now')) %}
                         <span>
-                            - {{ comment.createdAt | date('d/m/Y H:i', "Europe/Paris") }}
+                            {% if time.d > 0 %}
+                                {{ deal.createdAt|date('d M') }}
+                            {% elseif time.h > 0 and time.d == 0 and time.m == 0 %}
+                                il y a {{ time.h }} h et {{ time.i }}
+                            {% elseif time.s > 0 and time.h == 0 and time.d == 0 and time.m == 0 %}
+                                il y a {{ time.i }}
+                            {% endif %}
                         </span>
                     </p>
                     <p>{{ comment.content }}</p>
                 </div>
             </div>
         </div>
+        <hr>
     {% endfor %}
 </div>
 
 <div class="bg-white rounded p-3">
     {% if app.user %}
         {{ form_start(commentForm) }}
-        {{ form_widget(commentForm.content) }}
-        <input type="submit" value="Envoyer">
-        {{ form_end(commentForm) }}
+        <div class="row">
+            <div class="col-2">
+                <img src="http://via.placeholder.com/300x180" class="img-fluid rounded-circle"
+                     alt="">
+            </div>
+            <div class="col-10">
+                <div class="row">
+                    {{ form_widget(commentForm.content) }}
+                    <button class="btn btn-primary mt-3" type="submit">
+                        <p class="m-0">Envoyer <i class="fas fa-comment"></i></p>
+                    </button>
+                    {{ form_end(commentForm) }}
+                </div>
+            </div>
+        </div>
     {% endif %}
 </div>

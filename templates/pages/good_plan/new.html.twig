@@ -8,12 +8,10 @@
         <a class="col-6" href="{{ path('promo_new') }}">ou poster un code promo</a>
     </div>
     {{ include('pages/good_plan/_form.html.twig') }}
-
-    <a href="{{ path('promo_index') }}">back to list</a>
 {% endblock left_side %}
 
 {% block right_side %}
     {# Preview handled by VueJS #}
-    {% include 'partials/component/cards/as_preview/card-promo-horizontal-preview.html.twig' %}
+    {% include 'partials/component/cards/as_preview/card-goodplan-horizontal-preview.html.twig' %}
     {# End preview #}
 {% endblock right_side %}
