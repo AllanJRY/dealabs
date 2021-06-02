@@ -1,8 +1,12 @@
 {% extends 'layout/form_layout.html.twig' %}
 
-{% block title %}New GoodPlan{% endblock %}
+{% block title %}Nouveau bon plan{% endblock %}
 
 {% block left_side %}
+    <div class="row mt-3 mb-3">
+        <h3 class="col-6">Poster un nouveau bon plan</h3>
+        <a class="col-6" href="{{ path('promo_new') }}">ou poster un code promo</a>
+    </div>
     {{ include('pages/good_plan/_form.html.twig') }}
 
     <a href="{{ path('promo_index') }}">back to list</a>

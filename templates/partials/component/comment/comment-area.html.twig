@@ -1,0 +1,32 @@
+<div class="bg-white rounded p-3">
+    {% for comment in deal.comments | sort((commentA, commentB) => commentA.createdAt < commentB.createdAt) %}
+        <div class="row">
+            <div class="col-2">
+                <img src="http://via.placeholder.com/300x180" class="img-fluid rounded-circle"
+                     alt="">
+            </div>
+            <div class="col-10">
+                <div class="row">
+                    <p>
+                        <span>
+                            {{ comment.author.username }}
+                        </span>
+                        <span>
+                            - {{ comment.createdAt | date('d/m/Y H:i', "Europe/Paris") }}
+                        </span>
+                    </p>
+                    <p>{{ comment.content }}</p>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+<div class="bg-white rounded p-3">
+    {% if app.user %}
+        {{ form_start(commentForm) }}
+        {{ form_widget(commentForm.content) }}
+        <input type="submit" value="Envoyer">
+        {{ form_end(commentForm) }}
+    {% endif %}
+</div>
