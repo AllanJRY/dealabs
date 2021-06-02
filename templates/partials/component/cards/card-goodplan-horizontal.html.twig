@@ -9,15 +9,7 @@
             <div class="row justify-content-between ">
                 <div class="col-8">
                     <div class="btn-group" role="group">
-                        <button type="button" class="btn text-primary">
-                            <i class="fa fa-minus"></i>
-                        </button>
-                        <button type="button" class="btn text-danger fw-bold">
-                            {{ deal | display_hot_value }}°
-                        </button>
-                        <button type="button" class="btn text-danger">
-                            <i class="fas fa-plus"></i>
-                        </button>
+                        {% include 'partials/component/rating/rating.html.twig' with { "deal": deal } %}
                     </div>
                 </div>
                 <p class="col-4 text-muted text-right align-items-center m-0 align-items-center">

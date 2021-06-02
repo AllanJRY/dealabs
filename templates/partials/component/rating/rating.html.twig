@@ -1,0 +1,19 @@
+{% if deal is defined %}
+    <button type="button" class="btn text-primary"
+            data-user-id="{{ app.user.id }}"
+            data-rating-btn
+            data-deal-id="{{ deal.id }}"
+            data-value="-1">
+        <i class="fa fa-minus"></i>
+    </button>
+    <button type="button" class="btn text-danger fw-bold" data-deal-hot-value>
+        {{ deal | display_hot_value }}°
+    </button>
+    <button type="button" class="btn text-danger"
+            data-user-id="{{ app.user.id }}"
+            data-rating-btn
+            data-deal-id="{{ deal.id }}"
+            data-value="1">
+        <i class="fas fa-plus"></i>
+    </button>
+{% endif %}
