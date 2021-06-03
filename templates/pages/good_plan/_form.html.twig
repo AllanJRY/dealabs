@@ -1,4 +1,32 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+<p><span class="h4"><strong>Lien du deal</strong></span> (Facultatif)</p>
+{{ form_row(form.link) }}
+<p>Veuillez donner le lien de la page où la communauté pourra obtenir des renseignements, voir le produit et profiter du
+    deal !</p>
+<hr>
+<h4 class="text-"><strong>Description</strong></h4>
+<p class="mb-0 mt-3"><span class="h5">PRIX</span> (Facultatif)</p>
+{{ form_row(form.price) }}
+<p class="mb-0 mt-3"><span class="h5">PRIX HABITUEL</span> (Facultatif)</p>
+{{ form_row(form.initialPrice) }}
+<p class="mb-0 mt-3"><span class="h5">FRAIS DE PORT</span> (Facultatif)</p>
+{{ form_row(form.shippingCost) }}
+{{ form_row(form.freeShipping,{'label' : 'Livraison gratuite '}) }}
+<p class="mb-0 mt-3"><span class="h5">CODE PROMO</span> (Facultatif)</p>
+{{ form_row(form.promoCode) }}
+<h5 class="mb-0 mt-3">TITRE</h5>
+{{ form_row(form.title) }}
+<p>140 caractères restants </p>
+<h5 class="mb-0 mt-3">DESCRIPTION</h5>
+{{ form_row(form.description) }}
+<p class="mb-0 mt-3"><span class="h5">IMAGE DU PRODUIT</span> (Facultatif)</p>
+{{ form_row(form.picture) }}
+<h5 class="mb-0 mt-3">MARCHAND</h5>
+{{ form_row(form.partner) }}
+<h5 class="mb-0 mt-3">GROUPES</h5>
+<p class="mb-0">Quelle est la catégorie principale de votre deal ?</p>
+{{ form_row(form.categories) }}
+
+{# {{ form_widget(form) }} #}
+<button class="btn btn-primary mt-3">{{ button_label|default('Valider') }}</button>
 {{ form_end(form) }}

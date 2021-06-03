@@ -32,7 +32,7 @@ class RegistrationController extends AbstractController
     {
         if ($this->getUser()) {
 //            throw new NotFoundHttpException();
-            $this->redirectToRoute('home');
+            return $this->redirectToRoute('home');
         }
 
         $user = new User();
@@ -56,7 +56,7 @@ class RegistrationController extends AbstractController
             $entityManager->flush();
 
             // generate a signed url and email it to the user
-            $this->emailVerifier->sendEmailConfirmation('verify_email', $user);
+            $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user);
             // do anything else you need here, like send an email
 
             return $guardHandler->authenticateUserAndHandleSuccess(

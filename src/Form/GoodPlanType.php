@@ -22,54 +22,61 @@ class GoodPlanType extends AbstractType
     {
         $builder
             ->add('title', TextType::class, [
-                'label' => 'Title',
+                'label' => false,
                 'attr' => [
-                    'v-model' => 'title'
+                    'v-model' => 'title',
+                    'placeholder' => 'Donnez un titre court et descriptif à votre deal'
                 ],
             ])
             ->add('description', CKEditorType::class, [
                 'label' => 'Description',
                 'attr' => [
-                    'v-model' => 'description'
+                    'v-model' => 'description',
+                    'placeholder' => 'En manque d\'idées ? Présentez le produit ou l\'offre avec vos propres mots, expliquez en quoi l\'offre est intéressante selon vous, décrivez la façon d\'obtenir le prix s\'il y a une astuce… Ne faites pas de copier-coller de contenus d\'autres sites ! Votre deal est en magasin ? N’oubliez pas de préciser la ville où il se trouve, et le stock disponible !'
                 ],
             ])
             ->add('link', UrlType::class, [
-                'label' => 'Link',
+                'label' => false,
                 'required' => false,
                 'attr' => [
-                    'v-model' => 'link'
+                    'v-model' => 'link',
+                    'placeholder' => 'http://www.example.com/superdeal'
                 ],
             ])
             ->add('promoCode', TextType::class, [
-                'label' => 'Promo Code',
+                'label' => false,
                 'required' => false,
                 'attr' => [
-                    'v-model' => 'promoCode'
+                    'v-model' => 'promoCode',
+                    'placeholder' => 'Inscrivez le code promo'
                 ],
             ])
             ->add('price', MoneyType::class, [
-                'label' => 'Price',
+                'label' => false,
                 'required' => false,
                 'attr' => [
-                    'v-model' => 'price'
+                    'v-model' => 'price',
+                    'placeholder' => '0.00'
                 ],
             ])
             ->add('initialPrice', MoneyType::class, [
-                'label' => 'Initial Price',
+                'label' => false,
                 'required' => false,
                 'attr' => [
-                    'v-model' => 'initialPrice'
+                    'v-model' => 'initialPrice',
+                    'placeholder' => '0.00'
                 ],
             ])
             ->add('shippingCost', MoneyType::class, [
-                'label' => 'ShippingCost',
+                'label' => false,
                 'required' => false,
                 'attr' => [
-                    'v-model' => 'shippingCost'
+                    'v-model' => 'shippingCost',
+                    'placeholder' => '0.00'
                 ],
             ])
             ->add('freeShipping', CheckboxType::class, [
-                'label' => 'Free Shipping',
+                'label' => false,
                 'mapped' => false,
                 'required' => false,
                 'attr' => [
@@ -77,7 +84,7 @@ class GoodPlanType extends AbstractType
                 ],
             ])
             ->add('partner', EntityType::class, [
-                'label' => 'Partner',
+                'label' => false,
                 'class' => Partner::class,
                 'required' => false,
                 'choice_label' => 'name',
@@ -91,12 +98,13 @@ class GoodPlanType extends AbstractType
                 'required' => false,
                 'multiple' => true,
                 'expanded' => true,
+                'label' => false,
                 'attr' => [
                     'v-model' => 'categories'
                 ],
             ])
             ->add('picture', FileType::class, [
-                'label' => 'Picture',
+                'label' => false,
                 'required' => false,
                 'attr' => [
                     'v-model' => 'picture'

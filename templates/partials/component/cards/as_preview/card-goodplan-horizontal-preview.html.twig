@@ -1,11 +1,12 @@
+{% verbatim %}
 <div class="card mt-3 mb-3">
     <div class="card-horizontal">
         <div class="col-4 m-3">
-            <a class="text-decoration-none text-dark" href="{{ path('good_plan_show',{slug : deal.slug}) }}">
+            <a class="text-decoration-none text-dark">
                 <img src="http://via.placeholder.com/300x180" alt="">
             </a>
         </div>
-        <div class="card-body col-7">
+        <div class="card-body col-8">
             <div class="row justify-content-between ">
                 <div class="col-8">
                     <div class="btn-group" role="group">
@@ -13,7 +14,7 @@
                             <i class="fa fa-minus"></i>
                         </button>
                         <button type="button" class="btn text-danger fw-bold">
-                            {{ deal | display_hot_value }}°
+                            0°
                         </button>
                         <button type="button" class="btn text-danger">
                             <i class="fas fa-plus"></i>
@@ -21,52 +22,52 @@
                     </div>
                 </div>
                 <p class="col-4 text-muted text-right align-items-center m-0 align-items-center">
-                    {% set time = date(deal.createdAt).diff(date('now')) %}
+                    <!--{% set time = date(deal.createdAt).diff(date('now')) %}-->
                     <span>
                         <i class="fas fa-fire-alt"></i>
-                        {% if time.d > 0 %}
+                        <!--{% if time.d > 0 %}
                             {{ deal.createdAt|date('d M') }}
                         {% elseif time.h > 0 and time.d == 0 and time.m == 0 %}
                             il y a {{ time.h }} h et {{ time.i }}
                         {% elseif time.s > 0 and time.h == 0 and time.d == 0 and time.m == 0 %}
                             il y a {{ time.i }}
-                        {% endif %}
+                        {% endif %}-->
                     </span>
                 </p>
             </div>
-            <a class="text-decoration-none text-dark" href="{{ path('good_plan_show',{slug : deal.slug}) }}">
-                <h4 class="card-title fw-bold">{{ deal.title|capitalize }}</h4>
+            <a class="text-decoration-none text-dark">
+                <h4 class="card-title fw-bold">{{ title }}</h4>
             </a>
             <p>
                 <span class="text-danger">
-                    {{ deal.price }}€
+                    {{ price }}€
                 </span>
-                {% if deal.initialPrice and deal.shippingCost %}
+                <div v-if="initialPrice !== ''">
                     <span class="text-decoration-line-through text-muted">
-                        {{ deal.initialPrice }}€
+                        {{ initialPrice }}€
                     </span>
-                    -{{ deal.shippingCost }}%
-                {% endif %}
-                {% if deal.partner %}
+                    <!---{{ price }}%-->
+                </div>
+                <div v-if="partner !== ''">
                     <span class="text-muted">| Bons plans</span>
-                    <a class="text-primary text-decoration-none" href="#">{{ deal.partner.name }}</a>
-                {% endif %}
+                    <a class="text-primary text-decoration-none"><!--{{ deal.partner.name }}--></a>
+                </div>
             </p>
             <p class="card-text">
-                {{ deal.description|length > 100 ? deal.description|slice(0, 100) ~ '...' : deal.description }}
-                <a class="text-decoration-none text-dark fw-bold"
-                   href="{{ path('good_plan_show',{slug : deal.slug}) }}">Afficher plus</a>
+                <!--{{ deal.description|length > 100 ? deal.description|slice(0, 100) ~ '...' : deal.description }}-->
+                {{ description }}
+                <a class="text-decoration-none text-dark fw-bold">Afficher plus</a>
             </p>
             <div class="row justify-content-between align-items-center">
                 <div class="col-lg-6 col-3">
-                    <p>{{ deal.author.username }}</p>
+                    <p><!--{{ deal.author.username }}--></p>
                 </div>
                 <div class="col-lg-6 col-9 row">
-                    <a class="btn text-dark text-decoration-none col-3 border-dark border-1 m-3" href="{{ path('good_plan_show',{slug : deal.slug}) }}" type="button">
+                    <a class="btn text-dark text-decoration-none col-3 border-dark border-1 m-3" type="button">
                         <i class="fas fa-comment"></i>
-                        <span>{{ deal.comments|length }}</span>
+                        <span><!--{{ deal.comments|length }}--></span>
                     </a>
-                    <a class="btn btn-primary col-6 m-3" type="button" target="_blank" href="{{ deal.link }}">
+                    <a class="btn btn-primary col-6 m-3" type="button" target="_blank" :href="link">
                         <span>Voir le deal</span>
                         <i class="fas fa-external-link-square-alt"></i>
                     </a>
@@ -75,3 +76,4 @@
         </div>
     </div>
 </div>
+{% endverbatim %}

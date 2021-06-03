@@ -1,21 +1,17 @@
-{% extends 'base.html.twig' %}
+{% extends 'layout/form_layout.html.twig' %}
 
-{% block title %}New GoodPlan{% endblock %}
+{% block title %}Nouveau bon plan{% endblock %}
 
-{% block body %}
-    <div class="container" id="previewed">
-        <h1>Create new GoodPlan</h1>
-
-        {# Preview handled by VueJS #}
-        {% verbatim %}
-            <div class="preview">
-                {{ title }}
-            </div>
-        {% endverbatim %}
-        {# End preview #}
-
-        {{ include('pages/good_plan/_form.html.twig') }}
-
-        <a href="{{ path('good_plan_index') }}">back to list</a>
+{% block left_side %}
+    <div class="row mt-3 mb-3">
+        <h3 class="col-6">Poster un nouveau bon plan</h3>
+        <a class="col-6" href="{{ path('promo_new') }}">ou poster un code promo</a>
     </div>
-{% endblock %}
+    {{ include('pages/good_plan/_form.html.twig') }}
+{% endblock left_side %}
+
+{% block right_side %}
+    {# Preview handled by VueJS #}
+    {% include 'partials/component/cards/as_preview/card-goodplan-horizontal-preview.html.twig' %}
+    {# End preview #}
+{% endblock right_side %}

@@ -1,0 +1,24 @@
+<div class="card mt-3 mb-3">
+    <div class="card-horizontal">
+        <div class="col-4 m-3">
+            <a class="text-decoration-none text-dark" href="{{ path('good_plan_show',{slug : deal.slug}) }}">
+                <img src="http://via.placeholder.com/300x180" alt="">
+            </a>
+        </div>
+        <div class="card-body col-7">
+            <a class="text-decoration-none text-dark" href="{{ path('good_plan_show',{slug : deal.slug}) }}">
+                <h5 class="card-title fw-bold">
+                    <span class="text-danger">
+                        {{ deal | display_hot_value }}°
+                    </span>
+                    {{ deal.title|capitalize }}
+                </h5>
+            </a>
+            <p>
+                <span class="text-danger">
+                    {{ deal.price }}€
+                </span>
+            </p>
+        </div>
+    </div>
+</div>

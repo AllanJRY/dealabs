@@ -1,3 +1,7 @@
 App\Entity\PromoType:
-    promotype_{1..50}:
-        type: <randomElement(['€','%','free-shipping'])>
+    promotype_1:
+        type: '€'
+    promotype_2:
+        type: '%'
+    promotype_3:
+        type: 'free-shipping'

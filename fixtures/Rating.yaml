@@ -1,5 +1,5 @@
 App\Entity\Rating:
-    rating_{1..50}:
+    rating_{1..10000}:
         rater: '@user*'
         deal: '@goodplan*'
         value: <randomElement([1,0])>

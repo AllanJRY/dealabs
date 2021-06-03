@@ -1,21 +1,17 @@
-{% extends 'base.html.twig' %}
+{% extends 'layout/form_layout.html.twig' %}
 
-{% block title %}New Promo{% endblock %}
+{% block title %}Nouvelle Promo{% endblock %}
 
-{% block body %}
-    <div class="container" id="previewed">
-        <h1>Create new Promo</h1>
-
-        {# Preview handled by VueJS #}
-        {% verbatim %}
-            <div class="preview">
-                {{ title }}
-            </div>
-        {% endverbatim %}
-        {# End preview #}
-
-        {{ include('pages/promo/_form.html.twig') }}
-
-        <a href="{{ path('promo_index') }}">back to list</a>
+{% block left_side %}
+    <div class="row mt-3 mb-3">
+        <h3 class="col-6">Poster un nouveau code promo</h3>
+        <a class="col-6" href="{{ path('good_plan_new') }}">ou poster un deal</a>
     </div>
-{% endblock %}
+    {{ include('pages/promo/_form.html.twig') }}
+{% endblock left_side %}
+
+{% block right_side %}
+    {# Preview handled by VueJS #}
+    {% include 'partials/component/cards/as_preview/card-promo-horizontal-preview.html.twig' %}
+    {# End preview #}
+{% endblock right_side %}

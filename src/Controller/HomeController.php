@@ -33,8 +33,26 @@ class HomeController extends AbstractController
      */
     public function index(Request $request, PaginatorInterface $paginator): Response
     {
+        $data = $this->dealRepository->findAllOrderByCreatedAtDesc();
+
+        $deals = $paginator->paginate(
+            $data,
+            $request->query->getInt('page', 1),
+            10
+        );
+
+        return $this->render('pages/home/index.html.twig', [
+            'deals' => $deals,
+        ]);
+    }
+
+    /**
+     * @Route("/hot", name="hot_home")
+     */
+    public function hot(Request $request, PaginatorInterface $paginator): Response
+    {
         $categories = $this->categoryRepository->findAll();
-        $data = $this->dealRepository->findBy([], ['createdAt' => 'DESC']);
+        $data = $this->dealRepository->findAllHotOrderByRatingDesc();
 
         $deals = $paginator->paginate(
             $data,

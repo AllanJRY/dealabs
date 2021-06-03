@@ -4,18 +4,18 @@
 
 {% block body %}
     {% include('partials/component/navbar/category-route-navbar.html.twig') with {'good_plan_categories': deal.categories} %}
-    <div class="container-fluid bg-secondary h-100">
-        <div class="container mt-3">
+    <div class="container-fluid bg-secondary">
+        <div class="container mt-3 mb-3">
             <div class="row">
-                <div class="col-lg-9 col-12">
-                    <div class="bg-white rounded">
+                <div class="col-lg-9 col-12 order-lg-1 order-2">
+                    <div class="bg-white rounded mt-3">
                         <div class="row p-3">
-                            <div class="col-4">
-                                <a class="text-decoration-none text-dark" href="{{ deal.link }}" target="_blank">
-                                    <img src="http://via.placeholder.com/300x180" alt="">
+                            <div class="col-12 col-md-4">
+                                <a class="text-decoration-none text-dark d-flex justify-content-center" href="{{ deal.link }}" target="_blank">
+                                    <img class="img-fluid" src="http://via.placeholder.com/300x180" alt="">
                                 </a>
                             </div>
-                            <div class="col-8">
+                            <div class="col-12 col-md-8">
                                 <div class="btn-group" role="group">
                                     <button type="button" class="btn text-primary">
                                         <i class="fa fa-minus"></i>
@@ -54,10 +54,10 @@
                                     </button>
                                 </div>
                                 <div class="row justify-content-between align-items-center">
-                                    <div class="col-lg-6 col-3">
+                                    <div class="col-lg-6 col-12">
                                         <p>{{ deal.author.username }}</p>
                                     </div>
-                                    <div class="col-lg-6 col-9 row">
+                                    <div class="col-lg-6 col-12 row flex-nowrap">
                                         <a class="btn text-dark text-decoration-none col-3 border-dark border-1 m-3"
                                            href="{{ path('good_plan_show',{slug : deal.slug}) }}" type="button">
                                             <i class="fas fa-comment"></i>
@@ -88,44 +88,9 @@
                             {{ deal.description }}
                         </p>
                     </div>
-
-
-                    <div class="bg-white rounded p-3">
-                        {% for comment in deal.comments | sort((commentA, commentB) => commentA.createdAt < commentB.createdAt) %}
-                            <div class="row">
-                                <div class="col-2">
-                                    <img src="http://via.placeholder.com/300x180" class="img-fluid rounded-circle"
-                                         alt="">
-                                </div>
-                                <div class="col-10">
-                                    <div class="row">
-                                        <p>
-                                            <span>
-                                                {{ comment.author.username }}
-                                            </span>
-                                            <span>
-                                                - {{ comment.createdAt | date('d/m/Y H:i', "Europe/Paris") }}
-                                            </span>
-                                        </p>
-                                        <p>{{ comment.content }}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        {% endfor %}
-                    </div>
-
-                    <div class="bg-white rounded p-3">
-                        {% if app.user %}
-                            {{ form_start(commentForm) }}
-                            {{ form_widget(commentForm.content) }}
-                            <input type="submit" value="Envoyer">
-                            {{ form_end(commentForm) }}
-                        {% endif %}
-                    </div>
+                    {% include('partials/component/comment/comment-area.html.twig') %}
                 </div>
-                <div class="col-lg-3 col-12">
-
-                </div>
+                {% include('partials/component/navbar/sidebar.html.twig') %}
             </div>
         </div>
     </div>

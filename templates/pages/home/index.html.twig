@@ -3,12 +3,12 @@
 {% block title %}Dealabs !{% endblock %}
 
 {% block body %}
-    {# {% include('partials/component/carousel/carousel-category.html.twig') %} #}
+{#     {% include('partials/component/carousel/carousel-category.html.twig') %}#}
     {% include('partials/component/navbar/filter-navbar.html.twig') %}
     <div class="container-fluid bg-secondary">
         <div class="container">
             <div class="row">
-                <div class="col-lg-9 col-12">
+                <div class="col-lg-9 col-12 order-lg-1 order-2">
                     {% for deal in deals %}
                         {% if deal is instanceof('App\\Entity\\GoodPlan') %}
                             {% if deal.promoCode %}
@@ -22,9 +22,7 @@
                     {% endfor %}
                     {{ knp_pagination_render(deals) }}
                 </div>
-                <div class="col-lg-3 col-12">
-
-                </div>
+                {% include('partials/component/navbar/sidebar.html.twig') %}
             </div>
         </div>
     </div>

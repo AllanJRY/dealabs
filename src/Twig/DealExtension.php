@@ -2,12 +2,45 @@
 namespace App\Twig;
 
 use App\Entity\Deal;
+use App\Repository\CategoryRepository;
+use App\Repository\DealRepository;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
+use Twig\TwigFunction;
 use Twig\TwigTest;
 
 class DealExtension extends AbstractExtension
 {
+
+    /**
+     * @var DealRepository
+     */
+    private $dealRepository;
+
+    public function __construct(DealRepository $dealRepository)
+    {
+        $this->dealRepository = $dealRepository;
+    }
+
+    public function getFunctions(): array
+    {
+        return [
+            new TwigFunction('get_all_deal', [$this, 'getAllDeal']),
+            new TwigFunction('get_all_hot_deal', [$this, 'getAllHotDeal']),
+        ];
+    }
+
+    public function getAllDeal(): array
+    {
+        return $this->dealRepository->findAll();
+    }
+
+    public function getAllHotDeal(): array
+    {
+        return $this->dealRepository->findAllHotOrderByRatingDesc();
+    }
+
+
     public function getFilters(): array
     {
         return [

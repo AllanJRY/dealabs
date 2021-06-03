@@ -3,7 +3,15 @@
 {% block title %}GoodPlan index{% endblock %}
 
 {% block body %}
-    {% include('partials/component/navbar/filter-navbar.html.twig') with {'title': 'Tous les deals'} %}
+    {% include('partials/component/navbar/filter-navbar.html.twig') with
+        {
+            'title': 'Tous les deals',
+            'links': {
+                'default': path('good_plan_index'),
+                'hot': path('hot_good_plan_index')
+            }
+        }
+    %}
     <div class="container-fluid bg-secondary">
         <div class="container">
             <div class="row">
