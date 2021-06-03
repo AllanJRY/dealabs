@@ -5,10 +5,10 @@ namespace App\Form;
 use App\Entity\Category;
 use App\Entity\Partner;
 use App\Entity\Promo;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -25,7 +25,7 @@ class PromoType extends AbstractType
                     'v-model' => 'title'
                 ],
             ])
-            ->add('description', TextareaType::class, [
+            ->add('description', CKEditorType::class, [
                 'label' => 'Description',
                 'attr' => [
                     'v-model' => 'description'
@@ -78,8 +78,7 @@ class PromoType extends AbstractType
                 'attr' => [
                     'v-model' => 'promoType'
                 ],
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
