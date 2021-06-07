@@ -25,6 +25,7 @@ class PromoRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('p')
             ->addSelect('sum(r.value) as HIDDEN hot_value')
             ->leftJoin('p.ratings', 'r')
+            ->where('p.expired != 1')
             ->orderBy('hot_value',  'DESC')
             ->groupBy('p.id')
             ->getQuery()
@@ -35,6 +36,7 @@ class PromoRepository extends ServiceEntityRepository
     public function findAllOrderByCreatedAtDesc(): ?array
     {
         return $this->createQueryBuilder('p')
+            ->where('p.expired != 1')
             ->orderBy('p.createdAt',  'DESC')
             ->getQuery()
             ->getResult()
@@ -46,6 +48,7 @@ class PromoRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('p')
             ->addSelect('sum(r.value) as HIDDEN hot_value')
             ->leftJoin('p.ratings', 'r')
+            ->where('p.expired != 1')
             ->having('hot_value > = :min_hot_value')
             ->setParameter('min_hot_value', Deal::MIN_HOT_VALUE)
             ->orderBy('hot_value',  'DESC')
