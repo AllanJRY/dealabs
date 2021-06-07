@@ -2,6 +2,7 @@
 namespace App\Twig;
 
 use App\Entity\Deal;
+use App\Entity\User;
 use App\Repository\CategoryRepository;
 use App\Repository\DealRepository;
 use Twig\Extension\AbstractExtension;
@@ -39,7 +40,6 @@ class DealExtension extends AbstractExtension
     {
         return $this->dealRepository->findAllHotOrderByRatingDesc();
     }
-
 
     public function getFilters(): array
     {
