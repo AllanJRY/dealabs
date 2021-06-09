@@ -3,6 +3,14 @@
 {% block title %}GoodPlan{% endblock %}
 
 {% block body %}
+    {# TODO: refactor - should be in a seperated file ? #}
+    {% if is_granted("ROLE_ADMIN") %}
+        <a href="{{ path('set_expired_deal', { 'id': deal.id }) }}" class="btn btn-warning">Mettre le deal en expiré</a>
+    {% else %}
+        <button class="btn btn-primary" data-report-deal-expired data-deal-id="{{ deal.id }}" data-user-id="{{ app.user.id }}">Expiré ?</button>
+        <button class="btn btn-danger" data-report-deal data-deal-id="{{ deal.id }}" data-user-id="{{ app.user.id }}">Signaler</button>
+    {% endif %}
+
     {% include('partials/component/navbar/category-route-navbar.html.twig') with {'good_plan_categories': deal.categories} %}
     <div class="container-fluid bg-secondary">
         <div class="container mt-3 mb-3">

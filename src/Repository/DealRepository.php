@@ -25,7 +25,8 @@ class DealRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('d')
             ->addSelect('sum(r.value) as HIDDEN hot_value')
             ->leftJoin('d.ratings', 'r')
-            ->orderBy('hot_value', 'DESC')
+            ->where('d.expired != 1')
+            ->orderBy('hot_value',  'DESC')
             ->groupBy('d.id')
             ->getQuery()
             ->getResult();
@@ -34,7 +35,8 @@ class DealRepository extends ServiceEntityRepository
     public function findAllOrderByCreatedAtDesc(): ?array
     {
         return $this->createQueryBuilder('d')
-            ->orderBy('d.createdAt', 'DESC')
+            ->where('d.expired != 1')
+            ->orderBy('d.createdAt',  'DESC')
             ->getQuery()
             ->getResult();
     }
@@ -44,6 +46,7 @@ class DealRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('d')
             ->addSelect('sum(r.value) as HIDDEN hot_value')
             ->leftJoin('d.ratings', 'r')
+            ->where('d.expired != 1')
             ->having('hot_value > = :min_hot_value')
             ->setParameter('min_hot_value', Deal::MIN_HOT_VALUE)
             ->orderBy('d.createdAt', 'DESC')

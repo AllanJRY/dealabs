@@ -25,6 +25,7 @@ class GoodPlanRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('gp')
             ->addSelect('sum(r.value) as HIDDEN hot_value')
             ->leftJoin('gp.ratings', 'r')
+            ->where('gp.expired != 1')
             ->orderBy('hot_value',  'DESC')
             ->groupBy('gp.id')
             ->getQuery()
@@ -35,6 +36,7 @@ class GoodPlanRepository extends ServiceEntityRepository
     public function findAllOrderByCreatedAtDesc(): ?array
     {
         return $this->createQueryBuilder('gp')
+            ->where('gp.expired != 1')
             ->orderBy('gp.createdAt',  'DESC')
             ->getQuery()
             ->getResult()
@@ -46,6 +48,7 @@ class GoodPlanRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('gp')
             ->addSelect('sum(r.value) as HIDDEN hot_value')
             ->leftJoin('gp.ratings', 'r')
+            ->where('gp.expired != 1')
             ->having('hot_value > = :min_hot_value')
             ->setParameter('min_hot_value', Deal::MIN_HOT_VALUE)
             ->orderBy('hot_value',  'DESC')
