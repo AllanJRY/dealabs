@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Deal;
 use App\Entity\Rating;
+use App\Entity\User;
 use App\Repository\UserRepository;
 use App\Service\Mailer;
 use App\Service\RatingService;
@@ -86,11 +87,15 @@ class DealController extends AbstractController
      */
     public function reportExpiredDeal(Request $request, Deal $deal): JsonResponse
     {
-        if(!$deal->getExpired()) {
-            $this->mailer->send('mail/authentication/reset_password.html.twig', [
-                'tokenLifetime' => $this->resetPasswordHelper->getTokenLifetime(),
-                'admin_mail' => $this->getParameter('admin_mail'),
-            ],
+        $userRepo = $this->entityManager->getRepository(User::class);
+        $user = $userRepo->find($request->request->get('userID'));
+
+        if(!$deal->getExpired() && $user != null) {
+            $this->mailer->send('mail/deal/expired_report.html.twig',
+                [
+                    'deal' => $deal,
+                ],
+                $this->getParameter('admin_mail'),
                 $user->getEmail(),
             );
 
@@ -104,8 +109,22 @@ class DealController extends AbstractController
      * @Route("/deals/{id}/report", name="report_deal")
      * @param Deal $deal
      */
-    public function reportDeal(Deal $deal) {
+    public function reportDeal(Request $request, Deal $deal) {
+        $userRepo = $this->entityManager->getRepository(User::class);
+        $user = $userRepo->find($request->request->get('userID'));
 
-        // send report email
+        if(!$deal->getExpired() && $user != null) {
+            $this->mailer->send('mail/deal/report.html.twig',
+                [
+                    'deal' => $deal,
+                ],
+                $this->getParameter('admin_mail'),
+                $user->getEmail(),
+            );
+
+            return new JsonResponse(null, 200);
+        }
+
+        return new JsonResponse(null, 201);
     }
 }

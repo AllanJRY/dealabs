@@ -18,6 +18,7 @@ window.addEventListener('load', () => {
                     dealHotValueElement.setAttribute('value', dealHotValueElement.getAttribute('value')+value);
 
                     if (dealID && value) {
+                        // FIXME
                         // Routing.generate('rate_deal', { id: dealID })
                         let formData = new FormData();
                         formData.set('userID', userID);

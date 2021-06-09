@@ -1,0 +1,15 @@
+{% extends 'mail/email_base.html.twig' %}
+
+{% block subject -%}
+    {#    {{ 'security.reset_password.pages.email.subject'|trans({}, 'security') }}#}
+    Dealabs - A deal is reported expired
+{%- endblock subject %}
+
+{% block html %}
+    <h1>#{{ deal.id }} - {{ deal.title }} - {{ deal.slug }}</a> has been reported expired.</h1>
+    {# FIXME #}
+{#    <h1><a href="{% if (deal | instanceof('GoodPlan')) %}{{ path('good_plan_show', {'slug': deal.slug}) }}{% else %}{{ path('promo_show', {'slug': deal.slug}) }}{% endif %}">#{{ deal.id }} - {{ deal.title }}</a> has been reported expired.</h1>#}
+{% endblock html %}
+
+{% block text %}{% endblock text %}
+
