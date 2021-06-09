@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des groupes{% endblock %}
+
+{% block body %}
+    <div class="container-fluid bg-secondary">
+        <div class="container">
+            <div class="row bg-white rounded p-5 mt-5 mb-5">
+                {% for categorie in categories %}
+                    <div class="col-lg-3 col-md-4 col-12">
+                        <h5><a class="text-decoration-none text-dark" href="{{ path('category_show', {id : categorie.id}) }}">{{ categorie.title }}</a></h5>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

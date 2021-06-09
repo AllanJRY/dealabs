@@ -1,5 +1,5 @@
 <div class="bg-dark row text-white rounded">
-    <p class="m-2"><i class="fas fa-comment-alt"></i>   {{ deal.comments|length }} commentaires</p>
+    <p class="m-2"><i class="fas fa-comment-alt"></i> {{ deal.comments|length }} commentaires</p>
 </div>
 <div class="bg-white rounded p-3" id="comment">
     {% for comment in deal.comments | sort((commentA, commentB) => commentA.createdAt < commentB.createdAt) %}
@@ -14,14 +14,16 @@
                         <span>
                             {{ comment.author.username }}
                         </span>
-                        {% set time = date(deal.createdAt).diff(date('now')) %}
+                        {% set time = date(comment.createdAt).diff(date('now')) %}
                         <span>
                             {% if time.d > 0 %}
-                                {{ deal.createdAt|date('d M') }}
+                                {{ comment.createdAt|date('d M') }}
                             {% elseif time.h > 0 and time.d == 0 and time.m == 0 %}
-                                il y a {{ time.h }} h et {{ time.i }}
+                                il y a {{ time.h }} h et {{ time.i }} min
+                            {% elseif time.i > 0 and time.h == 0 and time.d == 0 and time.m == 0 %}
+                                il y a {{ time.i }} min
                             {% elseif time.s > 0 and time.h == 0 and time.d == 0 and time.m == 0 %}
-                                il y a {{ time.i }}
+                                il y a {{ time.i }} s
                             {% endif %}
                         </span>
                     </p>
