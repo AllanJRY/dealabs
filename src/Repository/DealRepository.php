@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Deal;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -24,35 +25,50 @@ class DealRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('d')
             ->addSelect('sum(r.value) as HIDDEN hot_value')
             ->leftJoin('d.ratings', 'r')
-            ->orderBy('hot_value',  'DESC')
+            ->orderBy('hot_value', 'DESC')
             ->groupBy('d.id')
             ->getQuery()
-            ->getResult()
-            ;
+            ->getResult();
     }
 
     public function findAllOrderByCreatedAtDesc(): ?array
     {
         return $this->createQueryBuilder('d')
-            ->orderBy('d.createdAt',  'DESC')
+            ->orderBy('d.createdAt', 'DESC')
             ->getQuery()
-            ->getResult()
-            ;
+            ->getResult();
     }
 
-    public function findAllHotOrderByRatingDesc(): ?array
+    public function findAllHotOrderByDateDesc(): ?array
     {
         return $this->createQueryBuilder('d')
             ->addSelect('sum(r.value) as HIDDEN hot_value')
             ->leftJoin('d.ratings', 'r')
             ->having('hot_value > = :min_hot_value')
             ->setParameter('min_hot_value', Deal::MIN_HOT_VALUE)
-            ->orderBy('hot_value',  'DESC')
+            ->orderBy('d.createdAt', 'DESC')
             ->groupBy('d.id')
             ->getQuery()
-            ->getResult()
-            ;
+            ->getResult();
     }
+
+    public function findOneWeekDealOrderByComment(): ?array
+    {
+        $now = new DateTime();
+        $week = $now->modify('+1 week');
+
+        return $this->createQueryBuilder('d')
+            ->select('COUNT(u) AS HIDDEN nbrComment', 'd')
+//            ->where('d.createdAt BETWEEN :firstDate AND :lastDate')
+//            ->setParameter('firstDate', $now)
+//            ->setParameter('lastDate', $week)
+            ->leftJoin('d.comments', 'u')
+            ->orderBy('nbrComment', 'DESC')
+            ->groupBy('d')
+            ->getQuery()
+            ->getResult();
+    }
+
 
     // /**
     //  * @return Deal[] Returns an array of Deal objects

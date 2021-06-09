@@ -1,37 +1,31 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Partner index{% endblock %}
+{% block title %}Liste des marchands{% endblock %}
 
 {% block body %}
-    <h1>Partner index</h1>
+    <div class="container-fluid bg-secondary">
+        <div class="container">
+            <div class="row bg-white rounded p-5 mt-5 mb-5">
+                <h3>Top marchands :</h3>
+                {% for i in 0..8 %}
+                    <div class="col-lg-3 col-md-4 col-12 border">
+                        <a class="text-decoration-none text-dark"
+                           href="{{ path('partner_show', {id : partners[i].id}) }}">
+                            <h5>{{ partners[i].name }}</h5>
+                            <p><i class="fas fa-fire-alt"></i> {{ partners[i].deals|length }} codes promo hot </p>
+                        </a>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Website</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for partner in partners %}
-            <tr>
-                <td>{{ partner.id }}</td>
-                <td>{{ partner.name }}</td>
-                <td>{{ partner.website }}</td>
-                <td>
-                    <a href="{{ path('partner_show', {'id': partner.id}) }}">show</a>
-                    <a href="{{ path('partner_edit', {'id': partner.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="4">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('partner_new') }}">Create new</a>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="row bg-white rounded p-5 mt-5 mb-5">
+                {% for partner in partnersAZ %}
+                    <div class="col-lg-3 col-md-4 col-12">
+                        <h5><a class="text-decoration-none text-dark"
+                               href="{{ path('partner_show', {id : partner.id}) }}">{{ partner.name }}</a></h5>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
 {% endblock %}

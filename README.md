@@ -24,7 +24,7 @@ Les étapes à suivre afin de mettre en place le projet :
 
 6. Load js routes `php bin/console assets:install --symlink public`
 
-7. Generate json routes for JS `bin/console fos:js-routing:dump --format=json --target=public/js/fos_js_routes.json`
+7. Generate json routes for JS `php bin/console fos:js-routing:dump --format=json --target=public/js/fos_js_routes.json`
 
 8. `yarn watch`
 

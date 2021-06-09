@@ -67,7 +67,7 @@
                 <div class="col-lg-9 col-3">
                     <p>{{ deal.author.username }}</p>
                 </div>
-                <div class="col-lg-3 col-9">
+                <div class="col-lg-3 col-9 justify-content-end d-flex">
                     <a class="btn text-dark text-decoration-none border-dark border-1 m-3" href="{{ path('good_plan_show',{slug : deal.slug}) }}" type="button">
                         <i class="fas fa-comment"></i>
                         <span>{{ deal.comments|length }}</span>

@@ -38,7 +38,7 @@ class DealExtension extends AbstractExtension
 
     public function getAllHotDeal(): array
     {
-        return $this->dealRepository->findAllHotOrderByRatingDesc();
+        return $this->dealRepository->findAllHotOrderByDateDesc();
     }
 
     public function getFilters(): array

@@ -4,3 +4,8 @@ App\Entity\User:
         password: <password()>
         username: <lastName()>
         is_verified: 1
+    user_admin:
+        email: 'drosalys@yopmail.com'
+        password: '$argon2id$v=19$m=65536,t=4,p=1$WnYzbkoxVHFmcWFqZlNWbg$BsM317RigPZwjnFJ3KBL0Tfr86QHGzdliV9otBE+5EA'
+        username: 'drosalys'
+        is_verified: 1
