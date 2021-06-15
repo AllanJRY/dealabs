@@ -1,7 +1,8 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ProfilController!{% endblock %}
+{% block title %}Mon profil{% endblock %}
 
 {% block body %}
-<h1>Profil of {{ app.user.username }}</h1>
+    <h1>Profil of {{ app.user.username }}</h1>
+    <a href="{{ path('profil_published_deals') }}">Mes deals</a>
 {% endblock %}

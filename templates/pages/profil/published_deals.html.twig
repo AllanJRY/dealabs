@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes deals publiés{% endblock %}
+
+{% block body %}
+    {% for deal in user_published_deals %}
+        <h2>{{ deal.title }}</h2>
+        <hr>
+    {% endfor %}
+    {{ knp_pagination_render(user_published_deals) }}
+{% endblock %}
