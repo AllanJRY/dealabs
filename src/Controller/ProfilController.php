@@ -44,4 +44,20 @@ class ProfilController extends AbstractController
             "user_published_deals" => $userPublishedDeals,
         ]);
     }
+
+    /**
+     * @Route({"en": "/my-saved-deals", "fr": "/mes-deals-sauvegarde"}, name="profil_saved_deals")
+     */
+    public function savedDeals(Request $request, PaginatorInterface $paginator): Response
+    {
+        $userSavedDeals = $paginator->paginate(
+            $this->getUser()->getSavedDeals(),
+            $request->query->getInt('page', 1),
+            10
+        );
+
+        return $this->render('pages/profil/saved_deals.html.twig', [
+            "user_saved_deals" => $userSavedDeals,
+        ]);
+    }
 }
