@@ -3,9 +3,14 @@
 {% block title %}Hello SearchController!{% endblock %}
 
 {% block body %}
-    <h2>Deals found :</h2>
+    <h2>Deals trouvés :</h2>
     {% for deal in deals_found %}
         <p>{{ deal.title }}</p>
+    {% endfor %}
+    <hr>
+    <h2>Categories correspondantes :</h2>
+    {% for category in categs_found %}
+        <p>{{ category.title }}</p>
     {% endfor %}
     <hr>
 {% endblock %}

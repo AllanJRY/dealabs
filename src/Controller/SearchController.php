@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Category;
 use App\Entity\Deal;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -36,8 +37,12 @@ class SearchController extends AbstractController
         $dealRepo = $this->entityManager->getRepository(Deal::class);
         $dealsFound = $dealRepo->findAllWhichContains($query);
 
+        $categRepo = $this->entityManager->getRepository(Category::class);
+        $categsFound = $categRepo->findAllWhichContains($query);
+
         return $this->render('pages/search/index.html.twig', [
             'deals_found' => $dealsFound,
+            'categs_found' => $categsFound,
         ]);
     }
 }
