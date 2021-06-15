@@ -7,10 +7,18 @@
     {% for deal in deals_found %}
         <p>{{ deal.title }}</p>
     {% endfor %}
+    {# TODO: add 'show more' links ? #}
     <hr>
     <h2>Categories correspondantes :</h2>
     {% for category in categs_found %}
         <p>{{ category.title }}</p>
     {% endfor %}
+    {# TODO: add 'show more' links ? #}
+    <hr>
+    <h2>Partenaires trouvés :</h2>
+    {% for partner in partners_found %}
+        <p>{{ partner.name }}</p>
+    {% endfor %}
+    {# TODO: add 'show more' links ? #}
     <hr>
 {% endblock %}
