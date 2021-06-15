@@ -72,6 +72,17 @@ class DealRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findAllWhichContains(String $query) {
+        return $this->createQueryBuilder('d')
+            ->where("d.expired != 1")
+            ->andWhere("d.title LIKE :query OR d.description LIKE :query")
+            ->setParameter('query', '%'.$query.'%')
+            ->orderBy('d.createdAt', 'DESC')
+            ->groupBy('d.id')
+            ->getQuery()
+            ->getResult();
+    }
+
 
     // /**
     //  * @return Deal[] Returns an array of Deal objects

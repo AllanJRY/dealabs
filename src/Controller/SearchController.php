@@ -32,8 +32,12 @@ class SearchController extends AbstractController
     public function index(Request $request): Response
     {
         $query = $request->query->get('s');
+
+        $dealRepo = $this->entityManager->getRepository(Deal::class);
+        $dealsFound = $dealRepo->findAllWhichContains($query);
+
         return $this->render('pages/search/index.html.twig', [
-            'controller_name' => 'SearchController',
+            'deals_found' => $dealsFound,
         ]);
     }
 }
