@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bons plans ou code promo {{ category.title }}{% endblock %}
+
+{% block body %}
+    {% include('partials/component/navbar/category-route-navbar.html.twig') with {'good_plan_categories': category} %}
+    <div class="container-fluid bg-success">
+        <div class="container mt-3 mb-3">
+            <div class="row">
+                <div class="col-12">
+                    <h1>Bons plans {{ category.title }}</h1>
+                    <div class="row">
+                        <p>{{ category.deals|length }} deals </p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container d-none d-md-flex mt-3">
+        <div class="row">
+            <div class="col-12">
+                <p>Tous les deals et codes de réduction {{ category.title }} valides en juin 2021</p>
+            </div>
+        </div>
+    </div>
+    {% include('partials/component/navbar/filter-navbar.html.twig') with
+        {
+            'title': '',
+            'links': {
+            'default': path('good_plan_index'),
+            'hot': path('hot_good_plan_index')
+        }
+        } %}
+    <div class="container-fluid bg-secondary">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-9 col-12 order-lg-1 order-2">
+                    {% for deal in category.deals %}
+                        {% if deal is instanceof('App\\Entity\\GoodPlan') %}
+                            {% if deal.promoCode %}
+                                {% include('partials/component/cards/card-goodplan-horizontal_promo.html.twig') %}
+                            {% else %}
+                                {% include('partials/component/cards/card-goodplan-horizontal.html.twig') %}
+                            {% endif %}
+                        {% elseif deal is instanceof('App\\Entity\\Promo') %}
+                            {% include('partials/component/cards/card-promo-horizontal.html.twig') %}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                {% include('partials/component/navbar/sidebar.html.twig') %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

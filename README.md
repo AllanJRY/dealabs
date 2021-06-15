@@ -22,6 +22,10 @@ Les étapes à suivre afin de mettre en place le projet :
 
 5. Pour ajouter des fixtures `symfony console hautelook:fixtures:load` ou `php bin/console hautelook:fixtures:load`
 
-6. `yarn watch`
+6. Load js routes `php bin/console assets:install --symlink public`
 
-7. `symfony serve`
+7. Generate json routes for JS `php bin/console fos:js-routing:dump --format=json --target=public/js/fos_js_routes.json`
+
+8. `yarn watch`
+
+9. `symfony serve`

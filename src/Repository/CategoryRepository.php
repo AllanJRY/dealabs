@@ -19,6 +19,38 @@ class CategoryRepository extends ServiceEntityRepository
         parent::__construct($registry, Category::class);
     }
 
+    public function findOrderByDeals()
+    {
+        return $this->createQueryBuilder('c')
+            ->select('COUNT(u) AS HIDDEN nbrDeals', 'c')
+            ->leftJoin('c.deals', 'u')
+            ->orderBy('nbrDeals', 'DESC')
+            ->groupBy('c')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findAllWhichContains(String $query) {
+        return $this->createQueryBuilder('c')
+            ->where("c.title LIKE :query")
+            ->setParameter('query', '%'.$query.'%')
+            ->orderBy('c.title')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findWhichContains(String $query, int $limit = null) {
+        if ($limit == null) return $this->findAllWhichContains($query);
+
+        return $this->createQueryBuilder('c')
+            ->where("c.title LIKE :query")
+            ->setParameter('query', '%'.$query.'%')
+            ->orderBy('c.title')
+            ->getQuery()
+            ->setMaxResults($limit)
+            ->getResult();
+    }
+
     // /**
     //  * @return Category[] Returns an array of Category objects
     //  */

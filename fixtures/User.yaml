@@ -4,4 +4,3 @@ App\Entity\User:
         password: <password()>
         username: <lastName()>
         is_verified: 1
-

@@ -33,7 +33,7 @@ class HomeController extends AbstractController
      */
     public function index(Request $request, PaginatorInterface $paginator): Response
     {
-        $data = $this->dealRepository->findAllOrderByCreatedAtDesc();
+        $data = $this->dealRepository->findOneWeekDealOrderByComment();
 
         $deals = $paginator->paginate(
             $data,
@@ -52,7 +52,7 @@ class HomeController extends AbstractController
     public function hot(Request $request, PaginatorInterface $paginator): Response
     {
         $categories = $this->categoryRepository->findAll();
-        $data = $this->dealRepository->findAllHotOrderByRatingDesc();
+        $data = $this->dealRepository->findAllHotOrderByDateDesc();
 
         $deals = $paginator->paginate(
             $data,

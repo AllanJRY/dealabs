@@ -10,6 +10,7 @@ App\Entity\GoodPlan:
         promoCode: <randomElement([<postcode()>,0])>
         createdAt: <dateTime()>
         updatedAt: <dateTime()>
+        categories: ['@category*', '@category*', '@category*', '@category*']
 
         price: <randomFloat()>
         initialPrice: <randomFloat()>

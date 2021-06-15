@@ -2,17 +2,17 @@
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <div class="row p-2">
+                <p class="pt-2">
                     <a class="text-white" href="{{ path('home') }}">Accueil</a>
                     {% for category in good_plan_categories %}
                         <span class="text-muted">
                             >
                         </span>
-                        <a href="#">
+                        <a class="text-decoration-none text-white" href="{{ path('category_show', {id : category.id}) }}">
                             {{ category.title }}
                         </a>
                     {% endfor %}
-                </div>
+                </p>
             </div>
         </div>
     </div>

@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des marchands{% endblock %}
+
+{% block body %}
+    <div class="container-fluid bg-secondary">
+        <div class="container">
+            <div class="row bg-white rounded p-5 mt-5 mb-5">
+                <h3>Top marchands :</h3>
+                {% for i in 0..8 %}
+                    <div class="col-lg-3 col-md-4 col-12 border">
+                        <a class="text-decoration-none text-dark"
+                           href="{{ path('partner_show', {id : partners[i].id}) }}">
+                            <h5>{{ partners[i].name }}</h5>
+                            <p><i class="fas fa-fire-alt"></i> {{ partners[i].deals|length }} codes promo hot </p>
+                        </a>
+
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="row bg-white rounded p-5 mt-5 mb-5">
+                {% for partner in partnersAZ %}
+                    <div class="col-lg-3 col-md-4 col-12">
+                        <h5><a class="text-decoration-none text-dark"
+                               href="{{ path('partner_show', {id : partner.id}) }}">{{ partner.name }}</a></h5>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

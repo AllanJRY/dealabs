@@ -11,7 +11,8 @@
                     <div class="container-fluid">
                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#navbarTogglerDemo01"
-                                aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+                                aria-controls="navbarTogglerDemo01" aria-expanded="false"
+                                aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
                         </button>
                         <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
@@ -24,32 +25,40 @@
                                 </li>
                                 <li class="nav-item">
                                     <div class="dropdown">
-                                        <button class="btn btn-dark dropdown-toggle" type="button" id="dropdownMenuButton"
+                                        <button class="btn btn-dark dropdown-toggle" type="button"
+                                                id="dropdownMenuButton"
                                                 data-bs-toggle="dropdown" aria-expanded="false">
                                             Menu
                                         </button>
-                                        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton">
-                                            <li><a class="dropdown-item active" href="#">Tous les groupes <i class="fas fa-angle-right"></i></a></li>
+                                        <ul class="dropdown-menu dropdown-menu-dark"
+                                            aria-labelledby="dropdownMenuButton">
+                                            <li><a class="dropdown-item active" href="{{ path('category_index') }}">Tous
+                                                    les groupes <i class="fas fa-angle-right"></i></a></li>
                                             <div class="row">
                                                 {% for category in get_all_category()|slice(0, 15) %}
-                                                    <li class="col-6"><a class="dropdown-item" href="#">{{ category.title }}</a></li>
+                                                    <li class="col-6"><a class="dropdown-item"
+                                                                         href="{{ path('category_show',{id : category.id}) }}">{{ category.title }}</a>
+                                                    </li>
                                                 {% endfor %}
                                             </div>
                                             <li>
                                                 <hr class="dropdown-divider">
                                             </li>
-                                            <li><a class="dropdown-item active" href="#">Tous les marchands <i class="fas fa-angle-right"></i></a></li>
+                                            <li><a class="dropdown-item active" href="{{ path('partner_index') }}">Tous
+                                                    les marchands <i class="fas fa-angle-right"></i></a></li>
                                             <div class="row">
                                                 {% for partner in get_all_partner()|slice(0,8) %}
-                                                    <li class="col-6"><a class="dropdown-item" href="#">{{ partner.name }}</a></li>
+                                                    <li class="col-6"><a class="dropdown-item"
+                                                                         href="{{ path('category_show',{id : partner.id}) }}">{{ partner.name }}</a>
+                                                    </li>
                                                 {% endfor %}
                                             </div>
                                         </ul>
                                     </div>
                                 </li>
                             </ul>
-                            <form class="d-md-none d-flex">
-                                <input class="form-control me-2 " type="search" placeholder="Rechercher..."
+                            <form class="d-md-none d-flex" method="get" action="{{ path('search') }}">
+                                <input class="form-control me-2 " type="search" placeholder="Rechercher..." name="s"
                                        aria-label="Rechercher...">
                                 <button class="btn btn-success" type="submit"><i class="fas fa-search"></i></button>
                             </form>
@@ -57,8 +66,8 @@
                     </div>
                 </nav>
             </div>
-            <form class="col-md-3 d-none d-md-flex">
-                <input class="form-control me-2 " type="search" placeholder="Rechercher..." aria-label="Rechercher...">
+            <form class="col-md-3 d-none d-md-flex" method="get" action="{{ path('search') }}">
+                <input class="form-control me-2 " type="search" placeholder="Rechercher..." aria-label="Rechercher..."  name="s">
                 <button class="btn btn-success" type="submit"><i class="fas fa-search"></i></button>
             </form>
             <div class="col-2 col-md-1 d-flex flex-nowrap align-items-center">
@@ -107,16 +116,7 @@
                             <li><a class="dropdown-item" href="{{ path('promo_new') }}">Nouveau code promo</a></li>
                         </ul>
                     </div>
-
-
-
-
                 {% endif %}
-                {# <button type="button" class="btn btn-dark m-2" data-bs-toggle="modal" #}
-                {# data-bs-target="#authLoginModal"> #}
-                {# <i class="fas fa-user"></i> #}
-                {# <span class="d-none d-lg-flex">Connexion</span> #}
-                {# </button> #}
             </div>
         </div>
     </div>

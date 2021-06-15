@@ -19,6 +19,38 @@ class PartnerRepository extends ServiceEntityRepository
         parent::__construct($registry, Partner::class);
     }
 
+    public function findOrderByDeals()
+    {
+        return $this->createQueryBuilder('p')
+            ->select('COUNT(u) AS HIDDEN nbrDeals', 'p')
+            ->leftJoin('p.deals', 'u')
+            ->orderBy('nbrDeals', 'DESC')
+            ->groupBy('p')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findAllWhichContains(String $query) {
+        return $this->createQueryBuilder('p')
+            ->where("p.name LIKE :query")
+            ->setParameter('query', '%'.$query.'%')
+            ->orderBy('p.name')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findWhichContains(String $query, int $limit = null) {
+        if ($limit == null) return $this->findAllWhichContains($query);
+
+        return $this->createQueryBuilder('p')
+            ->where("p.name LIKE :query")
+            ->setParameter('query', '%'.$query.'%')
+            ->orderBy('p.name')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     //  * @return Partner[] Returns an array of Partner objects
     //  */

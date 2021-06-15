@@ -15,15 +15,13 @@
     <div class="container-fluid bg-secondary">
         <div class="container">
             <div class="row">
-                <div class="col-lg-9 col-12">
+                <div class="col-lg-9 col-12 order-lg-1 order-2">
                     {% for deal in promos %}
                         {% include('partials/component/cards/card-promo-horizontal.html.twig') %}
                     {% endfor %}
                     {{ knp_pagination_render(promos) }}
                 </div>
-                <div class="col-lg-3 col-12">
-
-                </div>
+                {% include('partials/component/navbar/sidebar.html.twig') %}
             </div>
         </div>
     </div>
