@@ -21,7 +21,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ProfilController extends AbstractController
 {
     /**
-     * @Route("/overview", name="overview")
+     * @Route("/overview", name="profil_overview")
      */
     public function overview(): Response
     {
@@ -29,7 +29,7 @@ class ProfilController extends AbstractController
     }
 
     /**
-     * @Route("/badges", name="badges")
+     * @Route("/badges", name="profil_badges")
      */
     public function badges(): Response
     {
@@ -37,7 +37,7 @@ class ProfilController extends AbstractController
     }
 
     /**
-     * @Route("/discussions", name="discussions")
+     * @Route("/discussions", name="profil_discussions")
      */
     public function discussions(): Response
     {
@@ -46,7 +46,7 @@ class ProfilController extends AbstractController
 
 
     /**
-     * @Route("/keyword_alarms", name="keyword_alarms")
+     * @Route("/keyword_alarms", name="profil_keyword_alarms")
      */
     public function keyword_alarms(): Response
     {
