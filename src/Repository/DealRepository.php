@@ -83,6 +83,20 @@ class DealRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findWhichContains(String $query, int $limit = null) {
+        if ($limit == null) return $this->findAllWhichContains($query);
+
+        return $this->createQueryBuilder('d')
+            ->where("d.expired != 1")
+            ->andWhere("d.title LIKE :query OR d.description LIKE :query")
+            ->setParameter('query', '%'.$query.'%')
+            ->orderBy('d.createdAt', 'DESC')
+            ->groupBy('d.id')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
+
 
     // /**
     //  * @return Deal[] Returns an array of Deal objects

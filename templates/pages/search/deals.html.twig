@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello SearchController!{% endblock %}
+
+{% block body %}
+    <h2>Deals trouvés :</h2>
+    {% for deal in deals_found %}
+        <p>{{ deal.title }}</p>
+    {% endfor %}
+    {{ knp_pagination_render(deals_found) }}
+{% endblock %}

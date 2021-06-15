@@ -3,10 +3,13 @@
 {% block title %}Hello SearchController!{% endblock %}
 
 {% block body %}
+    <h1>Votre recherche pour : {{ query }}</h1>
+
     <h2>Deals trouvés :</h2>
     {% for deal in deals_found %}
         <p>{{ deal.title }}</p>
     {% endfor %}
+    <a href="{{ path('search_deals', {'s': query}) }}">See more results...</a>
     {# TODO: add 'show more' links ? #}
     <hr>
     <h2>Categories correspondantes :</h2>
