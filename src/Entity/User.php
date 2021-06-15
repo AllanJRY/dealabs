@@ -79,11 +79,17 @@ class User implements UserInterface
      */
     private $isVerified = false;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Deal::class)
+     */
+    private $savedDeals;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
         $this->ratings = new ArrayCollection();
         $this->deals = new ArrayCollection();
+        $this->savedDeals = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -284,6 +290,30 @@ class User implements UserInterface
     public function setIsVerified(bool $isVerified): self
     {
         $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Deal[]
+     */
+    public function getSavedDeals(): Collection
+    {
+        return $this->savedDeals;
+    }
+
+    public function addSavedDeal(Deal $savedDeal): self
+    {
+        if (!$this->savedDeals->contains($savedDeal)) {
+            $this->savedDeals[] = $savedDeal;
+        }
+
+        return $this;
+    }
+
+    public function removeSavedDeal(Deal $savedDeal): self
+    {
+        $this->savedDeals->removeElement($savedDeal);
 
         return $this;
     }
