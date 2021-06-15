@@ -1,0 +1,15 @@
+{% extends '/pages/profil/layout_profil.html.twig' %}
+{% block main_profile_section %}
+    <div class="row rounded m-3 mb-0 bg-white">
+        <a class="btn col-6 text-primary {% if app.request.attributes.get('_route') != 'profil_overview' %} btn-light text-dark{% endif %}"
+           href="{{ path('profil_overview') }}">Activité</a>
+        <a class="btn col-6 text-primary {% if app.request.attributes.get('_route') != 'profil_badges' %} btn-light text-dark{% endif %}"
+           href="{{ path('profil_badges') }}">Badges</a>
+    </div>
+    <div class="row rounded m-3 mt-0 bg-white">
+        <h2>Hmmm.</h2>
+        <p>On dirait que vous n'avez pas encore de badges…</p>
+    </div>
+{% endblock %}
+
+

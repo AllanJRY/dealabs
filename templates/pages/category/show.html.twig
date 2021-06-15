@@ -26,11 +26,9 @@
     </div>
     {% include('partials/component/navbar/filter-navbar.html.twig') with
         {
-            'title': '',
             'links': {
-            'default': path('good_plan_index'),
-            'hot': path('hot_good_plan_index')
-        }
+                'Hot': path('hot_good_plan_index')
+            }
         } %}
     <div class="container-fluid bg-secondary">
         <div class="container">

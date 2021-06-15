@@ -27,13 +27,13 @@
                                     {% endif %}
                                 </li>
                             {% endif %}
-                            <li class="nav-item">
-                                {% if links is defined and links.hot is defined %}
-                                    <a class="nav-link active" href="{{ links.hot }}">Hot</a>
-                                {% else %}
-                                    <a class="nav-link active" href="{{ path('hot_home') }}">Hot</a>
-                                {% endif %}
-                            </li>
+                            {% if links is defined %}
+                                {% for link_title, link_href in links %}
+                                    <li class="nav-item">
+                                        <a class="nav-link active" href="{{ link_href }}">{{ link_title }}</a>
+                                    </li>
+                                {% endfor %}
+                            {% endif %}
                         </ul>
                     </div>
                 </div>

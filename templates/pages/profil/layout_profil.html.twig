@@ -21,19 +21,29 @@
     </div>
     {% include('partials/component/navbar/filter-navbar.html.twig') with
         {
+            'title': 'Aperçu',
+            'default' : path('profil_overview'),
             'links': {
-            'Deals ()': path('promo_index'),
-            'Discussion () ': path('hot_promo_index'),
-            'Deals sauvegardés () ': path('hot_promo_index'),
-            'Mes alertes () ': path('hot_promo_index')
+            'Deals ()': path('profil_published_deals'),
+            'Deals sauvegardés () ': path('profil_saved_deals'),
+            'Mes alertes () ': path('profil_keyword_alarms')
         }
-        }
-    %}
+        } %}
     <div class="container-fluid bg-secondary">
         <div class="container">
             <div class="row">
+                <div class="col-lg-3 col-12 rounded mt-3 bg-white">
+                    <h3>Statistiques</h3>
+                    <h4 class="text-muted">Posts</h4>
+                    <p>{{ app.user.deals|length }} deal</p>
+                    <p>{{ app.user.comments|length }} commentaire</p>
+                    <h4 class="text-muted">Palmarès</h4>
+                    <p>0° deal le plus hot</p>
+                    <p>0° en moyenne depuis 1 an</p>
+                    <p>0% de deals hot</p>
+                </div>
                 <div class="col-lg-9 col-12">
-
+                    {% block main_profile_section %}{% endblock %}
                 </div>
             </div>
         </div>

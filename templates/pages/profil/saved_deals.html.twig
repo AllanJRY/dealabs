@@ -1,11 +1,16 @@
-{% extends 'base.html.twig' %}
-
-{% block title %}Mes deals sauvegardés{% endblock %}
-
-{% block body %}
-    {% for deal in user_saved_deals %}
-        <h2>{{ deal.title }}</h2>
-        <hr>
-    {% endfor %}
-    {{ knp_pagination_render(user_saved_deals) }}
+{% extends '/pages/profil/layout_profil.html.twig' %}
+{% block main_profile_section %}
+    {% if user_saved_deals is defined and user_saved_deals is not empty %}
+        <div class="row rounded m-3 mb-0 bg-white">
+            {% for deal in user_saved_deals %}
+                <h2>{{ deal.title }}</h2>
+                <hr>
+            {% endfor %}
+            {{ knp_pagination_render(user_saved_deals) }}
+        </div>
+    {% else %}
+        <div class="row rounded m-3 mb-0 bg-white">
+            <h2>Oooooh :(</h2>
+        </div>
+    {% endif %}
 {% endblock %}

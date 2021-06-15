@@ -1,11 +1,19 @@
-{% extends 'base.html.twig' %}
-
-{% block title %}Mes deals publiés{% endblock %}
-
-{% block body %}
-    {% for deal in user_published_deals %}
-        <h2>{{ deal.title }}</h2>
-        <hr>
-    {% endfor %}
-    {{ knp_pagination_render(user_published_deals) }}
+{% extends '/pages/profil/layout_profil.html.twig' %}
+{% block main_profile_section %}
+    {% if user_published_deals is defined and user_published_deals is not empty %}
+        <div class="row rounded m-3 mb-0 bg-white">
+            {% for deal in user_published_deals %}
+                <h2>{{ deal.title }}</h2>
+                <hr>
+            {% endfor %}
+            {{ knp_pagination_render(user_published_deals) }}
+        </div>
+    {% else %}
+        <div class="row rounded m-3 mb-0 bg-white">
+            <h2>Oooooh :(</h2>
+            <p>On dirait que vous n'avez encore rien posté…</p>
+            <a class="btn btn-primary" href="{{ path('good_plan_new') }}"><i class="fas fa-plus"></i>Nouveau bon
+                plan</a>
+        </div>
+    {% endif %}
 {% endblock %}

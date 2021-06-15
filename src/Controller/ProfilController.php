@@ -37,15 +37,6 @@ class ProfilController extends AbstractController
     }
 
     /**
-     * @Route("/discussions", name="profil_discussions")
-     */
-    public function discussions(): Response
-    {
-        return $this->render('pages/profil/discussions.html.twig', []);
-    }
-
-
-    /**
      * @Route("/keyword_alarms", name="profil_keyword_alarms")
      */
     public function keyword_alarms(): Response
@@ -54,7 +45,7 @@ class ProfilController extends AbstractController
     }
 
     /**
-     * @Route("/settings", name="settings")
+     * @Route("/settings", name="profil_settings")
      */
     public function settings(): Response
     {

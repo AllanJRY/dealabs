@@ -32,11 +32,19 @@ class DealRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findAllOrderByCreatedAtDesc(): ?array
+    public function findAllDealOneWeekByCreatedAtDesc(): ?array
     {
+        $now = new DateTime();
+        $week = $now->modify('+1 week');
+
         return $this->createQueryBuilder('d')
-            ->where('d.expired != 1')
+            ->select('d')
+//            ->where('d.createdAt BETWEEN :firstDate AND :lastDate')
+            ->having('d.createdAt < CURRENT_TIMESTAMP()')
+            ->having('d.createdAt >= :lastDate')
+            ->setParameter('lastDate', $week)
             ->orderBy('d.createdAt',  'DESC')
+            ->where('d.expired != 1')
             ->getQuery()
             ->getResult();
     }
@@ -97,7 +105,6 @@ class DealRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-
     // /**
     //  * @return Deal[] Returns an array of Deal objects
     //  */
@@ -126,4 +133,5 @@ class DealRepository extends ServiceEntityRepository
         ;
     }
     */
+
 }
