@@ -107,9 +107,12 @@ class DealController extends AbstractController
 
     /**
      * @Route("/deals/{id}/report", name="report_deal")
+     * @param Request $request
      * @param Deal $deal
+     * @return JsonResponse
      */
-    public function reportDeal(Request $request, Deal $deal) {
+    public function reportDeal(Request $request, Deal $deal): JsonResponse
+    {
         $userRepo = $this->entityManager->getRepository(User::class);
         $user = $userRepo->find($request->request->get('userID'));
 
@@ -123,6 +126,28 @@ class DealController extends AbstractController
             );
 
             return new JsonResponse(null, 200);
+        }
+
+        return new JsonResponse(null, 201);
+    }
+
+    /**
+     * @Route("/deals/{id}/save", name="save_deal")
+     * @param Request $request
+     * @param Deal $deal
+     * @return JsonResponse
+     */
+    public function saveDeal(Request $request, Deal $deal): JsonResponse
+    {
+        $userRepo = $this->entityManager->getRepository(User::class);
+        $user = $userRepo->find($request->request->get('userID'));
+
+        // TODO check si le deal a déjà été save
+        if(!$deal->getExpired() && $user != null) {
+            $user->addSavedDeal($deal);
+            $this->entityManager->flush();
+
+            return new JsonResponse(['username' => $user->getUsername()], 200);
         }
 
         return new JsonResponse(null, 201);
