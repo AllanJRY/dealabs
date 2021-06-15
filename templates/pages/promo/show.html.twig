@@ -8,8 +8,12 @@
     {% if is_granted("ROLE_ADMIN") %}
         <a href="{{ path('set_expired_deal', { 'id': deal.id }) }}" class="btn btn-warning">Mettre le deal en expiré</a>
     {% else %}
-        <a href="btn btn-primary">Expiré ?</a>
-        <a href="btn btn-danger">Signaler</a>
+        {% if app.user is defined %}
+            {# TODO: disbaled if already saved #}
+            <button class="btn btn-success" data-save-deal data-deal-id="{{ deal.id }}" data-user-id="{{ app.user.id }}">Sauvegarder</button>
+            <button class="btn btn-primary" data-report-deal-expired data-deal-id="{{ deal.id }}" data-user-id="{{ app.user.id }}">Expiré ?</button>
+            <button class="btn btn-danger" data-report-deal data-deal-id="{{ deal.id }}" data-user-id="{{ app.user.id }}">Signaler</button>
+        {% endif %}
     {% endif %}
 
     {% include('partials/component/navbar/category-route-navbar.html.twig') with {'good_plan_categories': deal.categories} %}
