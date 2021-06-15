@@ -39,6 +39,18 @@ class PartnerRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findWhichContains(String $query, int $limit = null) {
+        if ($limit == null) return $this->findAllWhichContains($query);
+
+        return $this->createQueryBuilder('p')
+            ->where("p.name LIKE :query")
+            ->setParameter('query', '%'.$query.'%')
+            ->orderBy('p.name')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     //  * @return Partner[] Returns an array of Partner objects
     //  */

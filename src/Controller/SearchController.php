@@ -49,7 +49,7 @@ class SearchController extends AbstractController
         $categsFound = $categRepo->findWhichContains($query, 10);
 
         $partnerRepo = $this->entityManager->getRepository(Partner::class);
-        $partnersFound = $partnerRepo->findAllWhichContains($query);
+        $partnersFound = $partnerRepo->findWhichContains($query, 10);
 
         return $this->render('pages/search/index.html.twig', [
             'query' => $query,
@@ -96,6 +96,26 @@ class SearchController extends AbstractController
         return $this->render('pages/search/categories.html.twig', [
             'query' => $query,
             'categs_found' => $categsFound,
+        ]);
+    }
+
+    /**
+     * @Route({"en": "/search/partner", "fr": "/recherche/marchand"}, name="search_partners")
+     */
+    public function searchPartners(Request $request): Response
+    {
+        $query = $request->query->get('s');
+
+        $partnerRepo = $this->entityManager->getRepository(Category::class);
+        $partnersFound = $this->paginator->paginate(
+            $partnerRepo->findAllWhichContains($query),
+            $request->query->getInt('page', 1),
+            10
+        );
+
+        return $this->render('pages/search/partners.html.twig', [
+            'query' => $query,
+            'partners_found' => $partnersFound,
         ]);
     }
 }

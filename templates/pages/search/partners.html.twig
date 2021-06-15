@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Recherche marchand : {{ query }}{% endblock %}
+
+{% block body %}
+    <h2>Marchand trouvés :</h2>
+    {% for partner in partners_found %}
+        <p>{{ partner.title }}</p>
+    {% endfor %}
+    {{ knp_pagination_render(partners_found) }}
+{% endblock %}

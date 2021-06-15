@@ -21,6 +21,6 @@
     {% for partner in partners_found %}
         <p>{{ partner.name }}</p>
     {% endfor %}
-    {# TODO: add 'show more' links ? #}
+    <a href="{{ path('search_partners', {'s': query}) }}">See more results...</a>
     <hr>
 {% endblock %}
