@@ -46,7 +46,7 @@ class SearchController extends AbstractController
         $dealsFound = $dealRepo->findWhichContains($query, 10);
 
         $categRepo = $this->entityManager->getRepository(Category::class);
-        $categsFound = $categRepo->findAllWhichContains($query);
+        $categsFound = $categRepo->findWhichContains($query, 10);
 
         $partnerRepo = $this->entityManager->getRepository(Partner::class);
         $partnersFound = $partnerRepo->findAllWhichContains($query);
@@ -74,8 +74,28 @@ class SearchController extends AbstractController
         );
 
         return $this->render('pages/search/deals.html.twig', [
+            'query' => $query,
             'deals_found' => $dealsFound,
         ]);
     }
-    // TODO: add route for individual entity search ? for 'show more' links, gives the possibility to add pagination and be cleaner
+
+    /**
+     * @Route({"en": "/search/categories", "fr": "/recherche/categories"}, name="search_categs")
+     */
+    public function searchCategs(Request $request): Response
+    {
+        $query = $request->query->get('s');
+
+        $categRepo = $this->entityManager->getRepository(Category::class);
+        $categsFound = $this->paginator->paginate(
+            $categRepo->findAllWhichContains($query),
+            $request->query->getInt('page', 1),
+            10
+        );
+
+        return $this->render('pages/search/categories.html.twig', [
+            'query' => $query,
+            'categs_found' => $categsFound,
+        ]);
+    }
 }

@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello SearchController!{% endblock %}
+{% block title %}Recherche : {{ query }}{% endblock %}
 
 {% block body %}
     <h1>Votre recherche pour : {{ query }}</h1>
@@ -10,13 +10,12 @@
         <p>{{ deal.title }}</p>
     {% endfor %}
     <a href="{{ path('search_deals', {'s': query}) }}">See more results...</a>
-    {# TODO: add 'show more' links ? #}
     <hr>
-    <h2>Categories correspondantes :</h2>
+    <h2>Categories trouvées :</h2>
     {% for category in categs_found %}
         <p>{{ category.title }}</p>
     {% endfor %}
-    {# TODO: add 'show more' links ? #}
+    <a href="{{ path('search_categs', {'s': query}) }}">See more results...</a>
     <hr>
     <h2>Partenaires trouvés :</h2>
     {% for partner in partners_found %}
