@@ -30,6 +30,26 @@ class CategoryRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findAllWhichContains(String $query) {
+        return $this->createQueryBuilder('c')
+            ->where("c.title LIKE :query")
+            ->setParameter('query', '%'.$query.'%')
+            ->orderBy('c.title')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findWhichContains(String $query, int $limit = null) {
+        if ($limit == null) return $this->findAllWhichContains($query);
+
+        return $this->createQueryBuilder('c')
+            ->where("c.title LIKE :query")
+            ->setParameter('query', '%'.$query.'%')
+            ->orderBy('c.title')
+            ->getQuery()
+            ->setMaxResults($limit)
+            ->getResult();
+    }
 
     // /**
     //  * @return Category[] Returns an array of Category objects

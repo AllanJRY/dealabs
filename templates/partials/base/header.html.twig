@@ -57,8 +57,8 @@
                                     </div>
                                 </li>
                             </ul>
-                            <form class="d-md-none d-flex">
-                                <input class="form-control me-2 " type="search" placeholder="Rechercher..."
+                            <form class="d-md-none d-flex" method="get" action="{{ path('search') }}">
+                                <input class="form-control me-2 " type="search" placeholder="Rechercher..." name="s"
                                        aria-label="Rechercher...">
                                 <button class="btn btn-success" type="submit"><i class="fas fa-search"></i></button>
                             </form>
@@ -66,8 +66,8 @@
                     </div>
                 </nav>
             </div>
-            <form class="col-md-3 d-none d-md-flex">
-                <input class="form-control me-2 " type="search" placeholder="Rechercher..." aria-label="Rechercher...">
+            <form class="col-md-3 d-none d-md-flex" method="get" action="{{ path('search') }}">
+                <input class="form-control me-2 " type="search" placeholder="Rechercher..." aria-label="Rechercher..."  name="s">
                 <button class="btn btn-success" type="submit"><i class="fas fa-search"></i></button>
             </form>
             <div class="col-2 col-md-1 d-flex flex-nowrap">
@@ -96,6 +96,12 @@
                                  alt="">
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuProfil">
+                            <li>
+                                <a class="dropdown-item" href="{{ path('profil_index') }}">
+                                    <i class="fas fa-user-circle"></i>
+                                    <span>Mon compte</span>
+                                </a>
+                            </li>
                             <li>
                                 <a class="dropdown-item" href="{{ path('app_logout') }}">
                                     <i class="fas fa-sign-out-alt"></i>

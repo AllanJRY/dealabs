@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Recherche catégories : {{ query }}{% endblock %}
+
+{% block body %}
+    <h2>Catégories trouvées :</h2>
+    {% for category in categs_found %}
+        <p>{{ category.title }}</p>
+    {% endfor %}
+    {{ knp_pagination_render(categs_found) }}
+{% endblock %}

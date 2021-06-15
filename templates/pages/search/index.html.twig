@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Recherche : {{ query }}{% endblock %}
+
+{% block body %}
+    <h1>Votre recherche pour : {{ query }}</h1>
+
+    <h2>Deals trouvés :</h2>
+    {% for deal in deals_found %}
+        <p>{{ deal.title }}</p>
+    {% endfor %}
+    <a href="{{ path('search_deals', {'s': query}) }}">See more results...</a>
+    <hr>
+    <h2>Categories trouvées :</h2>
+    {% for category in categs_found %}
+        <p>{{ category.title }}</p>
+    {% endfor %}
+    <a href="{{ path('search_categs', {'s': query}) }}">See more results...</a>
+    <hr>
+    <h2>Partenaires trouvés :</h2>
+    {% for partner in partners_found %}
+        <p>{{ partner.name }}</p>
+    {% endfor %}
+    <a href="{{ path('search_partners', {'s': query}) }}">See more results...</a>
+    <hr>
+{% endblock %}
