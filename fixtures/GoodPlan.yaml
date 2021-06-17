@@ -1,8 +1,8 @@
 App\Entity\GoodPlan:
-    goodplan_{1..20}:
+    goodplan_{1..10}:
         author: '@user*'
         partner: '@partner*'
-        #        picture: '@file*'
+        picture: '@file*'
         title: <word()>
         description: <text()>
         link: <url()>
@@ -10,16 +10,16 @@ App\Entity\GoodPlan:
         promoCode: <randomElement([<postcode()>,0])>
         createdAt: <dateTime()>
         updatedAt: <dateTime()>
-        categories: ['@category*', '@category*', '@category*', '@category*']
+        categories: [ '@category*', '@category*', '@category*', '@category*' ]
 
         price: <randomFloat()>
         initialPrice: <randomFloat()>
         shippingCost: <randomDigit()>
 
-    goodplan_{51..70}:
+    goodplan_{51..60}:
         author: '@user*'
         partner: '@partner*'
-        #        picture: '@file*'
+        picture: '@file*'
         title: <word()>
         description: <text()>
         link: <url()>
@@ -27,16 +27,16 @@ App\Entity\GoodPlan:
         promoCode: <randomElement([<postcode()>,0])>
         createdAt: <dateTimeBetween("-1 days", "now")>
         updatedAt: <dateTimeBetween("-1 days", "now")>
-        categories: ['@category*', '@category*', '@category*', '@category*']
+        categories: [ '@category*', '@category*', '@category*', '@category*' ]
 
         price: <randomFloat()>
         initialPrice: <randomFloat()>
         shippingCost: <randomDigit()>
 
-    goodplan_{101..120}:
+    goodplan_{101..130}:
         author: '@user*'
         partner: '@partner*'
-        #        picture: '@file*'
+        picture: '@file*'
         title: <word()>
         description: <text()>
         link: <url()>

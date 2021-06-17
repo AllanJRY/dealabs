@@ -1,8 +1,8 @@
 App\Entity\Promo:
-    promo_{1..20}:
+    promo_{1..10}:
         author: '@user*'
         partner: '@partner*'
-        #        picture: '@file*'
+        picture: '@file*'
         title: <word()>
         description: <text()>
         link: <url()>
@@ -13,10 +13,10 @@ App\Entity\Promo:
 
         promoType: '@type*'
 
-    promo_{51..70}:
+    promo_{51..60}:
         author: '@user*'
         partner: '@partner*'
-        #        picture: '@file*'
+        picture: '@file*'
         title: <word()>
         description: <text()>
         link: <url()>
@@ -27,10 +27,10 @@ App\Entity\Promo:
 
         promoType: '@type*'
 
-    promo_{101..120}:
+    promo_{101..130}:
         author: '@user*'
         partner: '@partner*'
-        #        picture: '@file*'
+        picture: '@file*'
         title: <word()>
         description: <text()>
         link: <url()>

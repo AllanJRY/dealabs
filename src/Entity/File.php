@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\FileRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * @ORM\Entity(repositoryClass=FileRepository::class)
@@ -73,6 +74,13 @@ class File
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function setId(int $id): self
+    {
+        $this->id = $id;
+
+        return $this;
     }
 
     public function getName(): ?string
@@ -175,6 +183,9 @@ class File
         return $this->file;
     }
 
+    /**
+     * @param UploadedFile|null $file
+     */
     public function setFile(UploadedFile $file = null) {
         $this->file = $file;
 
@@ -199,8 +210,7 @@ class File
         $this->extension = $this->file->guessExtension();
         $this->title = pathinfo($this->file->getClientOriginalName(), PATHINFO_FILENAME);
         $this->name = $this->file->getClientOriginalName();
-        $this->file_system = "";
-        $this->proceed = 0;
+        $this->fileSystem = "";
         $this->createdAt = new \DateTime();
     }
 
@@ -224,6 +234,8 @@ class File
             $this->getUploadRootDir(),
             $this->id.'-'.$this->title.'.'.$this->extension,
         );
+
+        $this->file = null;
     }
 
     /**
@@ -245,11 +257,13 @@ class File
         }
     }
 
-    private function getUploadRootDir() {
+    private function getUploadRootDir(): string
+    {
         return __DIR__.'/../../public/uploads';
     }
 
-    public function getSrc() {
-        return '/uploads/'.$this->id.'-'.$this->title.'.'.$this->extension;
+    public function getSrc(): string
+    {
+        return './uploads/'.$this->id.'-'.$this->title.'.'.$this->extension;
     }
 }

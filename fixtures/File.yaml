@@ -1,11 +1,44 @@
-#App\Entity\File:
-#    file_{1..50}:
-#        name:
-#            extension: <fileExtension()>
-#                title:
-#                    description:
-#                        createdAt:
-#                            updatedAt:
-#                                alt:
-#                                    file:
-#                                        tempFileName:
+App\Entity\File:
+    file_1:
+        id: 1
+        name: "2163901_1.jpg"
+        extension: "jpg"
+        title: "2163901_1"
+        description: <word()>
+        createdAt: <dateTime()>
+        updatedAt: <dateTime()>
+        alt: <word()>
+        file_system: ""
+
+    file_2:
+        id: 2
+        name: "2167087_2.jpg"
+        extension: "jpg"
+        title: "2167087_2"
+        description: <word()>
+        createdAt: <dateTime()>
+        updatedAt: <dateTime()>
+        alt: <word()>
+        file_system: ""
+
+    file_3:
+        id: 3
+        name: "2167234_2.jpg"
+        extension: "jpg"
+        title: "2167234_2"
+        description: <word()>
+        createdAt: <dateTime()>
+        updatedAt: <dateTime()>
+        alt: <word()>
+        file_system: ""
+
+    file_4:
+        id: 4
+        name: "avatar-ressortie-chine.jpg"
+        extension: "jpg"
+        title: "avatar-ressortie-chine"
+        description: <word()>
+        createdAt: <dateTime()>
+        updatedAt: <dateTime()>
+        alt: <word()>
+        file_system: ""

@@ -1,0 +1,6 @@
+App\Entity\Alarm:
+    comment_{1..100}:
+        search: <word()>
+        rating: <randomElement([0,20,100,500])>
+        mail_notif: <randomElement([1,0])>
+        user: '@user*'

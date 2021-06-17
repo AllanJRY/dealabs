@@ -1,10 +1,11 @@
 <?php
+
 namespace App\Twig;
 
 use App\Entity\Deal;
 use App\Entity\User;
-use App\Repository\CategoryRepository;
 use App\Repository\DealRepository;
+use Symfony\Component\Security\Core\Security;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 use Twig\TwigFunction;
@@ -12,14 +13,18 @@ use Twig\TwigTest;
 
 class DealExtension extends AbstractExtension
 {
-
     /**
      * @var DealRepository
      */
     private $dealRepository;
+    /**
+     * @var Security
+     */
+    private $security;
 
-    public function __construct(DealRepository $dealRepository)
+    public function __construct(DealRepository $dealRepository, Security $security)
     {
+        $this->security = $security;
         $this->dealRepository = $dealRepository;
     }
 
@@ -30,7 +35,14 @@ class DealExtension extends AbstractExtension
             new TwigFunction('get_all_hot_deal', [$this, 'getAllHotDeal']),
             new TwigFunction('get_all_hot_deal_user', [$this, 'getAllHotDealUser']),
             new TwigFunction('get_all_hot_deal_one_day', [$this, 'getAllDealOneDayByRatingDesc']),
+            new TwigFunction('get_number_new_deal_last_time_request_keyword_alarms', [$this, 'getNumberNewDealLastTimeRequestKeywordAlarms']),
         ];
+    }
+
+    public function getNumberNewDealLastTimeRequestKeywordAlarms(): int
+    {
+//        return $this->dealRepository->findNumberNewDealByAlarmUserAndTime($this->security->getUser(), $this->session->get('last_time_request_keyword_alarms'));
+        return 1;
     }
 
     public function getAllDeal(): array
@@ -93,6 +105,6 @@ class DealExtension extends AbstractExtension
      */
     public function isInstanceof($var, $instance): bool
     {
-        return  $var instanceof $instance;
+        return $var instanceof $instance;
     }
 }

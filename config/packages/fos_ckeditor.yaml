@@ -9,8 +9,3 @@ fos_ck_editor:
         main_config:
             toolbar:
                 - { name: "styles", items: [ 'Bold', 'Italic', 'Underline', 'Strike', 'Blockquote', '-', 'Link'] }
-#            extraPlugins: "emoji"
-#    plugins:
-#        emoji:
-#            path: "/bundles/fosckeditor/plugins/emoji/"
-#            filename: "plugin.js"

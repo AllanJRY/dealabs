@@ -84,12 +84,19 @@ class User implements UserInterface
      */
     private $savedDeals;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Alarm::class, mappedBy="user")
+     */
+    private $alarms;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
         $this->ratings = new ArrayCollection();
         $this->deals = new ArrayCollection();
         $this->savedDeals = new ArrayCollection();
+        $this->badges = new ArrayCollection();
+        $this->alarms = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -116,7 +123,7 @@ class User implements UserInterface
      */
     public function getUsername(): string
     {
-        return (string) $this->username;
+        return (string)$this->username;
     }
 
     /**
@@ -314,6 +321,53 @@ class User implements UserInterface
     public function removeSavedDeal(Deal $savedDeal): self
     {
         $this->savedDeals->removeElement($savedDeal);
+
+        return $this;
+    }
+
+    public function getBadges(): array
+    {
+        $cobaye = new Badge('Cobaye', 'Vous avez posté au moins 10 deals', 10, $this->deals->count());
+        $rapport = new Badge('Rapport de stage', 'Vous avez posté au moins 10 commentaires', 10, $this->comments->count());
+        $surveillant = new Badge('Surveillant', 'Vous avez voté sur 10 deals', 10, $this->ratings->count());
+        $deal_success = $deal_failed = $result = [];
+
+        $this->deals->count() >= 10 ? array_push($deal_success, $cobaye) : array_push($deal_failed, $cobaye);
+        $this->comments->count() >= 10 ? array_push($deal_success, $rapport) : array_push($deal_failed, $rapport);
+        $this->ratings->count() >= 10 ? array_push($deal_success, $surveillant) : array_push($deal_failed, $surveillant);
+
+        array_push($result, $deal_success);
+        array_push($result, $deal_failed);
+
+        return $result;
+    }
+
+    /**
+     * @return Collection|Alarm[]
+     */
+    public function getAlarms(): Collection
+    {
+        return $this->alarms;
+    }
+
+    public function addAlarm(Alarm $alarm): self
+    {
+        if (!$this->alarms->contains($alarm)) {
+            $this->alarms[] = $alarm;
+            $alarm->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAlarm(Alarm $alarm): self
+    {
+        if ($this->alarms->removeElement($alarm)) {
+            // set the owning side to null (unless already changed)
+            if ($alarm->getUser() === $this) {
+                $alarm->setUser(null);
+            }
+        }
 
         return $this;
     }

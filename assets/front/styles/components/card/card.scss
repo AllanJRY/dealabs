@@ -4,7 +4,19 @@
 
     img {
         width: 100%;
-        object-fit: cover;
+        object-fit: contain;
         height: 100%;
+    }
+}
+
+.card {
+    img {
+        max-height: 200px;
+    }
+}
+
+.card-minus {
+    img {
+        max-height: 100px;
     }
 }

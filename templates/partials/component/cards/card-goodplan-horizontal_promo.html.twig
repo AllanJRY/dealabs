@@ -1,11 +1,15 @@
 <div class="card mt-3 mb-3">
     <div class="card-horizontal">
-        <div class="col-4 m-3">
+        <div class="col-md-4 m-3 m-3">
             <a class="text-decoration-none text-dark" href="{{ path('good_plan_show',{slug : deal.slug}) }}">
-                <img src="http://via.placeholder.com/300x180" alt="">
+                {% if deal.picture and file_exists(deal.picture.getSrc) %}
+                    <img class="img-fluid" src="{{ asset(deal.picture.getSrc) }}" alt="">
+                {% else %}
+                    <img class="img-fluid" src="http://via.placeholder.com/300x180" alt="">
+                {% endif %}
             </a>
         </div>
-        <div class="card-body col-8">
+        <div class="card-body col-10 col-md-8">
             <div class="row justify-content-between ">
                 <div class="col-8">
                     <div class="btn-group" role="group">
@@ -58,11 +62,11 @@
                     <i class="fas btn fa-cut"></i>
                 </button>
             </div>
-            <p class="card-text">
-                {{ deal.description|length > 100 ? deal.description|slice(0, 100) ~ '...' : deal.description }}
+            <div class="card-text">
+                {{ deal.description|length > 100 ? deal.description|slice(0, 100) ~ '...' : deal.description|raw }}
                 <a class="text-decoration-none text-dark fw-bold"
                    href="{{ path('good_plan_show',{slug : deal.slug}) }}">Afficher plus</a>
-            </p>
+            </div>
             <div class="row justify-content-between align-items-center">
                 <div class="col-lg-9 col-3">
                     <p>{{ deal.author.username }}</p>

@@ -1,12 +1,24 @@
 App\Entity\Rating:
-    rating_{1..100000}:
-        rater: '@user*'
-        deal: '@goodplan*'
-        value: <randomElement([-1,0,1,1,1,1,1,1,1,1])>
-        createdAt: <dateTime()>
-
-    rating_{100001..100000}:
+    rating_{1..4900}:
         rater: '@user*'
         deal: '@promo*'
-        value: <randomElement([-1,0,1,1,1,1,1,1,1,1])>
+        value: 1
+        createdAt: <dateTime()>
+
+    rating_{4901..5000}:
+        rater: '@user*'
+        deal: '@promo*'
+        value: -1
+        createdAt: <dateTime()>
+
+    rating_{5001..9900}:
+        rater: '@user*'
+        deal: '@goodplan*'
+        value: 1
+        createdAt: <dateTime()>
+
+    rating_{9901..10000}:
+        rater: '@user*'
+        deal: '@goodplan*'
+        value: -1
         createdAt: <dateTime()>

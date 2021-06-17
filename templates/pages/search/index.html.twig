@@ -3,24 +3,72 @@
 {% block title %}Recherche : {{ query }}{% endblock %}
 
 {% block body %}
-    <h1>Votre recherche pour : {{ query }}</h1>
-
-    <h2>Deals trouvés :</h2>
-    {% for deal in deals_found %}
-        <p>{{ deal.title }}</p>
-    {% endfor %}
-    <a href="{{ path('search_deals', {'s': query}) }}">See more results...</a>
-    <hr>
-    <h2>Categories trouvées :</h2>
-    {% for category in categs_found %}
-        <p>{{ category.title }}</p>
-    {% endfor %}
-    <a href="{{ path('search_categs', {'s': query}) }}">See more results...</a>
-    <hr>
-    <h2>Partenaires trouvés :</h2>
-    {% for partner in partners_found %}
-        <p>{{ partner.name }}</p>
-    {% endfor %}
-    <a href="{{ path('search_partners', {'s': query}) }}">See more results...</a>
-    <hr>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h1>Votre recherche pour : {{ query }}</h1>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid bg-secondary">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-9 col-12 order-lg-1 order-2">
+                    {% if deals_found is empty and categs_found is empty and partners_found is empty %}
+                        <div class="row rounded m-3 bg-white">
+                            <h2>Il n'y a rien à afficher pour le moment :(</h2>
+                            <p>N'hésitez pas à essayer différents termes de recherche et à modifier vos filtres !</p>
+                        </div>
+                    {% else %}
+                        {% if deals_found is not empty %}
+                            {% for deal in deals_found %}
+                                {% if deal is instanceof('App\\Entity\\GoodPlan') %}
+                                    {% if deal.promoCode %}
+                                        {% include('partials/component/cards/card-goodplan-horizontal_promo.html.twig') %}
+                                    {% else %}
+                                        {% include('partials/component/cards/card-goodplan-horizontal.html.twig') %}
+                                    {% endif %}
+                                {% elseif deal is instanceof('App\\Entity\\Promo') %}
+                                    {% include('partials/component/cards/card-promo-horizontal.html.twig') %}
+                                {% endif %}
+                            {% endfor %}
+                            <div class="row rounded m-3 p-3 bg-white">
+                                <a href="{{ path('search_deals', {'s': query}) }}">Voir plus de bons plans et promos
+                                    ...</a>
+                            </div>
+                        {% endif %}
+                        {% if categs_found is not empty %}
+                            <div class="row rounded m-3 p-3 bg-white">
+                                {% for category in categs_found %}
+                                    <div class="col-4">
+                                        <h5>
+                                            <a class="text-decoration-none text-dark"
+                                               href="{{ path('category_show', {id : category.id}) }}">{{ category.title }}
+                                            </a>
+                                        </h5>
+                                    </div>
+                                {% endfor %}
+                                <a href="{{ path('search_categs', {'s': query}) }}">Voir plus de groupes ...</a>
+                            </div>
+                        {% endif %}
+                        {% if partners_found is not empty %}
+                            <div class="row rounded m-3 p-3 bg-white">
+                                {% for partner in partners_found %}
+                                    <div class="col-4">
+                                        <h5>
+                                            <a class="text-decoration-none text-dark"
+                                               href="{{ path('partner_show', {id : partner.id}) }}">{{ partner.name }}
+                                            </a>
+                                        </h5>
+                                    </div>
+                                {% endfor %}
+                                <a href="{{ path('search_partners', {'s': query}) }}">Voir plus de marchands ...</a>
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                </div>
+                {% include('partials/component/navbar/sidebar.html.twig') %}
+            </div>
+        </div>
+    </div>
 {% endblock %}

@@ -106,7 +106,7 @@ class SearchController extends AbstractController
     {
         $query = $request->query->get('s');
 
-        $partnerRepo = $this->entityManager->getRepository(Category::class);
+        $partnerRepo = $this->entityManager->getRepository(Partner::class);
         $partnersFound = $this->paginator->paginate(
             $partnerRepo->findAllWhichContains($query),
             $request->query->getInt('page', 1),

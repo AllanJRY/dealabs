@@ -7,7 +7,7 @@
     {% if is_granted("ROLE_ADMIN") %}
         <a href="{{ path('set_expired_deal', { 'id': deal.id }) }}" class="btn btn-warning">Mettre le deal en expiré</a>
     {% else %}
-        {% if app.user is defined %}
+        {% if app.user.id is defined %}
             <button class="btn btn-success" data-save-deal data-deal-id="{{ deal.id }}" data-user-id="{{ app.user.id }}">Sauvegarder</button>
             <button class="btn btn-primary" data-report-deal-expired data-deal-id="{{ deal.id }}" data-user-id="{{ app.user.id }}">Expiré ?</button>
             <button class="btn btn-danger" data-report-deal data-deal-id="{{ deal.id }}" data-user-id="{{ app.user.id }}">Signaler</button>
@@ -23,20 +23,15 @@
                         <div class="row p-3">
                             <div class="col-12 col-md-4">
                                 <a class="text-decoration-none text-dark w-100 d-flex justify-content-center" href="{{ deal.link }}" target="_blank">
-                                    <img class="img-fluid" src="http://via.placeholder.com/300x180" alt="">
-                                </a>
+                                    {% if deal.picture and file_exists(deal.picture.getSrc) %}
+                                        <img class="img-fluid" src="{{ asset(deal.picture.getSrc) }}" alt="">
+                                    {% else %}
+                                        <img class="img-fluid" src="http://via.placeholder.com/300x180" alt="">
+                                    {% endif %}                                </a>
                             </div>
                             <div class="col-12 col-md-8">
                                 <div class="btn-group" role="group">
-                                    <button type="button" class="btn text-primary">
-                                        <i class="fa fa-minus"></i>
-                                    </button>
-                                    <button type="button" class="btn text-danger fw-bold">
-                                        {{ deal | display_hot_value }}°
-                                    </button>
-                                    <button type="button" class="btn text-danger">
-                                        <i class="fas fa-plus"></i>
-                                    </button>
+                                    {% include 'partials/component/rating/rating.html.twig' with { "deal": deal } %}
                                 </div>
                                 <h4 class="card-title fw-bold">{{ deal.title|capitalize }}</h4>
                                 <p>
@@ -98,15 +93,15 @@
                                 <i class="far fa-clock"></i>
                                 <span>{{ deal.createdAt|date('d M Y') }}</span>
                                 {% if time.h > 0 and time.d == 0 and time.m == 0 %}
-                                    <span>( il y a {{ time.h }} h et {{ time.i }} )</span>
+                                    <span>( il y a {{ time.h }} h et {{ time.i }} min)</span>
                                 {% elseif time.s > 0 and time.h == 0 and time.d == 0 and time.m == 0 %}
-                                    <span>( il y a {{ time.i }} )</span>
+                                    <span>( il y a {{ time.i }} min)</span>
                                 {% endif %}
                             </p>
                         </div>
-                        <p class="p-3">
-                            {{ deal.description }}
-                        </p>
+                        <div class="p-3">
+                            {{ deal.description|raw }}
+                        </div>
                     </div>
                     {% include('partials/component/comment/comment-area.html.twig') %}
                 </div>

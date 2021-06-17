@@ -12,8 +12,8 @@
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                             {% if title is defined %}
                                 <li class="nav-item">
-                                    {% if links is defined and links.default is defined %}
-                                        <a class="nav-link active" href="{{ links.default }}">{{ title }}</a>
+                                    {% if default is defined %}
+                                        <a class="nav-link active" href="{{ default }}">{{ title }}</a>
                                     {% else %}
                                         <a class="nav-link active" href="{{ path('home') }}">{{ title }}</a>
                                     {% endif %}

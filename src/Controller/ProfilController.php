@@ -2,6 +2,9 @@
 
 namespace App\Controller;
 
+use App\Repository\BadgeRepository;
+use App\Repository\DealRepository;
+use DateTime;
 use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,10 +24,22 @@ use Symfony\Component\Routing\Annotation\Route;
 class ProfilController extends AbstractController
 {
     /**
+     * @var DealRepository
+     */
+    private $dealRepository;
+
+    public function __construct(DealRepository $dealRepository)
+    {
+        $this->dealRepository = $dealRepository;
+
+    }
+
+    /**
      * @Route("/overview", name="profil_overview")
      */
     public function overview(): Response
     {
+//        dump($this->dealRepository->findBestRatingDealByUser($this->getUser()));
         return $this->render('pages/profil/overview.html.twig', []);
     }
 
@@ -33,16 +48,24 @@ class ProfilController extends AbstractController
      */
     public function badges(): Response
     {
-        return $this->render('pages/profil/badges.html.twig', []);
+        return $this->render('pages/profil/badges.html.twig', [
+            'badges' => $this->getUser()->getBadges()
+        ]);
     }
 
     /**
      * @Route("/keyword_alarms", name="profil_keyword_alarms")
      */
-    public function keyword_alarms(): Response
+    public function keyword_alarms(Request $request)
     {
-        return $this->render('pages/profil/keyword_alarms.html.twig', []);
+        $session = $request->getSession()->set('last_time_request_keyword_alarms', new DateTime());
+        dump($request->getSession());
+//        dump($this->dealRepository->findNewDealByAlarmUserOrderByDateDesc($this->getUser()));
+        return $this->render('pages/profil/keyword_alarms.html.twig', [
+            'alarms' => $this->dealRepository->findNewDealByAlarmUserOrderByDateDesc($this->getUser())
+        ]);
     }
+
 
     /**
      * @Route("/settings", name="profil_settings")

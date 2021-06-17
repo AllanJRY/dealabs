@@ -5,6 +5,8 @@ namespace App\Repository;
 use App\Entity\Deal;
 use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -23,10 +25,10 @@ class DealRepository extends ServiceEntityRepository
     public function findAllOrderByRatingDesc(): ?array
     {
         return $this->createQueryBuilder('d')
-            ->addSelect('sum(r.value) as HIDDEN hot_value')
+            ->addSelect('SUM(r.value) as HIDDEN hot_value')
             ->leftJoin('d.ratings', 'r')
             ->where('d.expired != 1')
-            ->orderBy('hot_value',  'DESC')
+            ->orderBy('hot_value', 'DESC')
             ->groupBy('d.id')
             ->getQuery()
             ->getResult();
@@ -38,13 +40,12 @@ class DealRepository extends ServiceEntityRepository
         $week = $now->modify('+1 week');
 
         return $this->createQueryBuilder('d')
-            ->select('d')
-//            ->where('d.createdAt BETWEEN :firstDate AND :lastDate')
-            ->having('d.createdAt < CURRENT_TIMESTAMP()')
-            ->having('d.createdAt >= :lastDate')
+            ->select('COUNT(u) AS HIDDEN nbrComment', 'd')
+            ->where('d.createdAt <= :lastDate')
             ->setParameter('lastDate', $week)
-            ->orderBy('d.createdAt',  'DESC')
-            ->where('d.expired != 1')
+            ->leftJoin('d.comments', 'u')
+            ->orderBy('nbrComment', 'DESC')
+            ->groupBy('d')
             ->getQuery()
             ->getResult();
     }
@@ -55,15 +56,14 @@ class DealRepository extends ServiceEntityRepository
         $day = $now->modify('+1 day');
 
         return $this->createQueryBuilder('d')
-            ->addSelect('sum(r.value) as HIDDEN hot_value')
+            ->addSelect('SUM(r.value) as HIDDEN hot_value')
             ->leftJoin('d.ratings', 'r')
             ->where('d.expired != 1')
             ->having('hot_value > = :min_hot_value')
             ->setParameter('min_hot_value', Deal::MIN_HOT_VALUE)
-            //            ->where('d.createdAt BETWEEN :firstDate AND :lastDate')
-//            ->setParameter('firstDate', $now)
-//            ->setParameter('lastDate', $day)
-            ->orderBy('hot_value',  'DESC')
+            ->where('d.createdAt <= :lastDate')
+            ->setParameter('lastDate', $day)
+            ->orderBy('hot_value', 'DESC')
             ->groupBy('d.id')
             ->getQuery()
             ->getResult();
@@ -72,7 +72,7 @@ class DealRepository extends ServiceEntityRepository
     public function findAllHotOrderByDateDesc(): ?array
     {
         return $this->createQueryBuilder('d')
-            ->addSelect('sum(r.value) as HIDDEN hot_value')
+            ->addSelect('SUM(r.value) as HIDDEN hot_value')
             ->leftJoin('d.ratings', 'r')
             ->where('d.expired != 1')
             ->having('hot_value > = :min_hot_value')
@@ -90,9 +90,8 @@ class DealRepository extends ServiceEntityRepository
 
         return $this->createQueryBuilder('d')
             ->select('COUNT(u) AS HIDDEN nbrComment', 'd')
-//            ->where('d.createdAt BETWEEN :firstDate AND :lastDate')
-//            ->setParameter('firstDate', $now)
-//            ->setParameter('lastDate', $week)
+            ->where('d.createdAt <= :lastDate')
+            ->setParameter('lastDate', $week)
             ->leftJoin('d.comments', 'u')
             ->orderBy('nbrComment', 'DESC')
             ->groupBy('d')
@@ -100,29 +99,107 @@ class DealRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function findAllWhichContains(String $query) {
+    public function findAllWhichContains(string $query)
+    {
         return $this->createQueryBuilder('d')
             ->where("d.expired != 1")
             ->andWhere("d.title LIKE :query OR d.description LIKE :query")
-            ->setParameter('query', '%'.$query.'%')
+            ->setParameter('query', '%' . $query . '%')
             ->orderBy('d.createdAt', 'DESC')
             ->groupBy('d.id')
             ->getQuery()
             ->getResult();
     }
 
-    public function findWhichContains(String $query, int $limit = null) {
+    public function findWhichContains(string $query, int $limit = null)
+    {
         if ($limit == null) return $this->findAllWhichContains($query);
 
         return $this->createQueryBuilder('d')
             ->where("d.expired != 1")
             ->andWhere("d.title LIKE :query OR d.description LIKE :query")
-            ->setParameter('query', '%'.$query.'%')
+            ->setParameter('query', '%' . $query . '%')
             ->orderBy('d.createdAt', 'DESC')
             ->groupBy('d.id')
             ->setMaxResults($limit)
             ->getQuery()
             ->getResult();
+    }
+
+    /**
+     * @throws NonUniqueResultException
+     * @throws NoResultException
+     */
+    public function findBestRatingDealByUser($user)
+    {
+        return $this->createQueryBuilder('d')
+            ->addSelect('SUM(r.value) as value')
+            ->addSelect('d, MAX(d.value) as hot_value')
+//            ->select('max(hot_value)')
+            ->leftJoin('d.ratings', 'r')
+            ->where('d.expired != 1')
+            ->where('d.author = :user')
+            ->setParameter('user', $user)
+//            ->orderBy('hot_value', 'DESC')
+//            ->groupBy('d.id')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findNewDealByAlarmUserOrderByDateDesc($user)
+    {
+        $final = [];
+        foreach ($user->getAlarms() as $alarm) {
+            $res = $this->createQueryBuilder('d')
+                ->addSelect('d, SUM(r.value) as HIDDEN hot_value')
+                ->leftJoin('d.ratings', 'r')
+                ->where('d.expired != 1')
+                ->andWhere("d.title LIKE :query OR d.description LIKE :query")
+                ->setParameter('query', '%' . $alarm->getSearch() . '%')
+                ->having('hot_value >= :min_hot_value')
+                ->setParameter('min_hot_value', $alarm->getRating())
+                ->orderBy('d.createdAt', 'DESC')
+                ->groupBy('d.id')
+                ->getQuery()
+                ->getResult();
+            $final = array_merge(array_merge($final,$res));
+        }
+        $this->remove_duplicate_models($final);
+        return $final;
+    }
+
+    public function findNumberNewDealByAlarmUserAndTime($user,$time)
+    {
+        $final = [];
+        foreach ($user->getAlarms() as $alarm) {
+            $res = $this->createQueryBuilder('d')
+                ->addSelect('d, SUM(r.value) as HIDDEN hot_value')
+                ->leftJoin('d.ratings', 'r')
+                ->where('d.expired != 1')
+                ->andWhere("d.title LIKE :query OR d.description LIKE :query")
+                ->setParameter('query', '%' . $alarm->getSearch() . '%')
+                ->having('hot_value >= :min_hot_value')
+                ->setParameter('min_hot_value', $alarm->getRating())
+                ->having('hot_value >= :min_hot_value')
+                ->where('d.createdAt <= :lastDate')
+                ->setParameter('lastDate', $time)
+                ->groupBy('d.id')
+                ->getQuery()
+                ->getResult();
+            $final = array_merge(array_merge($final,$res));
+        }
+        $this->remove_duplicate_models($final);
+        return count($final);
+    }
+
+    function remove_duplicate_models( $cars ) {
+        $models = array_map( function( $car ) {
+            return $car->getId();
+        }, $cars );
+
+        $unique_models = array_unique( $models );
+
+        return array_values( array_intersect_key( $cars, $unique_models ) );
     }
 
     // /**

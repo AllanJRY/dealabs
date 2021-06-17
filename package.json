@@ -28,6 +28,6 @@
     },
     "dependencies": {
         "@popperjs/core": "^2.9.2",
-        "ckeditor": "^4.0.0"
+        "ckeditor": "^4.12.1"
     }
 }

@@ -3,9 +3,34 @@
 {% block title %}Recherche deals : {{ query }}{% endblock %}
 
 {% block body %}
-    <h2>Deals trouvés :</h2>
-    {% for deal in deals_found %}
-        <p>{{ deal.title }}</p>
-    {% endfor %}
-    {{ knp_pagination_render(deals_found) }}
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h1>Votre recherche pour : {{ query }}</h1>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid bg-secondary">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-9 col-12 order-lg-1 order-2">
+                    {% if deals_found is not empty %}
+                        {% for deal in deals_found %}
+                            {% if deal is instanceof('App\\Entity\\GoodPlan') %}
+                                {% if deal.promoCode %}
+                                    {% include('partials/component/cards/card-goodplan-horizontal_promo.html.twig') %}
+                                {% else %}
+                                    {% include('partials/component/cards/card-goodplan-horizontal.html.twig') %}
+                                {% endif %}
+                            {% elseif deal is instanceof('App\\Entity\\Promo') %}
+                                {% include('partials/component/cards/card-promo-horizontal.html.twig') %}
+                            {% endif %}
+                        {% endfor %}
+                        {{ knp_pagination_render(deals_found) }}
+                    {% endif %}
+                </div>
+                {% include('partials/component/navbar/sidebar.html.twig') %}
+            </div>
+        </div>
+    </div>
 {% endblock %}

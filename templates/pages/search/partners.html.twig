@@ -3,9 +3,31 @@
 {% block title %}Recherche marchand : {{ query }}{% endblock %}
 
 {% block body %}
-    <h2>Marchand trouvés :</h2>
-    {% for partner in partners_found %}
-        <p>{{ partner.title }}</p>
-    {% endfor %}
-    {{ knp_pagination_render(partners_found) }}
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h1>Votre recherche pour : {{ query }}</h1>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid bg-secondary">
+        <div class="container">
+            <div class="row">
+                {% if partners_found is not empty %}
+                    <div class="row rounded m-3 p-3 bg-white">
+                        {% for partner in partners_found %}
+                            <div class="col-4">
+                                <h5>
+                                    <a class="text-decoration-none text-dark"
+                                       href="{{ path('partner_show', {id : partner.id}) }}">{{ partner.name }}
+                                    </a>
+                                </h5>
+                            </div>
+                        {% endfor %}
+                        {{ knp_pagination_render(partners_found) }}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
 {% endblock %}

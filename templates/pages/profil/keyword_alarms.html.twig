@@ -1,12 +1,30 @@
 {% extends '/pages/profil/layout_profil.html.twig' %}
+
+{% block title %}Alarm index{% endblock %}
+
 {% block main_profile_section %}
-    {% if user_saved_deals is defined and user_saved_deals is not empty %}
-        <div class="row rounded m-3 mb-0 bg-white">
-            {% for deal in user_saved_deals %}
-                <h2>{{ deal.title }}</h2>
-                <hr>
-            {% endfor %}
-            {{ knp_pagination_render(user_saved_deals) }}
+    <div class="row rounded m-3 mb-0 bg-white">
+        <a class="btn col-6 text-primary {% if app.request.attributes.get('_route') != 'profil_keyword_alarms' %} btn-light text-dark{% endif %}"
+           href="{{ path('profil_keyword_alarms') }}">Fil d'alertes</a>
+        <a class="btn col-6 text-primary {% if app.request.attributes.get('_route') != 'alarm_index' %} btn-light text-dark{% endif %}"
+           href="{{ path('alarm_index') }}">Gérer mes alertes</a>
+    </div>
+    {% if alarms is defined and alarms is not empty %}
+        <div class="row">
+            <div class="col-lg-8 col-12 m-lg-3 mt-3 mb-3 order-lg-1 order-2 rounded bg-white">
+                {% for deal in alarms %}
+                    {% if deal is instanceof('App\\Entity\\GoodPlan') %}
+                        {% if deal.promoCode %}
+                            {% include('partials/component/cards/card-goodplan-horizontal_promo.html.twig') %}
+                        {% else %}
+                            {% include('partials/component/cards/card-goodplan-horizontal.html.twig') %}
+                        {% endif %}
+                    {% elseif deal is instanceof('App\\Entity\\Promo') %}
+                        {% include('partials/component/cards/card-promo-horizontal.html.twig') %}
+                    {% endif %}
+                {% endfor %}
+            </div>
+            {% include('partials/component/navbar/sidebar.html.twig') %}
         </div>
     {% else %}
         <div class="row rounded m-3 mb-0 bg-white">

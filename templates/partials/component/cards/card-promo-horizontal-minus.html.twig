@@ -1,11 +1,15 @@
 <div class="card mt-3 mb-3">
-    <div class="card-horizontal">
-        <div class="col-4 m-3">
+    <div class="card-horizontal card-minus">
+        <div class="col-md-4 m-3 m-3">
             <a class="text-decoration-none text-dark" href="{{ path('promo_show',{slug : deal.slug}) }}">
-                <img src="http://via.placeholder.com/300x180" alt="">
+                {% if deal.picture and file_exists(deal.picture.getSrc) %}
+                    <img class="img-fluid" src="{{ asset(deal.picture.getSrc) }}" alt="">
+                {% else %}
+                    <img class="img-fluid" src="http://via.placeholder.com/300x180" alt="">
+                {% endif %}
             </a>
         </div>
-        <div class="card-body col-7">
+        <div class="card-body col-10 col-md-8">
             <a class="text-decoration-none text-dark" href="{{ path('promo_show',{slug : deal.slug}) }}">
                 <h5 class="card-title fw-bold">
                     <span class="text-danger">

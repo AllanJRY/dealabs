@@ -1,0 +1,16 @@
+{% extends '/pages/profil/layout_profil.html.twig' %}
+
+{% block title %}Edit Alarm{% endblock %}
+
+{% block main_profile_section %}
+    <div class="row rounded m-3 mb-0 bg-white">
+        <a class="btn col-6 text-primary {% if app.request.attributes.get('_route') != 'profil_keyword_alarms' %} btn-light text-dark{% endif %}"
+           href="{{ path('profil_keyword_alarms') }}">Fil d'alertes</a>
+        <a class="btn col-6 text-primary {% if app.request.attributes.get('_route') != 'alarm_edit' %} btn-light text-dark{% endif %}"
+           href="{{ path('alarm_index') }}">Gérer mes alertes</a>
+    </div>
+    <div class="row rounded m-3 mt-0 bg-white p-3">
+        <h3>Mes alertes sauvegardées </h3>
+        {{ include('pages/alarm/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+    </div>
+{% endblock %}

@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Category;
+use App\Entity\File;
 use App\Entity\GoodPlan;
 use App\Entity\Partner;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
@@ -104,6 +105,7 @@ class GoodPlanType extends AbstractType
                 ],
             ])
             ->add('picture', FileType::class, [
+                'mapped' => false,
                 'label' => false,
                 'required' => false,
                 'attr' => [

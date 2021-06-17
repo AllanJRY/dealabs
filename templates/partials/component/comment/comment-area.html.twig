@@ -5,8 +5,11 @@
     {% for comment in deal.comments | sort((commentA, commentB) => commentA.createdAt < commentB.createdAt) %}
         <div class="row">
             <div class="col-2">
-                <img src="http://via.placeholder.com/300x180" class="img-fluid rounded-circle"
-                     alt="">
+                {% if comment.author.avatar and file_exists(comment.author.avatar.getSrc) %}
+                    <img class="img-fluid rounded-circle" src="{{ asset(comment.author.avatar.getSrc) }}" alt="">
+                {% else %}
+                    <img class="img-fluid rounded-circle" src="http://via.placeholder.com/300x180" alt="">
+                {% endif %}
             </div>
             <div class="col-10">
                 <div class="row">
@@ -27,7 +30,7 @@
                             {% endif %}
                         </span>
                     </p>
-                    <p>{{ comment.content }}</p>
+                    <div>{{ comment.content|raw }}</div>
                 </div>
             </div>
         </div>
@@ -40,8 +43,11 @@
         {{ form_start(commentForm) }}
         <div class="row">
             <div class="col-2">
-                <img src="http://via.placeholder.com/300x180" class="img-fluid rounded-circle"
-                     alt="">
+                {% if app.user.avatar and file_exists(app.user.avatar.getSrc) %}
+                    <img class="img-fluid rounded-circle" src="{{ asset(app.user.avatar.getSrc) }}" alt="">
+                {% else %}
+                    <img class="img-fluid rounded-circle" src="http://via.placeholder.com/300x180" alt="">
+                {% endif %}
             </div>
             <div class="col-10">
                 <div class="row">

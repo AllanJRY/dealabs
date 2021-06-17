@@ -1,5 +1,5 @@
 App\Entity\Comment:
-    comment_{1..100}:
+    comment_{1..500}:
         author: '@user*'
         deal: '@goodplan*'
         content: <paragraph()>
@@ -7,3 +7,12 @@ App\Entity\Comment:
         updatedAt: <dateTime()>
 
         likers: ['@user*', '@user*', '@user*', '@user*']
+
+    comment_{501..1000}:
+        author: '@user*'
+        deal: '@promo*'
+        content: <paragraph()>
+        createdAt: <dateTime()>
+        updatedAt: <dateTime()>
+
+        likers: [ '@user*', '@user*', '@user*', '@user*' ]

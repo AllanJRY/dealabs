@@ -3,9 +3,31 @@
 {% block title %}Recherche catégories : {{ query }}{% endblock %}
 
 {% block body %}
-    <h2>Catégories trouvées :</h2>
-    {% for category in categs_found %}
-        <p>{{ category.title }}</p>
-    {% endfor %}
-    {{ knp_pagination_render(categs_found) }}
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h1>Votre recherche pour : {{ query }}</h1>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid bg-secondary">
+        <div class="container">
+            <div class="row">
+                {% if categs_found is not empty %}
+                    <div class="row rounded m-3 p-3 bg-white">
+                        {% for category in categs_found %}
+                            <div class="col-4">
+                                <h5>
+                                    <a class="text-decoration-none text-dark"
+                                       href="{{ path('category_show', {id : category.id}) }}">{{ category.title }}
+                                    </a>
+                                </h5>
+                            </div>
+                        {% endfor %}
+                        {{ knp_pagination_render(categs_found) }}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
 {% endblock %}
