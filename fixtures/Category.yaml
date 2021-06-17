@@ -1,4 +1,4 @@
 App\Entity\Category:
-    category_{1..100}:
+    category_{1..25}:
         title: <word()>
         slug: <slug()>

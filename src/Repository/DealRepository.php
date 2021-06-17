@@ -49,6 +49,26 @@ class DealRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findAllDealOneDayByRatingDesc(): ?array
+    {
+        $now = new DateTime();
+        $day = $now->modify('+1 day');
+
+        return $this->createQueryBuilder('d')
+            ->addSelect('sum(r.value) as HIDDEN hot_value')
+            ->leftJoin('d.ratings', 'r')
+            ->where('d.expired != 1')
+            ->having('hot_value > = :min_hot_value')
+            ->setParameter('min_hot_value', Deal::MIN_HOT_VALUE)
+            //            ->where('d.createdAt BETWEEN :firstDate AND :lastDate')
+//            ->setParameter('firstDate', $now)
+//            ->setParameter('lastDate', $day)
+            ->orderBy('hot_value',  'DESC')
+            ->groupBy('d.id')
+            ->getQuery()
+            ->getResult();
+    }
+
     public function findAllHotOrderByDateDesc(): ?array
     {
         return $this->createQueryBuilder('d')

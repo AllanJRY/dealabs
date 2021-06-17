@@ -29,6 +29,7 @@ class DealExtension extends AbstractExtension
             new TwigFunction('get_all_deal', [$this, 'getAllDeal']),
             new TwigFunction('get_all_hot_deal', [$this, 'getAllHotDeal']),
             new TwigFunction('get_all_hot_deal_user', [$this, 'getAllHotDealUser']),
+            new TwigFunction('get_all_hot_deal_one_day', [$this, 'getAllDealOneDayByRatingDesc']),
         ];
     }
 
@@ -45,6 +46,11 @@ class DealExtension extends AbstractExtension
     public function getAllHotDealUser(User $id): array
     {
         return $this->dealRepository->findAllMaxHotDeal($id);
+    }
+
+    public function getAllDealOneDayByRatingDesc(): ?array
+    {
+        return $this->dealRepository->findAllDealOneDayByRatingDesc();
     }
 
     public function getFilters(): array

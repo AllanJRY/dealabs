@@ -1,5 +1,5 @@
 App\Entity\Promo:
-    promo_{1..50}:
+    promo_{1..20}:
         author: '@user*'
         partner: '@partner*'
         #        picture: '@file*'
@@ -11,4 +11,32 @@ App\Entity\Promo:
         createdAt: <dateTime()>
         updatedAt: <dateTime()>
 
-        promoType: '@promotype*'
+        promoType: '@type*'
+
+    promo_{51..70}:
+        author: '@user*'
+        partner: '@partner*'
+        #        picture: '@file*'
+        title: <word()>
+        description: <text()>
+        link: <url()>
+        slug: <slug()>
+        promoCode: <postcode()>
+        createdAt: <dateTimeBetween("-1 days", "now")>
+        updatedAt: <dateTimeBetween("-1 days", "now")>
+
+        promoType: '@type*'
+
+    promo_{101..120}:
+        author: '@user*'
+        partner: '@partner*'
+        #        picture: '@file*'
+        title: <word()>
+        description: <text()>
+        link: <url()>
+        slug: <slug()>
+        promoCode: <postcode()>
+        createdAt: <dateTimeBetween("-7 days", "now")>
+        updatedAt: <dateTimeBetween("-7 days", "now")>
+
+        promoType: '@type*'

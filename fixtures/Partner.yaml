@@ -1,4 +1,4 @@
 App\Entity\Partner:
-    partner_{1..50}:
+    partner_{1..30}:
         name: <company()>
         website: <url()>

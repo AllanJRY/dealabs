@@ -1,7 +1,7 @@
 App\Entity\PromoType:
-    promotype_1:
+    type_1:
         type: '€'
-    promotype_2:
+    type_2:
         type: '%'
-    promotype_3:
+    type_3:
         type: 'free-shipping'
