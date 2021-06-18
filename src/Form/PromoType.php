@@ -70,6 +70,7 @@ class PromoType extends AbstractType
                 ],
             ])
             ->add('picture', FileType::class, [
+                'mapped' => false,
                 'label' => false,
                 'required' => false,
                 'attr' => [

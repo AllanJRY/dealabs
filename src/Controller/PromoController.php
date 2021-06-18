@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Comment;
+use App\Entity\File;
 use App\Entity\Promo;
 use App\Form\CommentType;
 use App\Form\PromoType;
@@ -68,8 +69,19 @@ class PromoController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $promo->setAuthor($this->getUser());
             $entityManager = $this->getDoctrine()->getManager();
+            $promo->setAuthor($this->getUser());
+            $pictureFile = $form->get('picture')->getData();
+            if ($pictureFile) {
+                $file = new File();
+                $file->setFile($pictureFile);
+                $file->preUpload();
+                $entityManager->persist($file);
+                $entityManager->flush();
+                $file->upload();
+                $promo->setPicture($file);
+            }
+
             $entityManager->persist($promo);
             $entityManager->flush();
 

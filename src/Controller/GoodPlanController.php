@@ -77,7 +77,6 @@ class GoodPlanController extends AbstractController
             }
 
             $pictureFile = $form->get('picture')->getData();
-            dump($pictureFile);
             if ($pictureFile) {
                 $file = new File();
                 $file->setFile($pictureFile);
