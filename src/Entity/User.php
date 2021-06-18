@@ -377,7 +377,7 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getClosed(): ?bool
+    public function isClosed(): ?bool
     {
         return $this->closed;
     }
