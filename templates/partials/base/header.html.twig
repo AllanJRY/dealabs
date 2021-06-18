@@ -5,9 +5,8 @@
                 <img class="img-fluid"
                      src="https://upload.wikimedia.org/wikipedia/fr/thumb/5/57/Dealabs_Logo.svg/1024px-Dealabs_Logo.svg.png"
                      alt="Dealabs">
-                {{ dump(get_number_new_deal_last_time_request_keyword_alarms())) }}
             </a>
-            <div class="col-6 col-md-5">
+            <div class="col-4 col-md-4">
                 <nav class="navbar navbar-expand-lg bg-secondary">
                     <div class="container-fluid">
                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -58,7 +57,7 @@
                                     </div>
                                 </li>
                             </ul>
-                            <form class="d-md-none d-flex" method="get" action="{{ path('search') }}">
+                            <form class="d-lg-none d-flex" method="get" action="{{ path('search') }}">
                                 <input class="form-control me-2 " type="search" placeholder="Rechercher..." name="s"
                                        aria-label="Rechercher...">
                                 <button class="btn btn-success" type="submit"><i class="fas fa-search"></i></button>
@@ -67,18 +66,24 @@
                     </div>
                 </nav>
             </div>
-            <form class="col-md-3 d-none d-md-flex" method="get" action="{{ path('search') }}">
+            <form class="col-md-3 d-none d-lg-flex" method="get" action="{{ path('search') }}">
                 <input class="form-control me-2 " type="search" placeholder="Rechercher..." aria-label="Rechercher..."
                        name="s">
                 <button class="btn btn-success" type="submit"><i class="fas fa-search"></i></button>
             </form>
-            <div class="col-2 col-md-1 d-flex flex-nowrap align-items-center">
+            <div class="col-2 col-md-3 d-flex flex-nowrap align-items-center">
                 {% if not app.user %}
                     <a class="btn btn-dark m-2" href="{{ path('app_login') }}">
                         <i class="fas fa-user"></i>
                         <span class="d-none d-lg-flex">Connexion</span>
                     </a>
                 {% else %}
+                    <a href="{{ path('profil_keyword_alarms') }}" class="btn btn-dark m-3">
+                        <i class="fas fa-bell"></i>
+                        <span class="badge bg-danger">
+                            {{ get_number_new_deal_last_time_request_keyword_alarms( app.session.get('last_time_request_keyword_alarms')) }}
+                        </span>
+                    </a>
                     <div class="dropdown">
                         <button class="btn btn-circle btn-lg" type="button" id="dropdownMenuButton1"
                                 data-bs-toggle="dropdown" aria-expanded="false"

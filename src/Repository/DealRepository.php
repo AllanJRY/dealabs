@@ -162,27 +162,28 @@ class DealRepository extends ServiceEntityRepository
                 ->groupBy('d.id')
                 ->getQuery()
                 ->getResult();
-            $final = array_merge(array_merge($final,$res));
+            $final = array_merge(array_merge($final, $res));
         }
         $this->remove_duplicate_models($final);
         return $final;
     }
 
-    public function findNumberNewDealByAlarmUserAndTime($user,$time)
+    public function findNumberNewDealByAlarmUserAndTime($user, $time)
     {
+        dump($user);
+        dump($time);
         $final = [];
         foreach ($user->getAlarms() as $alarm) {
             $res = $this->createQueryBuilder('d')
                 ->addSelect('d, SUM(r.value) as HIDDEN hot_value')
                 ->leftJoin('d.ratings', 'r')
                 ->where('d.expired != 1')
+                ->where('d.createdAt > :lastDate')
+                ->setParameter('lastDate', $time)
                 ->andWhere("d.title LIKE :query OR d.description LIKE :query")
                 ->setParameter('query', '%' . $alarm->getSearch() . '%')
                 ->having('hot_value >= :min_hot_value')
                 ->setParameter('min_hot_value', $alarm->getRating())
-                ->having('hot_value >= :min_hot_value')
-                ->where('d.createdAt <= :lastDate')
-                ->setParameter('lastDate', $time)
                 ->groupBy('d.id')
                 ->getQuery()
                 ->getResult();
@@ -192,14 +193,15 @@ class DealRepository extends ServiceEntityRepository
         return count($final);
     }
 
-    function remove_duplicate_models( $cars ) {
-        $models = array_map( function( $car ) {
+    function remove_duplicate_models($cars)
+    {
+        $models = array_map(function ($car) {
             return $car->getId();
-        }, $cars );
+        }, $cars);
 
-        $unique_models = array_unique( $models );
+        $unique_models = array_unique($models);
 
-        return array_values( array_intersect_key( $cars, $unique_models ) );
+        return array_values(array_intersect_key($cars, $unique_models));
     }
 
     // /**

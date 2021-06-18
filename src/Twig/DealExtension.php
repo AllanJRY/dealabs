@@ -39,10 +39,9 @@ class DealExtension extends AbstractExtension
         ];
     }
 
-    public function getNumberNewDealLastTimeRequestKeywordAlarms(): int
+    public function getNumberNewDealLastTimeRequestKeywordAlarms($time): int
     {
-//        return $this->dealRepository->findNumberNewDealByAlarmUserAndTime($this->security->getUser(), $this->session->get('last_time_request_keyword_alarms'));
-        return 1;
+        return $this->dealRepository->findNumberNewDealByAlarmUserAndTime($this->security->getUser(), $time);
     }
 
     public function getAllDeal(): array
