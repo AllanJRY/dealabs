@@ -40,7 +40,7 @@ class ProfilController extends AbstractController
     public function overview(): Response
     {
 //        dump($this->dealRepository->findBestRatingDealByUser($this->getUser()));
-        return $this->render('pages/profil/overview.html.twig', []);
+        return $this->render('pages/profil/index.html.twig', []);
     }
 
     /**
