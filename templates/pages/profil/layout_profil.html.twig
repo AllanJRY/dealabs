@@ -13,11 +13,14 @@
                         <img class="img-fluid rounded-circle" src="http://via.placeholder.com/300x180" alt="">
                     {% endif %}
                 </div>
-                <div class="col-10">
+                <div class="col-8">
                     <h1>{{ app.user.username }}</h1>
                     <div class="row">
                         <p>Inscrit(e) depuis le ... <span class="text-success">En ligne</span></p>
                     </div>
+                </div>
+                <div class="col-2">
+                    <a href="{{ path('profil_delete_account') }}" class="btn btn-danger">Supprimer mon compte</a>
                 </div>
             </div>
         </div>

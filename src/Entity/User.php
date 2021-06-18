@@ -89,6 +89,11 @@ class User implements UserInterface
      */
     private $alarms;
 
+    /**
+     * @ORM\Column(type="boolean", options={"default" : false})
+     */
+    private $closed;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -368,6 +373,18 @@ class User implements UserInterface
                 $alarm->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isClosed(): ?bool
+    {
+        return $this->closed;
+    }
+
+    public function setClosed(bool $closed): self
+    {
+        $this->closed = $closed;
 
         return $this;
     }
