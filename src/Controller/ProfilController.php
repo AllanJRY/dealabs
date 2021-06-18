@@ -2,9 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Deal;
+use App\Entity\User;
 use App\Repository\BadgeRepository;
 use App\Repository\DealRepository;
 use DateTime;
+use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,13 +27,13 @@ use Symfony\Component\Routing\Annotation\Route;
 class ProfilController extends AbstractController
 {
     /**
-     * @var DealRepository
+     * @var EntityManagerInterface
      */
-    private $dealRepository;
+    private $entityManager;
 
-    public function __construct(DealRepository $dealRepository)
+    public function __construct(EntityManagerInterface $entityManager)
     {
-        $this->dealRepository = $dealRepository;
+        $this->entityManager = $entityManager;
 
     }
 
@@ -62,7 +65,7 @@ class ProfilController extends AbstractController
         dump($request->getSession());
 //        dump($this->dealRepository->findNewDealByAlarmUserOrderByDateDesc($this->getUser()));
         return $this->render('pages/profil/keyword_alarms.html.twig', [
-            'alarms' => $this->dealRepository->findNewDealByAlarmUserOrderByDateDesc($this->getUser())
+            'alarms' => $this->entityManager->getRepository(Deal::class)->findNewDealByAlarmUserOrderByDateDesc($this->getUser())
         ]);
     }
 
@@ -105,5 +108,23 @@ class ProfilController extends AbstractController
         return $this->render('pages/profil/saved_deals.html.twig', [
             "user_saved_deals" => $userSavedDeals,
         ]);
+    }
+
+    /**
+     * @Route({"en": "/delete-account", "fr": "/supprimer-mon-compte"}, name="profil_delete_account")
+     */
+    public function softDelete(Request $request, PaginatorInterface $paginator): Response
+    {
+        if (!$this->getUser()) $this->redirectToRoute('home');
+
+        $this->getUser()->setClosed(true);
+
+        $this->entityManager->flush();
+
+        $request->getSession()->invalidate(1);
+
+        $this->addFlash('success', 'Votre compte a été fermé.');
+
+        return $this->redirectToRoute('home');
     }
 }
