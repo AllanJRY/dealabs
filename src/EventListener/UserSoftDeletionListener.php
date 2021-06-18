@@ -35,6 +35,13 @@ class UserSoftDeletionListener
             $user->setAvatar(null);
             $user->setEmail($anonymousName.'@dealabs-closed.com');
             $user->setPassword($this->encoder->encodePassword($user, $anonymousName.'@dealabs-closed.com'));
+            foreach ($user->getSavedDeals() as $savedDeal) {
+                $user->removeSavedDeal($savedDeal);
+            }
+
+            foreach ($user->getAlarms() as $alert) {
+                $user->removeAlarm($alert);
+            }
         }
     }
 }
