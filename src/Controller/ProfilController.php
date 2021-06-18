@@ -42,6 +42,7 @@ class ProfilController extends AbstractController
      */
     public function overview(): Response
     {
+        if ($this->getUser()->isClosed()) return $this->redirectToRoute('home');
 //        dump($this->dealRepository->findBestRatingDealByUser($this->getUser()));
         return $this->render('pages/profil/index.html.twig', []);
     }
@@ -51,6 +52,8 @@ class ProfilController extends AbstractController
      */
     public function badges(): Response
     {
+        if ($this->getUser()->isClosed()) return $this->redirectToRoute('home');
+
         return $this->render('pages/profil/badges.html.twig', [
             'badges' => $this->getUser()->getBadges()
         ]);
@@ -61,6 +64,8 @@ class ProfilController extends AbstractController
      */
     public function keyword_alarms(Request $request)
     {
+        if ($this->getUser()->isClosed()) return $this->redirectToRoute('home');
+
         $session = $request->getSession()->set('last_time_request_keyword_alarms', new DateTime());
         dump($request->getSession());
 //        dump($this->dealRepository->findNewDealByAlarmUserOrderByDateDesc($this->getUser()));
@@ -75,6 +80,8 @@ class ProfilController extends AbstractController
      */
     public function settings(): Response
     {
+        if ($this->getUser()->isClosed()) return $this->redirectToRoute('home');
+
         return $this->render('pages/profil/settings.html.twig', []);
     }
 
@@ -83,6 +90,8 @@ class ProfilController extends AbstractController
      */
     public function publishedDeals(Request $request, PaginatorInterface $paginator): Response
     {
+        if ($this->getUser()->isClosed()) return $this->redirectToRoute('home');
+
         $userPublishedDeals = $paginator->paginate(
             $this->getUser()->getDeals(),
             $request->query->getInt('page', 1),
@@ -99,6 +108,8 @@ class ProfilController extends AbstractController
      */
     public function savedDeals(Request $request, PaginatorInterface $paginator): Response
     {
+        if ($this->getUser()->isClosed()) return $this->redirectToRoute('home');
+
         $userSavedDeals = $paginator->paginate(
             $this->getUser()->getSavedDeals(),
             $request->query->getInt('page', 1),
@@ -115,7 +126,7 @@ class ProfilController extends AbstractController
      */
     public function softDelete(Request $request, PaginatorInterface $paginator): Response
     {
-        if (!$this->getUser()) $this->redirectToRoute('home');
+        if (!$this->getUser() || $this->getUser()->isClosed()) $this->redirectToRoute('home');
 
         $this->getUser()->setClosed(true);
 

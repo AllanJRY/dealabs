@@ -143,7 +143,7 @@ class DealController extends AbstractController
         $user = $userRepo->find($request->request->get('userID'));
 
         // TODO check si le deal a déjà été save
-        if(!$deal->getExpired() && $user != null) {
+        if(!$deal->getExpired() && $user != null && !$user->isClosed()) {
             $user->addSavedDeal($deal);
             $this->entityManager->flush();
 

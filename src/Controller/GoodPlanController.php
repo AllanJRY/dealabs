@@ -65,6 +65,8 @@ class GoodPlanController extends AbstractController
      */
     public function new(Request $request): Response
     {
+        if ($this->getUser()->isClosed()) throw new AccessDeniedHttpException();
+
         $goodPlan = new GoodPlan();
         $form = $this->createForm(GoodPlanType::class, $goodPlan);
         $form->handleRequest($request);
@@ -129,7 +131,7 @@ class GoodPlanController extends AbstractController
      */
     public function edit(Request $request, GoodPlan $goodPlan): Response
     {
-        if ($this->getUser()->getId() != $goodPlan->getAuthor()->getId() || in_array('ROLE_ADMIN', $this->getUser()->getRoles())) {
+        if ($this->getUser()->getId() != $goodPlan->getAuthor()->getId() || in_array('ROLE_ADMIN', $this->getUser()->getRoles()) || $this->getUser()->isClosed()) {
             throw new AccessDeniedHttpException();
         }
 
@@ -154,7 +156,7 @@ class GoodPlanController extends AbstractController
      */
     public function delete(Request $request, GoodPlan $goodPlan): Response
     {
-        if ($this->getUser()->getId() != $goodPlan->getAuthor()->getId() || in_array('ROLE_ADMIN', $this->getUser()->getRoles())) {
+        if ($this->getUser()->getId() != $goodPlan->getAuthor()->getId() || in_array('ROLE_ADMIN', $this->getUser()->getRoles()) || $this->getUser()->isClosed()) {
             throw new AccessDeniedHttpException();
         }
 

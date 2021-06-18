@@ -64,6 +64,8 @@ class PromoController extends AbstractController
      */
     public function new(Request $request): Response
     {
+        if ($this->getUser()->isClosed()) throw new AccessDeniedHttpException();
+
         $promo = new Promo();
         $form = $this->createForm(PromoType::class, $promo);
         $form->handleRequest($request);
@@ -124,7 +126,7 @@ class PromoController extends AbstractController
      */
     public function edit(Request $request, Promo $promo): Response
     {
-        if ($this->getUser()->getId() != $promo->getAuthor()->getId() || in_array('ROLE_ADMIN', $this->getUser()->getRoles())) {
+        if ($this->getUser()->getId() != $promo->getAuthor()->getId() || in_array('ROLE_ADMIN', $this->getUser()->getRoles()) || $this->getUser()->isClosed()) {
             throw new AccessDeniedHttpException();
         }
 
@@ -149,7 +151,7 @@ class PromoController extends AbstractController
      */
     public function delete(Request $request, Promo $promo): Response
     {
-        if ($this->getUser()->getId() != $promo->getAuthor()->getId() || in_array('ROLE_ADMIN', $this->getUser()->getRoles())) {
+        if ($this->getUser()->getId() != $promo->getAuthor()->getId() || in_array('ROLE_ADMIN', $this->getUser()->getRoles()) || $this->getUser()->isClosed()) {
             throw new AccessDeniedHttpException();
         }
 
