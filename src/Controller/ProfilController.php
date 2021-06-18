@@ -17,8 +17,8 @@ use Symfony\Component\Routing\Annotation\Route;
  * @package App\Controller
  * @IsGranted("IS_AUTHENTICATED_REMEMBERED")
  * @Route({
- *     "en": "/profil",
- *     "fr": "/profile"
+ *     "en": "/my-profile",
+ *     "fr": "/mon-profil"
  * })
  */
 class ProfilController extends AbstractController
@@ -35,7 +35,7 @@ class ProfilController extends AbstractController
     }
 
     /**
-     * @Route("/overview", name="profil_overview")
+     * @Route("/", name="profil_overview")
      */
     public function overview(): Response
     {
