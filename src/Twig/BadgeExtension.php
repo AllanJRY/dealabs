@@ -20,7 +20,7 @@ class BadgeExtension extends AbstractExtension
     public function computeBadgeProgress(Badge $badge, User $user): int
     {
         switch ($badge->getTitle()) {
-            case 'Cobaye':
+            case Badge::COBAYE_BADGE_TITLE:
                 return $this->computeCobayeBadgeProgress($badge, $user);
                 break;
             default:

@@ -12,6 +12,10 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Badge
 {
+    public const COBAYE_BADGE_TITLE = "Cobaye";
+    public const RAPPORT_STAGE_BADGE_TITLE = "Rapport de stage";
+    public const SURVEILLANT_BADGE_TITLE = "Surveillant";
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
