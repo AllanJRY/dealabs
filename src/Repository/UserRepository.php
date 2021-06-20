@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\User;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
@@ -10,6 +11,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use function Doctrine\ORM\QueryBuilder;
 
 /**
  * @method User|null find($id, $lockMode = null, $lockVersion = null)
@@ -62,8 +64,6 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
     public function findPublishedDealsHottestRate(User $user): ?array
     {
-//        $now = new DateTime();
-//        $week = $now->modify('+1 week');
         return $this->createQueryBuilder('u')
             ->select('SUM(r.value) AS hot_value')
             ->where('u.id = :id')
@@ -72,6 +72,26 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->innerJoin('d.ratings', 'r')
             ->orderBy('hot_value', 'DESC')
             ->groupBy('d.id')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    /**
+     * This function calculate the average rate of deals published by the user during a year back.
+     *
+     * @param User $user
+     * @return array|null
+     */
+    public function findAvgDealRatesOnYear(User $user): ?array
+    {
+        $qb = $this->createQueryBuilder('u');
+        return $qb->select('SUM(r.value)/COUNT(r.value) AS avg_hot_value')
+            ->innerJoin('u.deals', 'd')
+            ->innerJoin('d.ratings', 'r')
+            ->where('u.id = :id')
+            ->andWhere("d.createdAt > DATE_SUB(CURRENT_DATE(), 1, 'year')")
+            ->setParameter('id', $user->getId())
             ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult();
