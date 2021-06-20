@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Badge;
 use App\Entity\Deal;
 use App\Entity\User;
 use App\Repository\BadgeRepository;
@@ -55,7 +56,7 @@ class ProfilController extends AbstractController
         if ($this->getUser()->isClosed()) return $this->redirectToRoute('home');
 
         return $this->render('pages/profil/badges.html.twig', [
-            'badges' => $this->getUser()->getBadges()
+            'badges' => $this->entityManager->getRepository(Badge::class)->findAll()
         ]);
     }
 

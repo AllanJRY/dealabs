@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Comment;
 use App\Entity\File;
 use App\Entity\Promo;
+use App\Event\CommentPublishedEvent;
+use App\Event\DealCreatedEvent;
 use App\Form\CommentType;
 use App\Form\PromoType;
 use App\Repository\PromoRepository;
@@ -15,6 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**
  * @Route({
@@ -24,6 +27,20 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class PromoController extends AbstractController
 {
+    /**
+     * @var EventDispatcherInterface
+     */
+    private $eventDispatcher;
+
+    /**
+     * GoodPlanController constructor.
+     * @param $eventDispatcher
+     */
+    public function __construct(EventDispatcherInterface $eventDispatcher)
+    {
+        $this->eventDispatcher = $eventDispatcher;
+    }
+
     /**
      * @Route("/", name="promo_index", methods={"GET"})
      */
@@ -86,6 +103,7 @@ class PromoController extends AbstractController
 
             $entityManager->persist($promo);
             $entityManager->flush();
+            $this->eventDispatcher->dispatch(new DealCreatedEvent($promo), DealCreatedEvent::NAME);
 
             return $this->redirectToRoute('promo_index');
         }
@@ -112,6 +130,7 @@ class PromoController extends AbstractController
             $newComment->setAuthor($this->getUser());
             $entityManager->persist($newComment);
             $entityManager->flush();
+            $this->eventDispatcher->dispatch(new CommentPublishedEvent($newComment), CommentPublishedEvent::NAME);
         }
 
         return $this->render('pages/promo/show.html.twig', [

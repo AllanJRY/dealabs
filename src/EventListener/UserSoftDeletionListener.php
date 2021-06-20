@@ -27,7 +27,7 @@ class UserSoftDeletionListener
     public function preUpdate(PreUpdateEventArgs $event): void {
         $user = $event->getEntity();
 
-        if($user->isClosed()) {
+        if($user instanceof User && $user->isClosed()) {
             $dateTimestamp = (new \DateTime())->getTimestamp();
             $suffix = rand(0, 99999)+$dateTimestamp;
             $anonymousName = self::ANONYMOUS_PREFIX.$suffix;

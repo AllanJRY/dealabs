@@ -90,7 +90,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $qb = $this->createQueryBuilder('u');
         return $qb->select('SUM(r.value)/COUNT(r.value) AS avg_hot_value')
             ->innerJoin('u.deals', 'd')
-            ->innerJoin('d.ratings', 'r')
+            ->leftJoin('d.ratings', 'r')
             ->where('u.id = :id')
             ->andWhere("d.createdAt > DATE_SUB(CURRENT_DATE(), 1, 'year')")
             ->setParameter('id', $user->getId())

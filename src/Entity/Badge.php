@@ -2,23 +2,50 @@
 
 namespace App\Entity;
 
+use App\Repository\BadgeRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity(repositoryClass=BadgeRepository::class)
+ */
 class Badge
 {
+    public const COBAYE_BADGE_TITLE = "Cobaye";
+    public const RAPPORT_STAGE_BADGE_TITLE = "Rapport de stage";
+    public const SURVEILLANT_BADGE_TITLE = "Surveillant";
 
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
+     */
+    private $id;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
     private $title;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="badges")
+     */
+    private $owners;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
     private $description;
 
-    private $valid;
-
-    private $value;
-
-    public function __construct(string $title, string $description, int $valid, int $value)
+    public function __construct()
     {
-        $this->title = $title;
-        $this->description = $description;
-        $this->valid = $valid;
-        $this->value = $value;
+        $this->owners = new ArrayCollection();
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
     }
 
     public function getTitle(): ?string
@@ -33,6 +60,30 @@ class Badge
         return $this;
     }
 
+    /**
+     * @return Collection|User[]
+     */
+    public function getOwners(): Collection
+    {
+        return $this->owners;
+    }
+
+    public function addOwner(User $owner): self
+    {
+        if (!$this->owners->contains($owner)) {
+            $this->owners[] = $owner;
+        }
+
+        return $this;
+    }
+
+    public function removeOwner(User $owner): self
+    {
+        $this->owners->removeElement($owner);
+
+        return $this;
+    }
+
     public function getDescription(): ?string
     {
         return $this->description;
@@ -42,28 +93,6 @@ class Badge
     {
         $this->description = $description;
 
-        return $this;
-    }
-
-    public function getValid(): ?int
-    {
-        return $this->valid;
-    }
-
-    public function setValid($valid): self
-    {
-        $this->valid = $valid;
-        return $this;
-    }
-
-    public function getValue(): ?int
-    {
-        return $this->value;
-    }
-
-    public function setValue($value): self
-    {
-        $this->value = $value;
         return $this;
     }
 }

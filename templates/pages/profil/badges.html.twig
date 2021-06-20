@@ -7,35 +7,44 @@
            href="{{ path('profil_badges') }}">Badges</a>
     </div>
     <div class="row rounded m-3 mt-0 bg-white">
-        {% for badge in badges[0] %}
+        {% for badge in badges %}
             <div class="row">
                 <div class="col-3 d-flex align-items-center justify-content-center">
-                    <i class="fas fa-ribbon text-success display-3"></i>
+                    <i class="fas fa-ribbon {% if app.user.badges.contains(badge) %}text-success{% else %}text-secondary{% endif %} display-3"></i>
                 </div>
                 <div class="col-9">
                     <h3>{{ badge.title }}</h3>
                     <p>{{ badge.description }}</p>
+                    <div class="progress">
+                        <div class="progress-bar"
+                             role="progressbar"
+                             style="width: {% if app.user.badges.contains(badge) %}100{% else %}{{ compute_progress(badge, app.user) }}{% endif %}%"
+                             aria-valuenow="{% if app.user.badges.contains(badge) %}100{% else %}{{ compute_progress(badge, app.user) }}{% endif %}"
+                             aria-valuemin="0"
+                             aria-valuemax="100">
+                        </div>
+                    </div>
                 </div>
             </div>
         {% endfor %}
 
-        {% for badge in badges[1] %}
-            <div class="row">
-                <div class="col-3 d-flex align-items-center justify-content-center">
-                    <i class="fas fa-ribbon text-secondary display-3"></i>
-                </div>
-                <div class="col-9">
-                    <div class="row">
-                        <h3 class="col-6">{{ badge.title }}</h3>
-                        <span class="col-6 text-end">{{ badge.value }} / {{ badge.valid }}</span>
-                    </div>
-                    <div class="progress">
-                        <div class="progress-bar" role="progressbar" style="width: {{ badge.value*100/badge.valid }}%" aria-valuenow="{{ badge.value }}" aria-valuemin="0" aria-valuemax="{{ badge.valid }}"></div>
-                    </div>
-                    <p>{{ badge.description }}</p>
-                </div>
-            </div>
-        {% endfor %}
+{#        {% for badge in badges[1] %}#}
+{#            <div class="row">#}
+{#                <div class="col-3 d-flex align-items-center justify-content-center">#}
+{#                    <i class="fas fa-ribbon text-secondary display-3"></i>#}
+{#                </div>#}
+{#                <div class="col-9">#}
+{#                    <div class="row">#}
+{#                        <h3 class="col-6">{{ badge.title }}</h3>#}
+{#                        <span class="col-6 text-end">{{ badge.value }} / {{ badge.valid }}</span>#}
+{#                    </div>#}
+{#                    <div class="progress">#}
+{#                        <div class="progress-bar" role="progressbar" style="width: {{ badge.value*100/badge.valid }}%" aria-valuenow="{{ badge.value }}" aria-valuemin="0" aria-valuemax="{{ badge.valid }}"></div>#}
+{#                    </div>#}
+{#                    <p>{{ badge.description }}</p>#}
+{#                </div>#}
+{#            </div>#}
+{#        {% endfor %}#}
     </div>
 {% endblock %}
 

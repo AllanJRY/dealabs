@@ -84,8 +84,6 @@ class UserStatisticExtension extends AbstractExtension
 
         $result = $this->userRepository->findPercentOfHotDeals($user);
 
-        dump($result);
-
         return $result !== null && $result['percentage'] !== null ? $result['percentage'] : 0;
     }
 }
