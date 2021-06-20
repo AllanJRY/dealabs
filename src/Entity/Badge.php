@@ -29,6 +29,11 @@ class Badge
      */
     private $owners;
 
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $description;
+
     public function __construct()
     {
         $this->owners = new ArrayCollection();
@@ -71,6 +76,18 @@ class Badge
     public function removeOwner(User $owner): self
     {
         $this->owners->removeElement($owner);
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }
