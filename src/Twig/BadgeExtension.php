@@ -23,6 +23,9 @@ class BadgeExtension extends AbstractExtension
             case Badge::COBAYE_BADGE_TITLE:
                 return $this->computeCobayeBadgeProgress($badge, $user);
                 break;
+            case Badge::RAPPORT_STAGE_BADGE_TITLE:
+                return $this->computeRapportStageBadgeProgress($badge, $user);
+                break;
             default:
                 return 0;
                 break;
@@ -31,5 +34,9 @@ class BadgeExtension extends AbstractExtension
 
     public function computeCobayeBadgeProgress(Badge $badge, User $user) {
         return (count($user->getDeals())/10)*100;
+    }
+
+    public function computeRapportStageBadgeProgress(Badge $badge, User $user) {
+        return (count($user->getComments())/10)*100;
     }
 }

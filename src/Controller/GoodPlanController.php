@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Comment;
 use App\Entity\File;
 use App\Entity\GoodPlan;
+use App\Event\CommentPublishedEvent;
 use App\Form\CommentType;
 use App\Form\GoodPlanType;
 use App\Repository\GoodPlanRepository;
@@ -137,6 +138,7 @@ class GoodPlanController extends AbstractController
             $newComment->setAuthor($this->getUser());
             $entityManager->persist($newComment);
             $entityManager->flush();
+            $this->eventDispatcher->dispatch(new CommentPublishedEvent($newComment), CommentPublishedEvent::NAME);
         }
 
         return $this->render('pages/good_plan/show.html.twig', [

@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Comment;
 use App\Entity\File;
 use App\Entity\Promo;
+use App\Event\CommentPublishedEvent;
 use App\Event\DealCreatedEvent;
 use App\Form\CommentType;
 use App\Form\PromoType;
@@ -129,6 +130,7 @@ class PromoController extends AbstractController
             $newComment->setAuthor($this->getUser());
             $entityManager->persist($newComment);
             $entityManager->flush();
+            $this->eventDispatcher->dispatch(new CommentPublishedEvent($newComment), CommentPublishedEvent::NAME);
         }
 
         return $this->render('pages/promo/show.html.twig', [
