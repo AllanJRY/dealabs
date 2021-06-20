@@ -45,8 +45,8 @@
                     <p><strong>{{ stat_nb_published_comments(app.user) }}</strong> commentaire(s)</p>
                     <h4 class="text-muted">Palmarès</h4>
                     <p><strong>{{ stat_hottest_published_deal_rate(app.user) }}°</strong> deal le plus hot</p>
-                    <p><strong>{{ stat_avg_deal_rates_on_time_window(app.user, 1, 'day') }}°</strong> en moyenne depuis 1 an</p>
-                    <p>0% de deals hot</p>
+                    <p><strong>{{ stat_avg_deal_rates_on_time_window(app.user) }}°</strong> en moyenne depuis 1 an</p>
+                    <p><strong>{{ stat_percent_of_hot_deals(app.user) }}%</strong> de deals hot</p>
                 </div>
                 <div class="col-lg-9 col-12">
                     {% block main_profile_section %}{% endblock %}

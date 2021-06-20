@@ -2,9 +2,11 @@
 
 namespace App\Repository;
 
+use App\Entity\Deal;
 use App\Entity\User;
 use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\DBAL\ForwardCompatibility\Result;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Doctrine\Persistence\ManagerRegistry;
@@ -95,6 +97,58 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult();
+    }
+
+    /**
+     * This function calculate the average rate of deals published by the user during a year back.
+     *
+     * @param User $user
+     * @return array|null
+     */
+    public function findPercentOfHotDeals(User $user): ?array
+    {
+        $conn = $this->getEntityManager()->getConnection();
+
+        $sql = '
+            SELECT
+            (
+                (
+                    SELECT COUNT(*)
+                    FROM (SELECT deal.id FROM deal INNER JOIN rating ON rating.deal_id = deal.id WHERE deal.author_id = 2  HAVING SUM(rating.value) >= 100) as hot_deals
+                    LIMIT 1
+                ) / (SELECT COUNT(*) FROM deal WHERE deal.author_id = 2) * 100
+            ) as percentage
+            FROM `user`
+            LIMIT 1
+        ';
+
+        $stmt = $conn->prepare($sql);
+        $result = $stmt->executeQuery(['id' => $user->getId(), 'min_hot_value' => Deal::MIN_HOT_VALUE])->fetchAllAssociative();
+        return count($result) > 0 ? $result[0] : ['percentage' => 0];
+
+        // FIXME make this working ..
+//        $qb = $this->createQueryBuilder('u');
+//        $qb2 = $this->createQueryBuilder('u2');
+//        return $qb->select('('.
+//                $qb2->select('COUNT(d2.id)')
+//                ->innerJoin('u2.deals', 'd2')
+//                ->innerJoin('d2.ratings', 'r2')
+//                ->where('d2.author = :id')
+//                ->groupBy('d2.id')
+//                ->having('SUM(r2.value) >= :min_hot_value')
+//                ->setParameter('id', $user->getId())
+//                ->setParameter('min_hot_value', Deal::MIN_HOT_VALUE)
+//                ->getDQL()
+//            .') as nb_hot')
+//            ->addSelect('(nb_hot / COUNT(d.id)) as percent')
+//            ->innerJoin('u.deals', 'd')
+//            ->innerJoin('d.ratings', 'r')
+//            ->where('u.id = :id')
+//            ->setParameter('id', $user->getId())
+//            ->setParameter('min_hot_value', Deal::MIN_HOT_VALUE)
+//            ->setMaxResults(1)
+//            ->getQuery()
+//            ->getOneOrNullResult();
     }
 
     // /**

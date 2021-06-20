@@ -26,6 +26,7 @@ class UserStatisticExtension extends AbstractExtension
             new TwigFunction('stat_nb_published_comments', [$this, 'getNbPublishedComments']),
             new TwigFunction('stat_hottest_published_deal_rate', [$this, 'getHottestPublishedDealRate']),
             new TwigFunction('stat_avg_deal_rates_on_time_window', [$this, 'getAvgDealRatesOnTimeWindow']),
+            new TwigFunction('stat_percent_of_hot_deals', [$this, 'getPercentOfHotDeals']),
         ];
     }
 
@@ -69,5 +70,22 @@ class UserStatisticExtension extends AbstractExtension
         $result = $this->userRepository->findAvgDealRatesOnYear($user);
 
         return $result !== null && $result['avg_hot_value'] !== null ? $result['avg_hot_value'] : 0;
+    }
+
+    /**
+     * Return rates average of user published deals on a year back.
+     *
+     * @param User $user
+     * @return int
+     */
+    public function getPercentOfHotDeals(User $user): int
+    {
+        if ($user === null) return 0;
+
+        $result = $this->userRepository->findPercentOfHotDeals($user);
+
+        dump($result);
+
+        return $result !== null && $result['percentage'] !== null ? $result['percentage'] : 0;
     }
 }
