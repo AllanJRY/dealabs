@@ -24,6 +24,7 @@ class UserStatisticExtension extends AbstractExtension
         return [
             new TwigFunction('stat_nb_published_deals', [$this, 'getNbPublishedDeals']),
             new TwigFunction('stat_nb_published_comments', [$this, 'getNbPublishedComments']),
+            new TwigFunction('stat_hottest_published_deal_rate', [$this, 'getHottestPublishedDealRate']),
         ];
     }
 
@@ -33,7 +34,7 @@ class UserStatisticExtension extends AbstractExtension
 
         $result = $this->userRepository->countPublishedDeals($user);
 
-        return $result['nbPublishedDeals'];
+        return $result !== null ? $result['nbPublishedDeals'] : 0;
     }
 
     public function getNbPublishedComments($user): int
@@ -42,6 +43,15 @@ class UserStatisticExtension extends AbstractExtension
 
         $result = $this->userRepository->countPublishedComments($user);
 
-        return $result['nbPublishedComments'];
+        return $result !== null ? $result['nbPublishedComments'] : 0;
+    }
+
+    public function getHottestPublishedDealRate($user): int
+    {
+        if ($user === null) return 0;
+
+        $result = $this->userRepository->findPublishedDealsHottestRate($user);
+
+        return $result !== null ? $result['hot_value'] : 0;
     }
 }

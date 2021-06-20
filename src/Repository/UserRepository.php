@@ -4,6 +4,8 @@ namespace App\Repository;
 
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
@@ -36,10 +38,6 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->_em->flush();
     }
 
-    /**
-     * @throws \Doctrine\ORM\NonUniqueResultException
-     * @throws \Doctrine\ORM\NoResultException
-     */
     public function countPublishedDeals(User $user): ?array
     {
         return $this->createQueryBuilder('u')
@@ -48,25 +46,35 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->setParameter('id', $user->getId())
             ->leftJoin('u.deals', 'd')
             ->getQuery()
-            ->getSingleResult();
+            ->getOneOrNullResult();
     }
 
-    /**
-     * @throws \Doctrine\ORM\NonUniqueResultException
-     * @throws \Doctrine\ORM\NoResultException
-     */
     public function countPublishedComments(User $user): ?array
     {
-//        $now = new DateTime();
-//        $week = $now->modify('+1 week');
-
         return $this->createQueryBuilder('u')
             ->select('COUNT(c) AS nbPublishedComments')
             ->where('u.id = :id')
             ->setParameter('id', $user->getId())
             ->leftJoin('u.comments', 'c')
             ->getQuery()
-            ->getSingleResult();
+            ->getOneOrNullResult();
+    }
+
+    public function findPublishedDealsHottestRate(User $user): ?array
+    {
+//        $now = new DateTime();
+//        $week = $now->modify('+1 week');
+        return $this->createQueryBuilder('u')
+            ->select('SUM(r.value) AS hot_value')
+            ->where('u.id = :id')
+            ->setParameter('id', $user->getId())
+            ->innerJoin('u.deals', 'd')
+            ->innerJoin('d.ratings', 'r')
+            ->orderBy('hot_value', 'DESC')
+            ->groupBy('d.id')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 
     // /**
