@@ -8,14 +8,17 @@ use App\Entity\GoodPlan;
 use App\Form\CommentType;
 use App\Form\GoodPlanType;
 use App\Repository\GoodPlanRepository;
+use App\Event\DealCreatedEvent;
 use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**
  * @Route({
@@ -25,6 +28,22 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class GoodPlanController extends AbstractController
 {
+
+    /**
+     * @var EventDispatcherInterface
+     */
+    private $eventDispatcher;
+
+    /**
+     * GoodPlanController constructor.
+     * @param $eventDispatcher
+     */
+    public function __construct(EventDispatcherInterface $eventDispatcher)
+    {
+        $this->eventDispatcher = $eventDispatcher;
+    }
+
+
     /**
      * @Route("/", name="good_plan_index", methods={"GET"})
      */
@@ -91,6 +110,7 @@ class GoodPlanController extends AbstractController
 
             $entityManager->persist($goodPlan);
             $entityManager->flush();
+            $this->eventDispatcher->dispatch(new DealCreatedEvent($goodPlan), DealCreatedEvent::NAME);
 
             return $this->redirectToRoute('good_plan_index');
         }
