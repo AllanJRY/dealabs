@@ -36,7 +36,19 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->_em->flush();
     }
 
+    public function countNbPublishedDeals(User $user): ?array
+    {
+//        $now = new DateTime();
+//        $week = $now->modify('+1 week');
 
+        return $this->createQueryBuilder('u')
+            ->select('COUNT(d) AS nbDealsPublished')
+            ->where('u.id = :id')
+            ->setParameter('id', $user->getId())
+            ->leftJoin('u.deals', 'd')
+            ->getQuery()
+            ->getSingleResult();
+    }
 
     // /**
     //  * @return User[] Returns an array of User objects
