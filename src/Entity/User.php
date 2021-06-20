@@ -92,7 +92,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="boolean", options={"default" : false})
      */
-    private $closed;
+    private $closed = false;
 
     public function __construct()
     {
