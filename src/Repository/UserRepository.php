@@ -36,16 +36,35 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->_em->flush();
     }
 
-    public function countNbPublishedDeals(User $user): ?array
+    /**
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws \Doctrine\ORM\NoResultException
+     */
+    public function countPublishedDeals(User $user): ?array
+    {
+        return $this->createQueryBuilder('u')
+            ->select('COUNT(d) AS nbPublishedDeals')
+            ->where('u.id = :id')
+            ->setParameter('id', $user->getId())
+            ->leftJoin('u.deals', 'd')
+            ->getQuery()
+            ->getSingleResult();
+    }
+
+    /**
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @throws \Doctrine\ORM\NoResultException
+     */
+    public function countPublishedComments(User $user): ?array
     {
 //        $now = new DateTime();
 //        $week = $now->modify('+1 week');
 
         return $this->createQueryBuilder('u')
-            ->select('COUNT(d) AS nbDealsPublished')
+            ->select('COUNT(c) AS nbPublishedComments')
             ->where('u.id = :id')
             ->setParameter('id', $user->getId())
-            ->leftJoin('u.deals', 'd')
+            ->leftJoin('u.comments', 'c')
             ->getQuery()
             ->getSingleResult();
     }

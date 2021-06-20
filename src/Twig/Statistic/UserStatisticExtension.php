@@ -22,17 +22,26 @@ class UserStatisticExtension extends AbstractExtension
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('stat_nb_published_deals', [$this, 'getPublishedDeal']),
+            new TwigFunction('stat_nb_published_deals', [$this, 'getNbPublishedDeals']),
+            new TwigFunction('stat_nb_published_comments', [$this, 'getNbPublishedComments']),
         ];
     }
 
-    public function getPublishedDeal($user): int
+    public function getNbPublishedDeals($user): int
     {
         if ($user === null) return 0;
 
-        $result = $this->userRepository->countNbPublishedDeals($user);
-        dump($result);
+        $result = $this->userRepository->countPublishedDeals($user);
 
-        return $result['nbDealsPublished'];
+        return $result['nbPublishedDeals'];
+    }
+
+    public function getNbPublishedComments($user): int
+    {
+        if ($user === null) return 0;
+
+        $result = $this->userRepository->countPublishedComments($user);
+
+        return $result['nbPublishedComments'];
     }
 }
