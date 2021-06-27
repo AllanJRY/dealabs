@@ -4,14 +4,14 @@
 <div class="bg-white rounded p-3" id="comment">
     {% for comment in deal.comments | sort((commentA, commentB) => commentA.createdAt < commentB.createdAt) %}
         <div class="row">
-            <div class="col-2">
+            <div class="col-4 col-md-2">
                 {% if comment.author.avatar and file_exists(comment.author.avatar.getSrc) %}
-                    <img class="img-fluid rounded-circle" src="{{ asset(comment.author.avatar.getSrc) }}" alt="">
+                    <img class="img-fluid rounded-circle" src="{{ asset(comment.author.avatar.getSrc) }}" alt="" style="width: 5rem; height: 5rem; object-fit: cover;">
                 {% else %}
                     <img class="img-fluid rounded-circle" src="http://via.placeholder.com/300x180" alt="">
                 {% endif %}
             </div>
-            <div class="col-10">
+            <div class="col-8">
                 <div class="row">
                     <p>
                         <span>
@@ -42,14 +42,14 @@
     {% if app.user %}
         {{ form_start(commentForm) }}
         <div class="row">
-            <div class="col-2">
+            <div class="col-4 col-md-2">
                 {% if app.user.avatar and file_exists(app.user.avatar.getSrc) %}
-                    <img class="img-fluid rounded-circle" src="{{ asset(app.user.avatar.getSrc) }}" alt="">
+                    <img class="img-fluid rounded-circle" src="{{ asset(app.user.avatar.getSrc) }}" alt="" style="width: 5rem; height: 5rem; object-fit: cover">
                 {% else %}
                     <img class="img-fluid rounded-circle" src="http://via.placeholder.com/300x180" alt="">
                 {% endif %}
             </div>
-            <div class="col-10">
+            <div class="col-8 col-md-10">
                 <div class="row">
                     {{ form_widget(commentForm.content) }}
                     <button class="btn btn-primary mt-3" type="submit">
