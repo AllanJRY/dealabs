@@ -3,7 +3,7 @@
     <div class="card-horizontal">
         <div class="col-4 m-3">
             <a class="text-decoration-none text-dark">
-                <img src="http://via.placeholder.com/300x180" alt="">
+                <img src="https://via.placeholder.com/300x180" alt="">
             </a>
         </div>
         <div class="card-body col-8">
@@ -21,28 +21,12 @@
                         </button>
                     </div>
                 </div>
-                <p class="col-4 text-muted text-right align-items-center m-0 align-items-center">
-<!--{#                    {% set time = date(deal.createdAt).diff(date('now')) %}#}-->
-<!--{#                    <span>#}-->
-<!--{#                        <i class="fas fa-fire-alt"></i>#}-->
-<!--{#                        {% if time.d > 0 %}#}-->
-<!--{#                            {{ deal.createdAt|date('d M') }}#}-->
-<!--{#                        {% elseif time.h > 0 and time.d == 0 and time.m == 0 %}#}-->
-<!--{#                            il y a {{ time.h }} h et {{ time.i }}#}-->
-<!--{#                        {% elseif time.s > 0 and time.h == 0 and time.d == 0 and time.m == 0 %}#}-->
-<!--{#                            il y a {{ time.i }}#}-->
-<!--{#                        {% endif %}#}-->
-<!--{#                    </span>#}-->
-                </p>
             </div>
             <a class="text-decoration-none text-dark">
                 <h4 class="card-title fw-bold">{{ title }}</h4>
             </a>
             <p>
                 <span class="text-danger">
-                    -
-<!--{# -{{ deal.price }}€ #}-->
-<!--                    {{ deal.promoType.type }}-->
                 </span>
                 <span class="text-muted">| Codes promo </span>
                 <a class="text-primary text-decoration-none" href="#"><!--{{ deal.partner.name }}--></a>

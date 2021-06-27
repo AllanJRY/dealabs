@@ -28,9 +28,8 @@ class PromoType extends AbstractType
                 ],
             ])
             ->add('description', CKEditorType::class, [
-                'label' => 'Description',
                 'attr' => [
-                    'v-model' => 'description',
+//                    'v-model' => 'description',
                     'placeholder' => 'En manque d\'idées ? Présentez le produit ou l\'offre avec vos propres mots, expliquez en quoi l\'offre est intéressante selon vous, décrivez la façon d\'obtenir le prix s\'il y a une astuce… Ne faites pas de copier-coller de contenus d\'autres sites ! Votre deal est en magasin ? N’oubliez pas de préciser la ville où il se trouve, et le stock disponible !'
                 ],
             ])
