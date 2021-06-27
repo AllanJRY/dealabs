@@ -5,11 +5,11 @@
 {% block body %}
     {% include('partials/component/navbar/filter-navbar.html.twig') with
         {
-            'title': 'Codes promo',
+            'title': 'Tous les codes promos',
+            'default': path('promo_index'),
             'links': {
-                'default': path('promo_index'),
-                'hot': path('hot_promo_index')
-            }
+            'Hot': path('hot_promo_index')
+        }
         }
     %}
     <div class="container-fluid bg-secondary">

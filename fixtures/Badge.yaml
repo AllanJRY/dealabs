@@ -1,0 +1,12 @@
+App\Entity\Badge:
+    badge_1:
+        title: 'Surveillant'
+        description: 'Vous avez voté sur 10 deals'
+
+    badge_2:
+        title: 'Cobaye'
+        description: 'Vous avez posté au moins 10 deals'
+
+    badge_3:
+        title: 'Rapport de stage'
+        description: 'Vous avez posté au moins 10 commentaires'
