@@ -1,0 +1,13 @@
+{% extends 'mail/email_base.html.twig' %}
+
+{% block subject -%}
+    Dealabs - A deal list
+{%- endblock subject %}
+
+{% block html %}
+    {% for deal in deals %}
+        <h1>#{{ deal.id }} - {{ deal.title }} - {{ deal.description }}</h1>
+    {% endfor %}
+{% endblock html %}
+
+{% block text %}{% endblock text %}

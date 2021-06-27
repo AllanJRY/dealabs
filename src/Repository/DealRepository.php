@@ -170,15 +170,13 @@ class DealRepository extends ServiceEntityRepository
 
     public function findNumberNewDealByAlarmUserAndTime($user, $time)
     {
-        dump($user);
-        dump($time);
         $final = [];
         foreach ($user->getAlarms() as $alarm) {
             $res = $this->createQueryBuilder('d')
                 ->addSelect('d, SUM(r.value) as HIDDEN hot_value')
                 ->leftJoin('d.ratings', 'r')
                 ->where('d.expired != 1')
-                ->where('d.createdAt > :lastDate')
+                ->where('d.createdAt <= :lastDate')
                 ->setParameter('lastDate', $time)
                 ->andWhere("d.title LIKE :query OR d.description LIKE :query")
                 ->setParameter('query', '%' . $alarm->getSearch() . '%')
@@ -191,6 +189,33 @@ class DealRepository extends ServiceEntityRepository
         }
         $this->remove_duplicate_models($final);
         return count($final);
+    }
+
+    public function findNewDealOneDayByAlarmUserOrderByDateDesc($user)
+    {
+        $now = new DateTime();
+        $day = $now->modify('+1 day');
+
+        $final = [];
+        foreach ($user->getAlarms() as $alarm) {
+            $res = $this->createQueryBuilder('d')
+                ->addSelect('d, SUM(r.value) as HIDDEN hot_value')
+                ->leftJoin('d.ratings', 'r')
+                ->where('d.expired != 1')
+                ->where('d.createdAt <= :lastDate')
+                ->setParameter('lastDate', $day)
+                ->andWhere("d.title LIKE :query OR d.description LIKE :query")
+                ->setParameter('query', '%' . $alarm->getSearch() . '%')
+                ->having('hot_value >= :min_hot_value')
+                ->setParameter('min_hot_value', $alarm->getRating())
+                ->orderBy('d.createdAt', 'DESC')
+                ->groupBy('d.id')
+                ->getQuery()
+                ->getResult();
+            $final = array_merge(array_merge($final, $res));
+        }
+        $this->remove_duplicate_models($final);
+        return $final;
     }
 
     function remove_duplicate_models($cars)
