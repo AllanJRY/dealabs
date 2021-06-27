@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Comment;
 use App\Entity\File;
 use App\Entity\GoodPlan;
+use App\Event\CommentPublishedEvent;
+use App\Event\DealCreatedEvent;
 use App\Form\CommentType;
 use App\Form\GoodPlanType;
 use App\Repository\GoodPlanRepository;
@@ -15,6 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 /**
  * @Route({
@@ -24,6 +27,22 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class GoodPlanController extends AbstractController
 {
+
+    /**
+     * @var EventDispatcherInterface
+     */
+    private $eventDispatcher;
+
+    /**
+     * GoodPlanController constructor.
+     * @param $eventDispatcher
+     */
+    public function __construct(EventDispatcherInterface $eventDispatcher)
+    {
+        $this->eventDispatcher = $eventDispatcher;
+    }
+
+
     /**
      * @Route("/", name="good_plan_index", methods={"GET"})
      */
@@ -64,6 +83,8 @@ class GoodPlanController extends AbstractController
      */
     public function new(Request $request): Response
     {
+        if ($this->getUser()->isClosed()) throw new AccessDeniedHttpException();
+
         $goodPlan = new GoodPlan();
         $form = $this->createForm(GoodPlanType::class, $goodPlan);
         $form->handleRequest($request);
@@ -88,6 +109,7 @@ class GoodPlanController extends AbstractController
 
             $entityManager->persist($goodPlan);
             $entityManager->flush();
+            $this->eventDispatcher->dispatch(new DealCreatedEvent($goodPlan), DealCreatedEvent::NAME);
 
             return $this->redirectToRoute('good_plan_index');
         }
@@ -114,6 +136,7 @@ class GoodPlanController extends AbstractController
             $newComment->setAuthor($this->getUser());
             $entityManager->persist($newComment);
             $entityManager->flush();
+            $this->eventDispatcher->dispatch(new CommentPublishedEvent($newComment), CommentPublishedEvent::NAME);
         }
 
         return $this->render('pages/good_plan/show.html.twig', [
@@ -128,7 +151,7 @@ class GoodPlanController extends AbstractController
      */
     public function edit(Request $request, GoodPlan $goodPlan): Response
     {
-        if ($this->getUser()->getId() != $goodPlan->getAuthor()->getId() || in_array('ROLE_ADMIN', $this->getUser()->getRoles())) {
+        if ($this->getUser()->getId() != $goodPlan->getAuthor()->getId() || in_array('ROLE_ADMIN', $this->getUser()->getRoles()) || $this->getUser()->isClosed()) {
             throw new AccessDeniedHttpException();
         }
 
@@ -153,11 +176,11 @@ class GoodPlanController extends AbstractController
      */
     public function delete(Request $request, GoodPlan $goodPlan): Response
     {
-        if ($this->getUser()->getId() != $goodPlan->getAuthor()->getId() || in_array('ROLE_ADMIN', $this->getUser()->getRoles())) {
+        if ($this->getUser()->getId() != $goodPlan->getAuthor()->getId() || in_array('ROLE_ADMIN', $this->getUser()->getRoles()) || $this->getUser()->isClosed()) {
             throw new AccessDeniedHttpException();
         }
 
-        if ($this->isCsrfTokenValid('delete'.$goodPlan->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $goodPlan->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($goodPlan);
             $entityManager->flush();

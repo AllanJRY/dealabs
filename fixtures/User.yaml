@@ -5,3 +5,4 @@ App\Entity\User:
         username: <lastName()>
         is_verified: 1
         avatar: '@file*'
+        badges: ['@badge*','@badge*']

@@ -13,11 +13,14 @@
                         <img class="img-fluid rounded-circle" src="http://via.placeholder.com/300x180" alt="">
                     {% endif %}
                 </div>
-                <div class="col-10">
+                <div class="col-8">
                     <h1>{{ app.user.username }}</h1>
                     <div class="row">
                         <p>Inscrit(e) depuis le ... <span class="text-success">En ligne</span></p>
                     </div>
+                </div>
+                <div class="col-2">
+                    <a href="{{ path('profil_delete_account') }}" class="btn btn-danger">Supprimer mon compte</a>
                 </div>
             </div>
         </div>
@@ -38,12 +41,12 @@
                 <div class="col-lg-3 col-12 rounded mt-3 bg-white h-100">
                     <h3>Statistiques</h3>
                     <h4 class="text-muted">Posts</h4>
-                    <p>{{ app.user.deals|length }} deal</p>
-                    <p>{{ app.user.comments|length }} commentaire</p>
+                    <p><strong>{{ stat_nb_published_deals(app.user) }}</strong> deal(s)</p>
+                    <p><strong>{{ stat_nb_published_comments(app.user) }}</strong> commentaire(s)</p>
                     <h4 class="text-muted">Palmarès</h4>
-                    <p>0° deal le plus hot</p>
-                    <p>0° en moyenne depuis 1 an</p>
-                    <p>0% de deals hot</p>
+                    <p><strong>{{ stat_hottest_published_deal_rate(app.user) }}°</strong> deal le plus hot</p>
+                    <p><strong>{{ stat_avg_deal_rates_on_time_window(app.user) }}°</strong> en moyenne depuis 1 an</p>
+                    <p><strong>{{ stat_percent_of_hot_deals(app.user) }}%</strong> de deals hot</p>
                 </div>
                 <div class="col-lg-9 col-12">
                     {% block main_profile_section %}{% endblock %}

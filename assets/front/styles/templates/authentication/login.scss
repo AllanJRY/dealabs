@@ -2,8 +2,19 @@
     margin: 0;
     padding: 0;
     font-family: sans-serif;
-    background: grey;
     height: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+
+    &:before {
+        content: "";
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        left: 0;
+        top: 0;
+        background: rgba(0, 0, 0, .5);
+    }
 }
 
 .card {
@@ -17,10 +28,19 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    background: #191919;;
+    background: white;
     text-align: center;
     transition: 0.25s;
-    margin-top: 100px
+    margin-top: 50px;
+
+    label {
+        color: black;
+        text-decoration: underline;
+    }
+
+    @include media-breakpoint-down(md) {
+        left: 0;
+    }
 }
 
 .box input[type="text"],
@@ -35,13 +55,13 @@
     padding: 10px 10px;
     width: 250px;
     outline: none;
-    color: white;
+    color: black;
     border-radius: 24px;
     transition: 0.25s
 }
 
 .box h1 {
-    color: white;
+    color: black;
     text-transform: uppercase;
     font-weight: 500
 }
@@ -62,10 +82,14 @@
     border: 2px solid #2ecc71;
     padding: 14px 40px;
     outline: none;
-    color: white;
+    color: black;
     border-radius: 24px;
     transition: 0.25s;
     cursor: pointer
+}
+
+.box .form-check-input[type="checkbox"] {
+    border: 1px solid black;
 }
 
 .box button[type="submit"]:hover {

@@ -43,3 +43,10 @@ services:
             - [ 'setLogger', ['@logger'] ]
         tags:
             - { name: 'monolog.logger', channel: 'app' }
+
+    App\EventListener\UserSoftDeletionListener:
+        tags:
+            -
+                name: 'doctrine.event_listener'
+                event: 'preUpdate'
+                entity: 'App\Entity\User'

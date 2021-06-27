@@ -1,6 +1,6 @@
 <div class="card mt-3 mb-3">
     <div class="card-horizontal">
-        <div class="col-md-4 m-3 m-3">
+        <div class="col-1 col-md-4 m-3 m-3">
             <a class="text-decoration-none text-dark" href="{{ path('good_plan_show',{slug : deal.slug}) }}">
                 {% if deal.picture and file_exists(deal.picture.getSrc) %}
                     <img class="img-fluid" src="{{ asset(deal.picture.getSrc) }}" alt="">
@@ -9,7 +9,7 @@
                 {% endif %}
             </a>
         </div>
-        <div class="card-body col-10 col-md-8">
+        <div class="card-body col-11 col-md-8">
             <div class="row justify-content-between ">
                 <div class="col-8">
                     <div class="btn-group" role="group">
@@ -58,7 +58,8 @@
                 <a class="btn btn-outline-secondary col-4" type="button">
                     <span>{{ deal.promoCode }}</span>
                 </a>
-                <button class="btn btn-primary col-2">
+                <button class="btn btn-primary col-2" onclick="
+                        copyToClipboard({{ deal.promoCode }})">
                     <i class="fas btn fa-cut"></i>
                 </button>
             </div>

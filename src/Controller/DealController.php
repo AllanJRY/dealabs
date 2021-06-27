@@ -5,12 +5,14 @@ namespace App\Controller;
 use App\Entity\Deal;
 use App\Entity\Rating;
 use App\Entity\User;
+use App\Event\DealRatedEvent;
 use App\Repository\UserRepository;
 use App\Service\Mailer;
 use App\Service\RatingService;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,10 +20,30 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class DealController extends AbstractController
 {
+    /**
+     * @var RatingService
+     */
     private $ratingService;
+
+    /**
+     * @var UserRepository
+     */
     private $userRepository;
+
+    /**
+     * @var EntityManagerInterface
+     */
     private $entityManager;
+
+    /**
+     * @var Mailer
+     */
     private $mailer;
+
+    /**
+     * @var EventDispatcherInterface
+     */
+    private $eventDispatcher;
 
     /**
      * DealController constructor.
@@ -30,12 +52,13 @@ class DealController extends AbstractController
      * @param EntityManagerInterface $entityManager
      * @param Mailer $mailer
      */
-    public function __construct(RatingService $ratingService, UserRepository $userRepository, EntityManagerInterface $entityManager, Mailer $mailer)
+    public function __construct(RatingService $ratingService, UserRepository $userRepository, EntityManagerInterface $entityManager, Mailer $mailer, EventDispatcherInterface $eventDispatcher)
     {
         $this->ratingService = $ratingService;
         $this->userRepository = $userRepository;
         $this->entityManager = $entityManager;
         $this->mailer = $mailer;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     /**
@@ -44,7 +67,7 @@ class DealController extends AbstractController
      * @param Deal $deal
      * @return JsonResponse
      */
-    public function index(Request $request, Deal $deal): JsonResponse
+    public function rateDeal(Request $request, Deal $deal): JsonResponse
     {
         $user = $this->userRepository->find($request->request->get('userID'));
         $value = intval($request->request->get('value'));
@@ -54,6 +77,7 @@ class DealController extends AbstractController
             $this->ratingService->updateRatingValue($userRating, $value);
         } else {
             $this->ratingService->createRating($user, $deal, $value);
+            $this->eventDispatcher->dispatch(new DealRatedEvent($deal, $user), DealRatedEvent::NAME);
         }
 
         // TODO send back new hot value
@@ -143,7 +167,7 @@ class DealController extends AbstractController
         $user = $userRepo->find($request->request->get('userID'));
 
         // TODO check si le deal a déjà été save
-        if(!$deal->getExpired() && $user != null) {
+        if(!$deal->getExpired() && $user != null && !$user->isClosed()) {
             $user->addSavedDeal($deal);
             $this->entityManager->flush();
 

@@ -3,7 +3,7 @@
 {% block title %}Register{% endblock %}
 
 {% block body %}
-    <div class="container-fluid login">
+    <div class="container-fluid login" style="background-image: url('{{ asset('build/images/front/Capture.PNG') }}');">
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
@@ -16,11 +16,18 @@
 
                         {{ form_start(registrationForm, {'attr': {'class': 'box'}}) }}
 
+                        <div class="row justify-content-end">
+                            <a href="{{ path('home') }}" type="button" class="btn btn-light col-1 border-dark" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </a>
+                        </div>
+
                         <h1 class="h3 mb-3 font-weight-normal">Inscription</h1>
-                        {{ form_row(registrationForm.email, {'label_attr': {'class': 'text-white text-decoration-underline'}}) }}
-                        {{ form_row(registrationForm.username, {'label_attr': {'class': 'text-white text-decoration-underline'}}) }}
-                        {{ form_row(registrationForm.plainPassword, {'label_attr': {'class': 'text-white text-decoration-underline'}}) }}
-                        {{ form_row(registrationForm.agreeTerms, {'label_attr': {'class': 'text-white text-decoration-underline'}}) }}
+
+                        {{ form_row(registrationForm.email) }}
+                        {{ form_row(registrationForm.username) }}
+                        {{ form_row(registrationForm.plainPassword) }}
+                        {{ form_row(registrationForm.agreeTerms) }}
 
                         <button type="submit" class="btn">Register</button>
                         {{ form_end(registrationForm) }}

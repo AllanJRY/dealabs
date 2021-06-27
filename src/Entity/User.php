@@ -89,6 +89,16 @@ class User implements UserInterface
      */
     private $alarms;
 
+    /**
+     * @ORM\Column(type="boolean", options={"default" : false})
+     */
+    private $closed = false;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Badge::class, mappedBy="owners")
+     */
+    private $badges;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -325,23 +335,6 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getBadges(): array
-    {
-        $cobaye = new Badge('Cobaye', 'Vous avez posté au moins 10 deals', 10, $this->deals->count());
-        $rapport = new Badge('Rapport de stage', 'Vous avez posté au moins 10 commentaires', 10, $this->comments->count());
-        $surveillant = new Badge('Surveillant', 'Vous avez voté sur 10 deals', 10, $this->ratings->count());
-        $deal_success = $deal_failed = $result = [];
-
-        $this->deals->count() >= 10 ? array_push($deal_success, $cobaye) : array_push($deal_failed, $cobaye);
-        $this->comments->count() >= 10 ? array_push($deal_success, $rapport) : array_push($deal_failed, $rapport);
-        $this->ratings->count() >= 10 ? array_push($deal_success, $surveillant) : array_push($deal_failed, $surveillant);
-
-        array_push($result, $deal_success);
-        array_push($result, $deal_failed);
-
-        return $result;
-    }
-
     /**
      * @return Collection|Alarm[]
      */
@@ -367,6 +360,45 @@ class User implements UserInterface
             if ($alarm->getUser() === $this) {
                 $alarm->setUser(null);
             }
+        }
+
+        return $this;
+    }
+
+    public function isClosed(): ?bool
+    {
+        return $this->closed;
+    }
+
+    public function setClosed(bool $closed): self
+    {
+        $this->closed = $closed;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Badge[]
+     */
+    public function getBadges(): Collection
+    {
+        return $this->badges;
+    }
+
+    public function addBadge(Badge $badge): self
+    {
+        if (!$this->badges->contains($badge)) {
+            $this->badges[] = $badge;
+            $badge->addOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBadge(Badge $badge): self
+    {
+        if ($this->badges->removeElement($badge)) {
+            $badge->removeOwner($this);
         }
 
         return $this;

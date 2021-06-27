@@ -6,9 +6,9 @@
     {% include('partials/component/navbar/filter-navbar.html.twig') with
         {
             'title': 'Tous les deals',
+            'default': path('good_plan_index'),
             'links': {
-                'default': path('good_plan_index'),
-                'hot': path('hot_good_plan_index')
+                'Hot': path('hot_good_plan_index')
             }
         }
     %}
