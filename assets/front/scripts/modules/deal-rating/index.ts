@@ -15,7 +15,6 @@ window.addEventListener('load', () => {
                     const value: number = parseInt(ratingBtn.getAttribute('data-value'));
                     const dealHotValueElement: HTMLElement = ratingBtn.parentElement.querySelector<HTMLElement>('[data-deal-hot-value]');
                     // FIXME should take into account that a change between 1 to - should down 2 times
-                    dealHotValueElement.setAttribute('value', dealHotValueElement.getAttribute('value')+value);
 
                     if (dealID && value) {
                         // FIXME
@@ -27,9 +26,13 @@ window.addEventListener('load', () => {
                             method: "POST",
                             body: formData,
                         }).then(responseString => {
-                            if(responseString.status !== 204) {
+                            if(responseString.status !== 200) {
                                 console.warn("Unable to rate the deal");
                             }
+                            return responseString.json();
+                        }).then(response => {
+                            dealHotValueElement.setAttribute('value', response.hotValue);
+                            dealHotValueElement.innerText = response.hotValue+'°';
                         });
                     }
                 }

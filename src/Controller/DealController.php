@@ -84,8 +84,11 @@ class DealController extends AbstractController
             $this->eventDispatcher->dispatch(new DealRatedEvent($deal, $user), DealRatedEvent::NAME);
         }
 
-        // TODO send back new hot value
-        return new JsonResponse(null, 204);
+        $hotValue = 0;
+        foreach ($deal->getRatings() as $dealRating) {
+            $hotValue += $dealRating->getValue();
+        }
+        return new JsonResponse(["hotValue" => $hotValue], 200);
     }
 
     /**
