@@ -3,18 +3,17 @@
 
 namespace App\Service;
 
+use Exception;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
-use Symfony\Component\Mime\Email;
-use Twig\Environment;
-use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Throwable;
+use Twig\Environment;
 use Twig\Error\LoaderError;
 use Twig\Error\SyntaxError;
-use Exception;
 
 /**
  * Class Mailer
@@ -68,8 +67,7 @@ class Mailer implements LoggerAwareInterface
             ->subject($template->renderBlock('subject', $vars))
             ->html($template->renderBlock('html', $vars))
             ->text($template->renderBlock('text', $vars))
-            ->context($vars)
-        ;
+            ->context($vars);
 
         if (null !== $replyTo) {
             $email->replyTo(new Address($replyTo));

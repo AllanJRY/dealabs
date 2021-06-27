@@ -13,8 +13,7 @@ class PartnerType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('website')
-        ;
+            ->add('website');
     }
 
     public function configureOptions(OptionsResolver $resolver)

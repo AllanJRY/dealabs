@@ -5,8 +5,6 @@ namespace App\Repository;
 use App\Entity\Deal;
 use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\NonUniqueResultException;
-use Doctrine\ORM\NoResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -111,6 +109,11 @@ class DealRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    /**
+     * @param string $query
+     * @param int|null $limit
+     * @return int|mixed|string
+     */
     public function findWhichContains(string $query, int $limit = null)
     {
         if ($limit == null) return $this->findAllWhichContains($query);
@@ -127,8 +130,8 @@ class DealRepository extends ServiceEntityRepository
     }
 
     /**
-     * @throws NonUniqueResultException
-     * @throws NoResultException
+     * @param $user
+     * @return int|mixed|string
      */
     public function findBestRatingDealByUser($user)
     {
@@ -185,7 +188,7 @@ class DealRepository extends ServiceEntityRepository
                 ->groupBy('d.id')
                 ->getQuery()
                 ->getResult();
-            $final = array_merge(array_merge($final,$res));
+            $final = array_merge(array_merge($final, $res));
         }
         $this->remove_duplicate_models($final);
         return count($final);

@@ -4,7 +4,6 @@ namespace App\Security;
 
 use App\Service\Mailer;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -26,6 +25,12 @@ class EmailVerifier
         $this->parameterBag = $parameterBag;
     }
 
+    /**
+     * @throws \Twig\Error\SyntaxError
+     * @throws \Throwable
+     * @throws \Symfony\Component\Mailer\Exception\TransportExceptionInterface
+     * @throws \Twig\Error\LoaderError
+     */
     public function sendEmailConfirmation(string $verifyEmailRouteName, UserInterface $user): void
     {
         $signatureComponents = $this->verifyEmailHelper->generateSignature(

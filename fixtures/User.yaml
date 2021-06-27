@@ -1,8 +1,8 @@
 App\Entity\User:
-    user_{1..500}:
+    user_{1..400}:
         email: <email()>
         password: <password()>
-        username: <lastName()>
+        username (unique): <lastName()>
         is_verified: 1
         avatar: '@file*'
         badges: ['@badge*','@badge*']

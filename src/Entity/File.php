@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\FileRepository;
+use DateTime;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -143,24 +145,24 @@ class File
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
+    public function getCreatedAt(): ?DateTimeInterface
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    public function setCreatedAt(DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    public function getUpdatedAt(): ?\DateTimeInterface
+    public function getUpdatedAt(): ?DateTimeInterface
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
+    public function setUpdatedAt(?DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
 
@@ -179,17 +181,19 @@ class File
         return $this;
     }
 
-    public function getFile() {
+    public function getFile()
+    {
         return $this->file;
     }
 
     /**
      * @param UploadedFile|null $file
      */
-    public function setFile(UploadedFile $file = null) {
+    public function setFile(UploadedFile $file = null)
+    {
         $this->file = $file;
 
-        if($this->name !== null) {
+        if ($this->name !== null) {
             $this->tempFileName = $this->name;
 
             $this->extension = null;
@@ -202,8 +206,9 @@ class File
      * @ORM\PrePersist()
      * @ORM\PreUpdate()
      */
-    public function preUpload() {
-        if($this->file === null) {
+    public function preUpload()
+    {
+        if ($this->file === null) {
             return;
         }
 
@@ -211,20 +216,21 @@ class File
         $this->title = pathinfo($this->file->getClientOriginalName(), PATHINFO_FILENAME);
         $this->name = $this->file->getClientOriginalName();
         $this->fileSystem = "";
-        $this->createdAt = new \DateTime();
+        $this->createdAt = new DateTime();
     }
 
     /**
      * @ORM\PostPersist()
      * @ORM\PostUpdate()
      */
-    public function upload() {
+    public function upload()
+    {
         if ($this->file === null) {
             return;
         }
 
         if ($this->tempFileName !== null) {
-            $oldFile = $this->getUploadRootDir().'/'.$this->tempFileName;
+            $oldFile = $this->getUploadRootDir() . '/' . $this->tempFileName;
             if (file_exists($oldFile)) {
                 unlink($oldFile);
             }
@@ -232,7 +238,7 @@ class File
 
         $this->file->move(
             $this->getUploadRootDir(),
-            $this->id.'-'.$this->title.'.'.$this->extension,
+            $this->id . '-' . $this->title . '.' . $this->extension,
         );
 
         $this->file = null;
@@ -243,7 +249,7 @@ class File
      */
     public function preRemoveUpload()
     {
-        $this->tempFileName = $this->getUploadRootDir().'/'.$this->id.'-'.$this->title.'.'.$this->extension;
+        $this->tempFileName = $this->getUploadRootDir() . '/' . $this->id . '-' . $this->title . '.' . $this->extension;
     }
 
     /**
@@ -251,19 +257,18 @@ class File
      */
     public function removeUpload()
     {
-        if (file_exists($this->tempFileName))
-        {
+        if (file_exists($this->tempFileName)) {
             unlink($this->tempFileName);
         }
     }
 
     private function getUploadRootDir(): string
     {
-        return __DIR__.'/../../public/uploads';
+        return __DIR__ . '/../../public/uploads';
     }
 
     public function getSrc(): string
     {
-        return './uploads/'.$this->id.'-'.$this->title.'.'.$this->extension;
+        return './uploads/' . $this->id . '-' . $this->title . '.' . $this->extension;
     }
 }

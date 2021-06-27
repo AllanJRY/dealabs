@@ -16,7 +16,10 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Twig\Error\LoaderError;
+use Twig\Error\SyntaxError;
 
 class DealController extends AbstractController
 {
@@ -51,6 +54,7 @@ class DealController extends AbstractController
      * @param UserRepository $userRepository
      * @param EntityManagerInterface $entityManager
      * @param Mailer $mailer
+     * @param EventDispatcherInterface $eventDispatcher
      */
     public function __construct(RatingService $ratingService, UserRepository $userRepository, EntityManagerInterface $entityManager, Mailer $mailer, EventDispatcherInterface $eventDispatcher)
     {
@@ -92,7 +96,7 @@ class DealController extends AbstractController
      */
     public function setDealExpired(Deal $deal): Response
     {
-        if(!$deal->getExpired()) {
+        if (!$deal->getExpired()) {
             $deal->setExpired(true);
         }
 
@@ -114,14 +118,17 @@ class DealController extends AbstractController
         $userRepo = $this->entityManager->getRepository(User::class);
         $user = $userRepo->find($request->request->get('userID'));
 
-        if(!$deal->getExpired() && $user != null) {
-            $this->mailer->send('mail/deal/expired_report.html.twig',
-                [
-                    'deal' => $deal,
-                ],
-                $this->getParameter('admin_mail'),
-                $user->getEmail(),
-            );
+        if (!$deal->getExpired() && $user != null) {
+            try {
+                $this->mailer->send('mail/deal/expired_report.html.twig',
+                    [
+                        'deal' => $deal,
+                    ],
+                    $this->getParameter('admin_mail'),
+                    $user->getEmail(),
+                );
+            } catch (TransportExceptionInterface | LoaderError | SyntaxError | \Throwable $e) {
+            }
 
             return new JsonResponse(null, 200);
         }
@@ -140,14 +147,17 @@ class DealController extends AbstractController
         $userRepo = $this->entityManager->getRepository(User::class);
         $user = $userRepo->find($request->request->get('userID'));
 
-        if(!$deal->getExpired() && $user != null) {
-            $this->mailer->send('mail/deal/report.html.twig',
-                [
-                    'deal' => $deal,
-                ],
-                $this->getParameter('admin_mail'),
-                $user->getEmail(),
-            );
+        if (!$deal->getExpired() && $user != null) {
+            try {
+                $this->mailer->send('mail/deal/report.html.twig',
+                    [
+                        'deal' => $deal,
+                    ],
+                    $this->getParameter('admin_mail'),
+                    $user->getEmail(),
+                );
+            } catch (TransportExceptionInterface | LoaderError | SyntaxError | \Throwable $e) {
+            }
 
             return new JsonResponse(null, 200);
         }
@@ -167,7 +177,7 @@ class DealController extends AbstractController
         $user = $userRepo->find($request->request->get('userID'));
 
         // TODO check si le deal a déjà été save
-        if(!$deal->getExpired() && $user != null && !$user->isClosed()) {
+        if (!$deal->getExpired() && $user != null && !$user->isClosed()) {
             $user->addSavedDeal($deal);
             $this->entityManager->flush();
 

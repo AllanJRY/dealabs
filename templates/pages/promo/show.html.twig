@@ -10,9 +10,15 @@
     {% else %}
         {% if app.user.id is defined %}
             {# TODO: disbaled if already saved #}
-            <button class="btn btn-success" data-save-deal data-deal-id="{{ deal.id }}" data-user-id="{{ app.user.id }}">Sauvegarder</button>
-            <button class="btn btn-primary" data-report-deal-expired data-deal-id="{{ deal.id }}" data-user-id="{{ app.user.id }}">Expiré ?</button>
-            <button class="btn btn-danger" data-report-deal data-deal-id="{{ deal.id }}" data-user-id="{{ app.user.id }}">Signaler</button>
+            <button class="btn btn-success" data-save-deal data-deal-id="{{ deal.id }}"
+                    data-user-id="{{ app.user.id }}">Sauvegarder
+            </button>
+            <button class="btn btn-primary" data-report-deal-expired data-deal-id="{{ deal.id }}"
+                    data-user-id="{{ app.user.id }}">Expiré ?
+            </button>
+            <button class="btn btn-danger" data-report-deal data-deal-id="{{ deal.id }}"
+                    data-user-id="{{ app.user.id }}">Signaler
+            </button>
         {% endif %}
     {% endif %}
 
@@ -24,7 +30,8 @@
                     <div class="bg-white rounded mt-3">
                         <div class="row p-3">
                             <div class="col-12 col-md-4">
-                                <a class="text-decoration-none text-dark d-flex justify-content-center" href="{{ deal.link }}" target="_blank">
+                                <a class="text-decoration-none text-dark d-flex justify-content-center"
+                                   href="{{ deal.link }}" target="_blank">
                                     {% if deal.picture and file_exists(deal.picture.getSrc) %}
                                         <img class="img-fluid" src="{{ asset(deal.picture.getSrc) }}" alt="">
                                     {% else %}
@@ -43,11 +50,11 @@
                                         {# -{{ deal.price }}€ #}
                                         {{ deal.promoType.type }}
                                     </span>
-                                        {% if deal.partner %}
-                                            <span class="text-muted">| Codes promo </span>
-                                            <a class="text-primary text-decoration-none"
-                                               href="#">{{ deal.partner.name }}</a>
-                                        {% endif %}
+                                    {% if deal.partner %}
+                                        <span class="text-muted">| Codes promo </span>
+                                        <a class="text-primary text-decoration-none"
+                                           href="#">{{ deal.partner.name }}</a>
+                                    {% endif %}
                                 </p>
                                 <div class="row">
                                     <a class="btn btn-primary col-6" type="button" target="_blank"

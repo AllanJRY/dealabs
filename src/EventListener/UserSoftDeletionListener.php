@@ -1,8 +1,9 @@
 <?php
+
 namespace App\EventListener;
 
 use App\Entity\User;
-use Doctrine\ORM\Event\LifecycleEventArgs;
+use DateTime;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
@@ -24,17 +25,18 @@ class UserSoftDeletionListener
     }
 
 
-    public function preUpdate(PreUpdateEventArgs $event): void {
+    public function preUpdate(PreUpdateEventArgs $event): void
+    {
         $user = $event->getEntity();
 
-        if($user instanceof User && $user->isClosed()) {
-            $dateTimestamp = (new \DateTime())->getTimestamp();
-            $suffix = rand(0, 99999)+$dateTimestamp;
-            $anonymousName = self::ANONYMOUS_PREFIX.$suffix;
+        if ($user instanceof User && $user->isClosed()) {
+            $dateTimestamp = (new DateTime())->getTimestamp();
+            $suffix = rand(0, 99999) + $dateTimestamp;
+            $anonymousName = self::ANONYMOUS_PREFIX . $suffix;
             $user->setUsername($anonymousName);
             $user->setAvatar(null);
-            $user->setEmail($anonymousName.'@dealabs-closed.com');
-            $user->setPassword($this->encoder->encodePassword($user, $anonymousName.'@dealabs-closed.com'));
+            $user->setEmail($anonymousName . '@dealabs-closed.com');
+            $user->setPassword($this->encoder->encodePassword($user, $anonymousName . '@dealabs-closed.com'));
             foreach ($user->getSavedDeals() as $savedDeal) {
                 $user->removeSavedDeal($savedDeal);
             }

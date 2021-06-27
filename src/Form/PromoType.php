@@ -39,7 +39,7 @@ class PromoType extends AbstractType
                 'required' => false,
                 'attr' => [
                     'v-model' => 'link',
-                    'placeholder' => 'http://www.example.com/superdeal'
+                    'placeholder' => 'https://www.example.com/superdeal'
                 ],
             ])
             ->add('promoCode', TextType::class, [

@@ -34,7 +34,7 @@ class PromoController extends AbstractController
 
     /**
      * GoodPlanController constructor.
-     * @param $eventDispatcher
+     * @param EventDispatcherInterface $eventDispatcher
      */
     public function __construct(EventDispatcherInterface $eventDispatcher)
     {
@@ -174,7 +174,7 @@ class PromoController extends AbstractController
             throw new AccessDeniedHttpException();
         }
 
-        if ($this->isCsrfTokenValid('delete'.$promo->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $promo->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($promo);
             $entityManager->flush();

@@ -3,7 +3,7 @@
 {% block title %}Alarm index{% endblock %}
 
 {% block main_profile_section %}
-    <div class="row rounded m-3 mb-0 bg-white">
+    <div class="row rounded m-lg-3 mt-3 mb-0 bg-white">
         <a class="btn col-6 text-primary {% if app.request.attributes.get('_route') != 'profil_keyword_alarms' %} btn-light text-dark{% endif %}"
            href="{{ path('profil_keyword_alarms') }}">Fil d'alertes</a>
         <a class="btn col-6 text-primary {% if app.request.attributes.get('_route') != 'alarm_index' %} btn-light text-dark{% endif %}"
@@ -27,7 +27,7 @@
             {% include('partials/component/navbar/sidebar.html.twig') %}
         </div>
     {% else %}
-        <div class="row rounded m-3 mb-0 bg-white">
+        <div class="row rounded m-lg-3 mt-3 mb-3 bg-white">
             <h2>Oooooh :(</h2>
         </div>
     {% endif %}

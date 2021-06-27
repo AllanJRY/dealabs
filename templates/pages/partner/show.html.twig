@@ -14,7 +14,8 @@
                     </div>
                 </div>
                 <div class="col-3 align-items-end d-flex">
-                    <a type="button" class="btn btn-primary" href="{{ partner.website }}" target="_blank">Visiter le site</a>
+                    <a type="button" class="btn btn-primary" href="{{ partner.website }}" target="_blank">Visiter le
+                        site</a>
                 </div>
             </div>
         </div>
@@ -26,14 +27,7 @@
             </div>
         </div>
     </div>
-    {% include('partials/component/navbar/filter-navbar.html.twig') with
-        {
-            'title': '',
-            'links': {
-            'default': path('good_plan_index'),
-            'hot': path('hot_good_plan_index')
-        }
-        } %}
+    {% include('partials/component/navbar/filter-navbar.html.twig') %}
     <div class="container-fluid bg-secondary">
         <div class="container">
             <div class="row">

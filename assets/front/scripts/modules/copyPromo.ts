@@ -2,7 +2,7 @@ function copyToClipboard(textToCopy: string) {
     ClipboardService.writeText(textToCopy).then(() => {
         console.log('hura')
     }).catch(() => console.log('kurwa!'));
-};
+}
 
 export class ClipboardService {
     public static writeText(textToCopy: string): Promise<void> {

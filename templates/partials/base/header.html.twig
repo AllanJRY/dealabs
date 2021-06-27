@@ -1,9 +1,9 @@
 <header class="bg-dark">
     <div class="container">
         <div class="row align-items-lg-center">
-            <a class="navbar-brand col-md-2 col-3 m-0 d-none d-lg-flex" href="{{ path('home') }}">
+            <a class="navbar-brand col-md-2 col-3 m-0 d-none d-md-block" href="{{ path('home') }}">
                 <img class="img-fluid"
-                     src="https://lh3.googleusercontent.com/proxy/feKgaSyD4UlnO0AcZN9N6sSD17MtzvLR-Teq1ppyN2UTjWqg_RSQBha-zbZmvDJK5scSQcrrNmU2_kemSnkjiSv7XHd5fetXH0xtU1ouky7ejKrHTBicSJ1v"
+                     src="https://www.dealabs.com/assets/images/schema.org/organisation/dealabs.png"
                      alt="Dealabs"
                      style="filter: brightness(0) invert(1);">
             </a>
@@ -17,7 +17,7 @@
                             <span class="navbar-toggler-icon"></span>
                         </button>
                         <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-                            <form class="d-lg-none d-flex" method="get" action="{{ path('search') }}">
+                            <form class="d-md-none d-flex" method="get" action="{{ path('search') }}">
                                 <input class="form-control me-2 " type="search" placeholder="Rechercher..." name="s"
                                        aria-label="Rechercher...">
                                 <button class="btn btn-success" type="submit"><i class="fas fa-search"></i></button>
@@ -58,7 +58,7 @@
                                             <div class="row">
                                                 {% for partner in get_all_partner()|slice(0,4) %}
                                                     <li><a class="dropdown-item"
-                                                                         href="{{ path('category_show',{id : partner.id}) }}">{{ partner.name }}</a>
+                                                           href="{{ path('category_show',{id : partner.id}) }}">{{ partner.name }}</a>
                                                     </li>
                                                 {% endfor %}
                                             </div>
@@ -70,19 +70,23 @@
                     </div>
                 </nav>
             </div>
-            <form class="col-md-3 d-none d-lg-flex" method="get" action="{{ path('search') }}">
-                <input class="form-control me-2 " type="search" placeholder="Rechercher..." aria-label="Rechercher..."
-                       name="s">
-                <button class="btn btn-success" type="submit"><i class="fas fa-search"></i></button>
+            <form class="col-md-3 d-none d-md-block" method="get" action="{{ path('search') }}">
+                <div class="d-flex mt-2">
+                    <input class="form-control me-2 " type="search" placeholder="Rechercher..."
+                           aria-label="Rechercher..."
+                           name="s">
+                    <button class="btn btn-success" type="submit"><i class="fas fa-search"></i></button>
+                </div>
             </form>
-            <div class="col-4 col-md-3 d-flex flex-nowrap align-items-lg-center">
+            <div class="col-4 col-md-3 d-flex flex-nowrap align-items-lg-center justify-content-end">
                 {% if not app.user %}
                     <a class="btn m-2 btn-dark" href="{{ path('app_login') }}" style="background-color: black">
                         <i class="fas fa-user"></i>
                         <span class="d-none d-lg-flex">Connexion</span>
                     </a>
                 {% else %}
-                    <a href="{{ path('profil_keyword_alarms') }}" class="btn btn-dark m-3 d-none d-lg-flex flex-column" style="background-color: black">
+                    <a href="{{ path('profil_keyword_alarms') }}" class="btn btn-dark m-3 d-none d-lg-flex flex-column"
+                       style="background-color: black">
                         <i class="fas fa-bell"></i>
                         <span class="badge bg-danger mt-1">
                             {{ get_number_new_deal_last_time_request_keyword_alarms( app.session.get('last_time_request_keyword_alarms')) }}
@@ -92,9 +96,9 @@
                         <button class="btn btn-circle btn-lg" type="button" id="dropdownMenuButton1"
                                 data-bs-toggle="dropdown" aria-expanded="false"
                                 {% if app.user.avatar and file_exists(app.user.avatar.getSrc) %}
-                            style="background: url({{ asset(app.user.avatar.getSrc) }}); background-repeat: no-repeat; background-size: cover;"
+                            style="background: url({{ asset(app.user.avatar.getSrc) }}) no-repeat; background-size: cover;"
                         {% else %}
-                            style="background: url('http://via.placeholder.com/300x180'); background-repeat: no-repeat; background-size: cover;"
+                            style="background: url('http://via.placeholder.com/300x180') no-repeat; background-size: cover;"
                                 {% endif %}>
                             <span class="badge bg-danger d-lg-none">
                                 {{ get_number_new_deal_last_time_request_keyword_alarms( app.session.get('last_time_request_keyword_alarms')) }}

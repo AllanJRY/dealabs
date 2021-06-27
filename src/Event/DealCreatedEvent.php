@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Event;
 
 use App\Entity\Deal;
@@ -15,7 +16,7 @@ class DealCreatedEvent extends Event
 
     /**
      * DealCreatedEvent constructor.
-     * @param $deal
+     * @param Deal $deal
      */
     public function __construct(Deal $deal)
     {

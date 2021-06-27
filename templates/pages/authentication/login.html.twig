@@ -15,8 +15,9 @@
                                 <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
                             {% endif %}
 
-                            <div class="row justify-content-end">
-                                <a href="{{ path('home') }}" type="button" class="btn btn-light col-1 border-dark" aria-label="Close">
+                            <div class="d-flex justify-content-end">
+                                <a href="{{ path('home') }}" type="button"
+                                   class="btn btn-light col-1 border-dark text-center" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </a>
                             </div>
@@ -50,7 +51,8 @@
                                 <a class="text-primary text-decoration-none" href="{{ path('app_register') }}">Créer un
                                     compte ?</a>
                             </p>
-                            <a class="text-primary text-decoration-none" href="{{ path('app_forgot_password_request') }}">Vous
+                            <a class="text-primary text-decoration-none"
+                               href="{{ path('app_forgot_password_request') }}">Vous
                                 avez oublié votre mot de passe ?</a>
                         </form>
                     </div>

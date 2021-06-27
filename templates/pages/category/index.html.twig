@@ -19,7 +19,8 @@
                 {% for i in 6..categories|length-1 %}
                     <div class="col-lg-3 col-md-4 col-12">
                         <h5><a class="text-decoration-none text-dark"
-                               href="{{ path('category_show', {id : categories[i].id}) }}">{{ categories[i].title }}</a></h5>
+                               href="{{ path('category_show', {id : categories[i].id}) }}">{{ categories[i].title }}</a>
+                        </h5>
                     </div>
                 {% endfor %}
             </div>

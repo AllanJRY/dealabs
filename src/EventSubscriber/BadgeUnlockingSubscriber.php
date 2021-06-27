@@ -11,6 +11,8 @@ use App\Event\DealRatedEvent;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -46,7 +48,12 @@ class BadgeUnlockingSubscriber implements EventSubscriberInterface
         ];
     }
 
-    public function handleDealCreation(DealCreatedEvent $event) {
+    /**
+     * @throws OptimisticLockException
+     * @throws ORMException
+     */
+    public function handleDealCreation(DealCreatedEvent $event)
+    {
         $author = $event->getDeal()->getAuthor();
         $unlockableBadge = $this->entityManager->getRepository(Badge::class)->findBy(['title' => Badge::COBAYE_BADGE_TITLE], null, 1)[0];
 
@@ -56,7 +63,12 @@ class BadgeUnlockingSubscriber implements EventSubscriberInterface
         }
     }
 
-    public function handleCommentPublished(CommentPublishedEvent $event) {
+    /**
+     * @throws OptimisticLockException
+     * @throws ORMException
+     */
+    public function handleCommentPublished(CommentPublishedEvent $event)
+    {
         $author = $event->getComment()->getAuthor();
         $unlockableBadge = $this->entityManager->getRepository(Badge::class)->findBy(['title' => Badge::RAPPORT_STAGE_BADGE_TITLE], null, 1)[0];
 
@@ -66,7 +78,12 @@ class BadgeUnlockingSubscriber implements EventSubscriberInterface
         }
     }
 
-    public function handleDealRating(DealRatedEvent $event) {
+    /**
+     * @throws OptimisticLockException
+     * @throws ORMException
+     */
+    public function handleDealRating(DealRatedEvent $event)
+    {
         $rater = $event->getRater();
         $unlockableBadge = $this->entityManager->getRepository(Badge::class)->findBy(['title' => Badge::SURVEILLANT_BADGE_TITLE], null, 1)[0];
 

@@ -4,16 +4,15 @@ namespace App\Repository;
 
 use App\Entity\Deal;
 use App\Entity\User;
-use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\DBAL\ForwardCompatibility\Result;
+use Doctrine\DBAL\Exception;
 use Doctrine\ORM\NonUniqueResultException;
-use Doctrine\ORM\NoResultException;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use function Doctrine\ORM\QueryBuilder;
+use function get_class;
 
 /**
  * @method User|null find($id, $lockMode = null, $lockVersion = null)
@@ -34,7 +33,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     public function upgradePassword(UserInterface $user, string $newEncodedPassword): void
     {
         if (!$user instanceof User) {
-            throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', \get_class($user)));
+            throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', get_class($user)));
         }
 
         $user->setPassword($newEncodedPassword);
@@ -42,6 +41,9 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->_em->flush();
     }
 
+    /**
+     * @throws NonUniqueResultException
+     */
     public function countPublishedDeals(User $user): ?array
     {
         return $this->createQueryBuilder('u')
@@ -84,6 +86,8 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
      *
      * @param User $user
      * @return array|null
+     * @throws NonUniqueResultException
+     * @throws NonUniqueResultException
      */
     public function findAvgDealRatesOnYear(User $user): ?array
     {
@@ -104,6 +108,8 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
      *
      * @param User $user
      * @return array|null
+     * @throws \Doctrine\DBAL\Driver\Exception
+     * @throws Exception
      */
     public function findPercentOfHotDeals(User $user): ?array
     {

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Event;
 
 use App\Entity\Deal;
@@ -21,9 +22,10 @@ class DealRatedEvent extends Event
 
     /**
      * DealCreatedEvent constructor.
-     * @param $deal
+     * @param Deal $deal
+     * @param User $rater
      */
-    public function __construct(Deal $deal,  User $rater)
+    public function __construct(Deal $deal, User $rater)
     {
         $this->deal = $deal;
         $this->rater = $rater;

@@ -37,7 +37,8 @@ class RatingService
      * @param Deal $deal
      * @return bool
      */
-    public function tryFindUserRatingOfDeal(User $user, Deal $deal) {
+    public function tryFindUserRatingOfDeal(User $user, Deal $deal)
+    {
         foreach ($user->getRatings() as $rating) {
             if ($rating->getDeal() === $deal) {
                 return $rating;
@@ -54,8 +55,9 @@ class RatingService
      * @param Rating $rating
      * @param int $value
      */
-    public function updateRatingValue(Rating $rating, int $value) {
-        if($rating->getValue() !== $value) {
+    public function updateRatingValue(Rating $rating, int $value)
+    {
+        if ($rating->getValue() !== $value) {
             $rating->setValue($value);
             $this->entityManager->flush();
         }
@@ -71,11 +73,12 @@ class RatingService
      * @param Deal $deal
      * @param int $value
      */
-    public function createRating(User $user, Deal $deal, int $value) {
+    public function createRating(User $user, Deal $deal, int $value)
+    {
         $rating = new Rating();
         $rating->setRater($user)
-               ->setDeal($deal)
-               ->setValue($value);
+            ->setDeal($deal)
+            ->setValue($value);
         $this->entityManager->persist($rating);
         $this->entityManager->flush();
     }

@@ -2,7 +2,6 @@
 
 namespace App\Twig;
 
-use App\Entity\File;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
@@ -20,6 +19,7 @@ class FileExtension extends AbstractExtension
     }
 
     /**
+     * @param $file
      * @return bool
      */
     public function FileExists($file): bool

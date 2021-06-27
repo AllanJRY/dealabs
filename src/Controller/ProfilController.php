@@ -4,9 +4,10 @@ namespace App\Controller;
 
 use App\Entity\Badge;
 use App\Entity\Deal;
-use App\Entity\User;
-use App\Repository\BadgeRepository;
-use App\Repository\DealRepository;
+use App\Entity\File;
+use App\Form\UserType;
+use App\Security\EmailVerifier;
+use App\Security\UserAuthenticator;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -15,6 +16,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 
 /**
  * Class ProfilController
@@ -31,10 +34,15 @@ class ProfilController extends AbstractController
      * @var EntityManagerInterface
      */
     private $entityManager;
+    /**
+     * @var EmailVerifier
+     */
+    private $emailVerifier;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(EntityManagerInterface $entityManager, EmailVerifier $emailVerifier)
     {
         $this->entityManager = $entityManager;
+        $this->emailVerifier = $emailVerifier;
 
     }
 
@@ -79,11 +87,54 @@ class ProfilController extends AbstractController
     /**
      * @Route("/settings", name="profil_settings")
      */
-    public function settings(): Response
+    public function settings(Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, UserAuthenticator $authenticator): Response
     {
         if ($this->getUser()->isClosed()) return $this->redirectToRoute('home');
 
-        return $this->render('pages/profil/settings.html.twig', []);
+        $user = $this->getUser();
+        $form = $this->createForm(UserType::class, $user);
+        $form->handleRequest($request);
+
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            // encode the plain password
+            $user->setPassword(
+                $passwordEncoder->encodePassword(
+                    $user,
+                    $form->get('plainPassword')->getData()
+                )
+            );
+
+            $entityManager = $this->getDoctrine()->getManager();
+
+            $pictureFile = $form->get('avatar')->getData();
+            if ($pictureFile) {
+                $file = new File();
+                $file->setFile($pictureFile);
+                $file->preUpload();
+                $entityManager->persist($file);
+                $entityManager->flush();
+                $file->upload();
+                $user->setAvatar($file);
+            }
+
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user);
+
+            return $guardHandler->authenticateUserAndHandleSuccess(
+                $user,
+                $request,
+                $authenticator,
+                'main' // firewall name in security.yaml
+            );
+        }
+
+        return $this->render('pages/profil/settings.html.twig', [
+            'registrationForm' => $form->createView(),
+        ]);
     }
 
     /**

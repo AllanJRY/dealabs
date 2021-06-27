@@ -3,7 +3,6 @@
 namespace App\Form;
 
 use App\Entity\Category;
-use App\Entity\File;
 use App\Entity\GoodPlan;
 use App\Entity\Partner;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
@@ -41,7 +40,7 @@ class GoodPlanType extends AbstractType
                 'required' => false,
                 'attr' => [
                     'v-model' => 'link',
-                    'placeholder' => 'http://www.example.com/superdeal'
+                    'placeholder' => 'https://www.example.com/superdeal'
                 ],
             ])
             ->add('promoCode', TextType::class, [

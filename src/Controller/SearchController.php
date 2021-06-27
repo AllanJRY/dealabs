@@ -27,6 +27,7 @@ class SearchController extends AbstractController
     /**
      * SearchController constructor.
      * @param EntityManagerInterface $entityManager
+     * @param PaginatorInterface $paginator
      */
     public function __construct(EntityManagerInterface $entityManager, PaginatorInterface $paginator)
     {

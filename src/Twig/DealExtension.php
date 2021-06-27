@@ -75,7 +75,7 @@ class DealExtension extends AbstractExtension
      * Calculate the hot value of a deal by sum up rating's values.
      *
      * @param Deal $deal
-     * @return int|mixed
+     * @return int|null
      */
     public function calcHotValue(Deal $deal)
     {

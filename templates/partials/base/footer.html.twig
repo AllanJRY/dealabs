@@ -1,9 +1,46 @@
-<footer class="mt-auto container-fluid">
+<footer class="mt-auto">
+    <div class="container-fluid bg-dark pt-2 mb-2 text-white">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="d-flex flex-column ">
+                        <div class="row align-items-center">
+                            <div class="col-3">
+                                <img class="img-fluid"
+                                     src="https://www.dealabs.com/assets/images/schema.org/organisation/dealabs.png"
+                                     alt="Dealabs"
+                                     style="filter: brightness(0) invert(1);">
+                            </div>
+                            <div class="col-9">
+                                <h5>
+                                    Dealabs – La première communauté de partage de bons plans de France
+                                </h5>
+                                <p class="text-muted">Dealabs est une communauté de partage de bonnes affaires.
+                                    Découvrez et partagez les
+                                    offres en magasin et en ligne !</p>
+                            </div>
+                            <p class="text-muted">Lorsque vous cliquez sur un lien ou passez commande, nous sommes
+                                susceptibles de recevoir une commission, sans que cela ne compromette la neutralité du
+                                site. Seule la communauté de Dealabs peut faire monter ou descendre la température d'un
+                                deal, indépendamment de toute potentielle rémunération. Nous tenons beaucoup à ce que ce
+                                pouvoir reste entre vos mains.</p>
+                            <p><i class="fas fa-user-friends" style="padding-right: 10px"></i><span
+                                        class="text-primary">{{ stat_nb_users() }}</span> Inscription</p>
+                            <p><i class="fas fa-fire" style="padding-right: 10px"></i><span
+                                        class="text-primary">{{ get_all_deal()|length }}</span> Deals</p>
+                            <p><i class="fas fa-comments" style="padding-right: 10px"></i><span
+                                        class="text-primary">{{ get_nb_all_comment() }}</span> Commentaires</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="container pt-2 mb-2">
         <div class="row">
             <div class="col-12">
                 <div class="row justify-content-between text-center align-items-center">
-                    Bougrat Alexandre - Jarry Allan - LP WEB CLERMONT-FERRAND
+                    Bougrat Alexandre - Jarry Allan - LP WEB CLERMONT-FERRAND - @{{ "now"|date("Y") }}
                 </div>
             </div>
         </div>

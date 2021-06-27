@@ -23,6 +23,7 @@
 }
 
 .box {
+    z-index: 2;
     width: 500px;
     padding: 40px;
     position: absolute;
@@ -40,13 +41,16 @@
 
     @include media-breakpoint-down(md) {
         left: 0;
+        width: 100%;
+        padding: 20px;
+        top: 0;
+        margin-top: 0;
     }
 }
 
 .box input[type="text"],
 .box input[type="email"],
 .box input[type="password"] {
-    border: 0;
     background: none;
     display: block;
     margin: 20px auto;
@@ -74,7 +78,6 @@
 }
 
 .box button[type="submit"] {
-    border: 0;
     background: none;
     display: block;
     margin: 20px auto;

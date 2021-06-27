@@ -1,8 +1,8 @@
 <?php
+
 namespace App\Event;
 
 use App\Entity\Comment;
-use App\Entity\Deal;
 use Symfony\Contracts\EventDispatcher\Event;
 
 class CommentPublishedEvent extends Event
@@ -34,7 +34,7 @@ class CommentPublishedEvent extends Event
     /**
      * @param Comment $comment
      */
-    public function setComment($comment): void
+    public function setComment(Comment $comment): void
     {
         $this->comment = $comment;
     }

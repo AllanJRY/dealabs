@@ -22,12 +22,18 @@ class UserStatisticExtension extends AbstractExtension
     public function getFunctions(): array
     {
         return [
+            new TwigFunction('stat_nb_users', [$this, 'getNbUsers']),
             new TwigFunction('stat_nb_published_deals', [$this, 'getNbPublishedDeals']),
             new TwigFunction('stat_nb_published_comments', [$this, 'getNbPublishedComments']),
             new TwigFunction('stat_hottest_published_deal_rate', [$this, 'getHottestPublishedDealRate']),
             new TwigFunction('stat_avg_deal_rates_on_time_window', [$this, 'getAvgDealRatesOnTimeWindow']),
             new TwigFunction('stat_percent_of_hot_deals', [$this, 'getPercentOfHotDeals']),
         ];
+    }
+
+    public function getNbUsers(): int
+    {
+        return count($this->userRepository->findAll());
     }
 
     public function getNbPublishedDeals(User $user): int

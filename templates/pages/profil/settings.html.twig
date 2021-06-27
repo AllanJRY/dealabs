@@ -1,4 +1,40 @@
 {% extends '/pages/profil/layout_profil.html.twig' %}
 {% block main_profile_section %}
+    <div class="row rounded m-lg-3 mt-3 mb-3 bg-white">
+        <div class="col-12">
+            {% for flashError in app.flashes('verify_email_error') %}
+                <div class="alert alert-danger" role="alert">{{ flashError }}</div>
+            {% endfor %}
+        </div>
 
+        {{ form_start(registrationForm) }}
+
+        <h2 class="mb-3 mt-3 font-weight-normal">Profil</h2>
+
+        <p class="mb-0 mt-3"><span class="h5">VOTRE AVATAR</span> (Facultatif)</p>
+        <div class="col-6">
+            {% if app.user.avatar and file_exists(app.user.avatar.getSrc) %}
+                <img class="img-fluid rounded-circle" src="{{ asset(app.user.avatar.getSrc) }}" alt=""
+                     style="max-height: 200px; max-width: 200px;">
+            {% else %}
+                <img class="img-fluid rounded-circle" src="http://via.placeholder.com/300x180" alt="">
+            {% endif %}
+        </div>
+        {{ form_row(registrationForm.avatar) }}
+        <p class="mb-0 mt-3"><span class="h5">VOTRE PSEUDONYME</span></p>
+        {{ form_row(registrationForm.username) }}
+        <p class="mb-0 mt-3"><span class="h5">ADRESSE E-MAIL ASSOCIEE</span></p>
+        {{ form_row(registrationForm.email) }}
+        <p class="mb-0 mt-3"><span class="h5">DEFINIR UN MOT DE PASSE</span></p>
+        {{ form_row(registrationForm.plainPassword) }}
+
+        <button type="submit" class="m-3 btn btn-primary">Mise à jour</button>
+        {{ form_end(registrationForm) }}
+
+        <div class="col-12">
+            <hr class="w-100">
+            <a href="{{ path('profil_delete_account') }}" class="btn btn-danger col-12 mb-3">Supprimer mon
+                compte</a>
+        </div>
+    </div>
 {% endblock %}

@@ -22,7 +22,7 @@ class PartnerController extends AbstractController
     {
         return $this->render('pages/partner/index.html.twig', [
             'partners' => $partnerRepository->findOrderByDeals(),
-            'partnersAZ' =>  $partnerRepository->findBy([],['name' => 'ASC'])
+            'partnersAZ' => $partnerRepository->findBy([], ['name' => 'ASC'])
         ]);
     }
 
@@ -84,7 +84,7 @@ class PartnerController extends AbstractController
      */
     public function delete(Request $request, Partner $partner): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$partner->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $partner->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($partner);
             $entityManager->flush();

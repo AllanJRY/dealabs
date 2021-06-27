@@ -22,28 +22,27 @@ class BadgeExtension extends AbstractExtension
         switch ($badge->getTitle()) {
             case Badge::COBAYE_BADGE_TITLE:
                 return $this->computeCobayeBadgeProgress($badge, $user);
-                break;
             case Badge::SURVEILLANT_BADGE_TITLE:
                 return $this->computeSurveillantBadgeProgress($badge, $user);
-                break;
             case Badge::RAPPORT_STAGE_BADGE_TITLE:
                 return $this->computeRapportStageBadgeProgress($badge, $user);
-                break;
             default:
                 return 0;
-                break;
         }
     }
 
-    public function computeCobayeBadgeProgress(Badge $badge, User $user) {
-        return (count($user->getDeals())/10)*100;
+    public function computeCobayeBadgeProgress(Badge $badge, User $user)
+    {
+        return (count($user->getDeals()) / 10) * 100;
     }
 
-    public function computeRapportStageBadgeProgress(Badge $badge, User $user) {
-        return (count($user->getComments())/10)*100;
+    public function computeRapportStageBadgeProgress(Badge $badge, User $user)
+    {
+        return (count($user->getComments()) / 10) * 100;
     }
 
-    public function computeSurveillantBadgeProgress(Badge $badge, User $user) {
-        return (count($user->getRatings())/10)*100;
+    public function computeSurveillantBadgeProgress(Badge $badge, User $user)
+    {
+        return (count($user->getRatings()) / 10) * 100;
     }
 }

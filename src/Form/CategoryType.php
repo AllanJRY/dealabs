@@ -14,8 +14,7 @@ class CategoryType extends AbstractType
         $builder
             ->add('title')
             ->add('slug')
-            ->add('deals')
-        ;
+            ->add('deals');
     }
 
     public function configureOptions(OptionsResolver $resolver)

@@ -3,7 +3,6 @@
 namespace App\Repository;
 
 use App\Entity\Alarm;
-use App\Entity\Deal;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -15,6 +14,10 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class AlarmRepository extends ServiceEntityRepository
 {
+    /**
+     * AlarmRepository constructor.
+     * @param ManagerRegistry $registry
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Alarm::class);
